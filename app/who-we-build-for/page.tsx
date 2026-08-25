@@ -2,38 +2,38 @@ import Header from "../Header";
 import Footer from "../Footer";
 
 export default function WhoWeBuildForPage() {
-  const organizations = [
+  const groups = [
     {
-      title: "Nonprofits",
-      text: "Mission-driven organizations that need practical systems without enterprise software costs.",
+      title: "Everyday Computer Users",
+      text: "People who want simple tools for files, cleanup, organization, and everyday computer tasks.",
     },
     {
-      title: "Churches",
-      text: "Churches and ministries managing programs, people, records, outreach, and everyday operations.",
+      title: "Small Businesses",
+      text: "Small teams and independent businesses that need practical tools without oversized software.",
     },
     {
-      title: "Shelters",
-      text: "Shelters and transitional programs that need clearer tracking, documentation, and workflow tools.",
+      title: "Office Workers",
+      text: "People handling documents, records, organization, repetitive tasks, and everyday office work.",
     },
     {
-      title: "Community Organizations",
-      text: "Local organizations coordinating services, events, residents, volunteers, and community support.",
+      title: "Truck Drivers",
+      text: "Drivers and transportation workers who need simpler ways to handle loads, paperwork, tracking, and daily work.",
     },
     {
-      title: "Workforce Programs",
-      text: "Programs helping people with employment, training, reentry, placement, and ongoing support.",
+      title: "Musicians & DJs",
+      text: "People working with music, audio files, instruments, libraries, repair, and performance workflows.",
     },
     {
-      title: "Small Agencies",
-      text: "Smaller service agencies that need useful software but cannot justify expensive enterprise platforms.",
+      title: "Warehouse Workers",
+      text: "People dealing with inventory, movement, organization, tracking, and everyday warehouse operations.",
     },
     {
-      title: "Schools & Programs",
-      text: "Schools, youth programs, after-school programs, and education-focused organizations.",
+      title: "Makers & Repair People",
+      text: "People who build, solder, repair, modify, and work hands-on with electronics and equipment.",
     },
     {
-      title: "Associations",
-      text: "Membership organizations and associations that need simpler tools for tracking and operations.",
+      title: "People Who Like Simple Tools",
+      text: "Anyone who would rather use one focused tool that does the job than fight with a giant complicated system.",
     },
   ];
 
@@ -49,56 +49,30 @@ export default function WhoWeBuildForPage() {
             </div>
 
             <h1 className="mt-4 text-5xl font-black tracking-tight md:text-6xl">
-              Organizations doing important work without giant software budgets.
+              People who want useful technology without the extra complexity.
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600">
-              OrgToolTank builds focused software for organizations that need
-              practical tools, clear workflows, and reasonable complexity.
+              OrgToolTank builds practical products for people doing real work,
+              solving everyday problems, and looking for simpler tools.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {organizations.map((organization) => (
-            <div
-              key={organization.title}
-              className="rounded-2xl border border-black/10 bg-white p-7"
-            >
-              <h2 className="text-xl font-black">{organization.title}</h2>
-
-              <p className="mt-4 leading-7 text-neutral-600">
-                {organization.text}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-t border-black/10 bg-white">
+      <section className="bg-white">
         <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="max-w-3xl">
-            <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
-              The Common Problem
-            </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {groups.map((group) => (
+              <div
+                key={group.title}
+                className="rounded-2xl border border-black/10 bg-[#f7f7f4] p-7"
+              >
+                <h2 className="text-xl font-black">{group.title}</h2>
 
-            <h2 className="mt-3 text-4xl font-black tracking-tight">
-              Too much software is either too big, too expensive, or too
-              complicated.
-            </h2>
-
-            <p className="mt-6 text-lg leading-8 text-neutral-600">
-              Many organizations still rely on spreadsheets, shared documents,
-              email chains, paper records, and workarounds because the software
-              built for larger companies does not fit the job.
-            </p>
-
-            <p className="mt-4 text-lg leading-8 text-neutral-600">
-              OrgToolTank focuses on smaller, clearer tools built around the
-              actual work organizations need to get done.
-            </p>
+                <p className="mt-4 leading-7 text-neutral-600">{group.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

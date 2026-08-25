@@ -15,68 +15,67 @@ export default function AboutPage() {
             </div>
 
             <h1 className="mt-4 text-5xl font-black tracking-tight md:text-6xl">
-              We build smaller software for organizations that do not need giant
-              systems.
+              Practical tech built one useful idea at a time.
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600">
-              OrgToolTank is a for-profit software company focused on finding
-              real operational problems inside organizations and turning those
-              problems into practical, focused digital tools.
+              OrgToolTank creates focused products designed to solve real
+              problems without unnecessary complexity.
             </p>
           </div>
         </div>
       </section>
 
-      {/* What We Believe */}
+      {/* What We Build */}
       <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
           <div>
             <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
-              What We Believe
+              What We Build
             </div>
 
             <h2 className="mt-3 text-4xl font-black tracking-tight">
-              Good software does not have to be huge.
+              Different products. Same basic rule.
             </h2>
 
             <p className="mt-6 text-lg leading-8 text-neutral-600">
-              Many organizations are forced to choose between spreadsheets,
-              manual workarounds, or expensive platforms filled with features
-              they may never use.
+              Some OrgToolTank products are software. Others may be electronics,
+              guides, apparel, music-related products, or other useful tech.
             </p>
 
             <p className="mt-4 text-lg leading-8 text-neutral-600">
-              OrgToolTank takes a different approach: identify one clear
-              problem, build one useful tool, and keep the product focused.
+              The category can change. The goal does not: make something useful,
+              keep it understandable, and give it a clear purpose.
             </p>
           </div>
 
           <div className="rounded-3xl bg-[#1c1c1c] p-8 text-white">
             <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-400">
-              Our Product Rule
+              The OrgToolTank Rule
             </div>
 
             <div className="mt-8 space-y-5">
               <div className="rounded-2xl bg-white/10 p-5">
-                <div className="text-lg font-bold">One real problem</div>
+                <div className="text-lg font-bold">Find a real problem</div>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Start with a problem organizations are already dealing with.
+                  Start with something annoying, repetitive, confusing, or
+                  harder than it needs to be.
                 </p>
               </div>
 
               <div className="rounded-2xl bg-white/10 p-5">
-                <div className="text-lg font-bold">One clear job</div>
+                <div className="text-lg font-bold">
+                  Build a focused solution
+                </div>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Build the product around the main job instead of adding
-                  unnecessary features.
+                  Keep the product centered around the job it is supposed to do.
                 </p>
               </div>
 
               <div className="rounded-2xl bg-white/10 p-5">
-                <div className="text-lg font-bold">One practical solution</div>
+                <div className="text-lg font-bold">Keep it practical</div>
                 <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Make the tool understandable, useful, and easier to adopt.
+                  Make it understandable, useful, and worth paying for.
                 </p>
               </div>
             </div>
@@ -84,49 +83,23 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* How We Work */}
-      <section className="border-y border-black/10 bg-white">
+      {/* Why OrgToolTank */}
+      <section className="border-t border-black/10 bg-white">
         <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="max-w-3xl">
             <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
-              How We Work
+              Why OrgToolTank
             </div>
 
             <h2 className="mt-3 text-4xl font-black tracking-tight">
-              Research before development.
+              Useful does not have to mean complicated.
             </h2>
 
             <p className="mt-6 text-lg leading-8 text-neutral-600">
-              OrgToolTank researches industries, organization types, workflows,
-              existing software, repetitive tasks, weak systems, expensive
-              workarounds, and places where better tools may be needed.
-            </p>
-
-            <p className="mt-4 text-lg leading-8 text-neutral-600">
-              Only after the problem makes sense do we move toward designing and
-              building a product.
+              OrgToolTank is built around creating practical products that solve
+              clear problems without turning every idea into a giant platform.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* Who We Serve */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="max-w-3xl">
-          <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
-            Our Market
-          </div>
-
-          <h2 className="mt-3 text-4xl font-black tracking-tight">
-            Built for organizations often overlooked by expensive software.
-          </h2>
-
-          <p className="mt-6 text-lg leading-8 text-neutral-600">
-            That includes nonprofits, churches, shelters, community
-            organizations, workforce and reentry programs, associations, small
-            agencies, foundations, schools, and other organizations with real
-            operational needs.
-          </p>
         </div>
       </section>
 

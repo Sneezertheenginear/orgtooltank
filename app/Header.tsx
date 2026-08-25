@@ -10,7 +10,7 @@ export default function Header() {
               OrgToolTank
             </div>
             <div className="text-xs text-neutral-500">
-              Practical tools for real organizations
+              Practical tech for everyday problems.
             </div>
           </div>
         </Link>
