@@ -52,7 +52,7 @@ export default function DuplicateFinderPage() {
 
               <div className="mt-8 flex flex-wrap gap-4">
                 <a
-                  href="https://buy.stripe.com/4gM3cu0wzd0u3XGeB55AQ00"
+                  href="https://buy.stripe.com/4gM3cu0wzdQu3XGeB55AQ00"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-xl bg-black px-7 py-4 font-bold text-white transition hover:bg-neutral-800"
