@@ -60,6 +60,11 @@ export default function DuplicateFinderPage() {
                   Buy Duplicate Finder
                 </a>
 
+                <p className="mt-3 text-sm text-neutral-500">
+                  Download link is valid for 60 minutes after purchase and can
+                  be used once.
+                </p>
+
                 <BackButton />
               </div>
             </div>

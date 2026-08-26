@@ -3,7 +3,7 @@ import { get } from "@vercel/blob";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-const DOWNLOAD_WINDOW_MINUTES = 30;
+const DOWNLOAD_WINDOW_MINUTES = 60;
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
