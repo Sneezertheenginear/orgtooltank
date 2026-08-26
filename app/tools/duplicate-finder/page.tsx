@@ -50,22 +50,24 @@ export default function DuplicateFinderPage() {
                 computer.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
-                <a
-                  href="https://buy.stripe.com/4gM3cu0wzdQu3XGeB55AQ00"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-xl bg-black px-7 py-4 font-bold text-white transition hover:bg-neutral-800"
-                >
-                  Buy Duplicate Finder
-                </a>
+              <div className="mt-8">
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href="https://buy.stripe.com/4gM3cu0wzdQu3XGeB55AQ00"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-xl bg-black px-7 py-4 font-bold text-white transition hover:bg-neutral-800"
+                  >
+                    Buy Duplicate Finder
+                  </a>
+
+                  <BackButton />
+                </div>
 
                 <p className="mt-3 text-sm text-neutral-500">
-                  Download link is valid for 60 minutes after purchase and can
-                  be used once.
+                  Download available for 60 minutes after purchase. One download
+                  per purchase.
                 </p>
-
-                <BackButton />
               </div>
             </div>
 
