@@ -1,6 +1,7 @@
 import Header from "../Header";
 import Footer from "../Footer";
 import Link from "next/link";
+import DepartmentMotion from "../DepartmentMotion";
 
 const categories = [
   {
@@ -11,10 +12,10 @@ const categories = [
     status: "1 Tool",
   },
   {
-    name: "Office",
+    name: "Organizations",
     description:
-      "Simple tools for documents, organization, workflows, records, and everyday office work.",
-    href: "/tools/office",
+      "Practical tools for nonprofits, churches, schools, shelters, associations, community groups, and small organizations.",
+    href: "/tools/organizations",
     status: "Coming Soon",
   },
   {
@@ -39,10 +40,10 @@ const categories = [
     status: "Coming Soon",
   },
   {
-    name: "Research",
+    name: "Researcher",
     description:
       "Tools that help collect, organize, compare, and work through useful information.",
-    href: "/tools/research",
+    href: "/tools/researcher",
     status: "Coming Soon",
   },
   {
@@ -59,6 +60,13 @@ const categories = [
     href: "/tools/electronics",
     status: "Coming Soon",
   },
+  {
+    name: "Cybersecurity",
+    description:
+      "Practical tools for security checks, file inspection, system monitoring, investigation, and defensive workflows.",
+    href: "/tools/cybersecurity",
+    status: "Coming Soon",
+  },
 ];
 
 export default function ToolsPage() {
@@ -67,8 +75,10 @@ export default function ToolsPage() {
       <Header />
 
       {/* Page Intro */}
-      <section className="border-b border-black/10">
-        <div className="mx-auto max-w-7xl px-6 py-20">
+      <section className="relative overflow-hidden border-b border-black/10">
+        <DepartmentMotion type="researcher" />
+
+        <div className="relative mx-auto max-w-7xl px-6 py-20">
           <div className="max-w-3xl">
             <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
               The Tool Tank
@@ -91,7 +101,16 @@ export default function ToolsPage() {
         <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => {
-              const available = category.name === "Desktop Utilities";
+              const available =
+                category.name === "Desktop Utilities" ||
+                category.name === "Electronics" ||
+                category.name === "Music" ||
+                category.name === "Organizations" ||
+                category.name === "Trucking" ||
+                category.name === "Warehouse" ||
+                category.name === "Researcher" ||
+                category.name === "Apparel" ||
+                category.name === "Cybersecurity";
 
               if (!available) {
                 return (

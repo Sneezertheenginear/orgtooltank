@@ -1,6 +1,7 @@
 import Header from "../../Header";
 import Footer from "../../Footer";
 import Link from "next/link";
+import DepartmentMotion from "../../DepartmentMotion";
 
 const tools = [
   {
@@ -17,8 +18,10 @@ export default function DesktopUtilitiesPage() {
     <main className="min-h-screen bg-[#f7f7f4] text-[#171717]">
       <Header />
 
-      <section className="border-b border-black/10">
-        <div className="mx-auto max-w-7xl px-6 py-20">
+      <section className="relative overflow-hidden border-b border-black/10">
+        <DepartmentMotion type="desktop" />
+
+        <div className="relative mx-auto max-w-7xl px-6 py-20">
           <div className="max-w-3xl">
             <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
               Desktop Utilities
