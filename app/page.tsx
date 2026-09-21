@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "./Header";
 import Footer from "./Footer";
+import Mazda3Illustration from "./Mazda3Illustration";
 
 const systems = [
   { title: "Engine & Air", detail: "Air intake, PCV valves, belts & mounts", icon: "engine" },
@@ -58,14 +59,14 @@ export default function Home() {
         <section className="border-b border-neutral-200 bg-neutral-50">
           <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:py-20 lg:grid-cols-[1.5fr_1fr] lg:items-center">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">Your car. Your tools. Your next repair.</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-500">Mazda 3 first. Your tools. Your next repair.</p>
               <h1 className="mt-6 max-w-3xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl xl:text-6xl">Fix your car.<br />Understand what you’re working on.</h1>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600 md:text-xl">Clear repair guides, real part locations, tool instructions, testing steps, and plain-English explanations for people who work on their own cars.</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#choose-your-car" className="rounded-lg bg-neutral-900 px-6 py-4 font-bold text-white transition-colors hover:bg-neutral-700">Choose Your Car <span aria-hidden="true">↓</span></a>
+                <a href="#mazda-3" className="rounded-lg bg-neutral-900 px-6 py-4 font-bold text-white transition-colors hover:bg-neutral-700">Explore Mazda 3 <span aria-hidden="true">↓</span></a>
                 <Link href="/tools-testing" className="rounded-lg border border-neutral-300 bg-white px-6 py-4 font-bold transition-colors hover:bg-neutral-100">Explore Tools & Testing</Link>
               </div>
-              <p className="mt-5 text-sm leading-6 text-neutral-500">The repair library is taking shape. Vehicle guides and detailed lessons are coming soon.</p>
+              <p className="mt-5 text-sm leading-6 text-neutral-500">We’re starting with the Mazda 3 and building the repair library one real job at a time.</p>
             </div>
             <aside aria-label="Our repair approach" className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
               <div className="flex items-center justify-between border-b border-neutral-200 px-6 py-4 text-xs font-bold uppercase tracking-widest"><span>The DIY approach</span><span className="text-neutral-500">01 — 03</span></div>
@@ -81,26 +82,26 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="choose-your-car" aria-labelledby="choose-heading" className="scroll-mt-6 border-b border-neutral-200">
+        <section id="mazda-3" aria-labelledby="mazda-heading" className="scroll-mt-6 border-b border-neutral-200">
           <div className="mx-auto max-w-7xl px-6 py-14 md:py-16">
             <div className="mb-7 flex flex-col justify-between gap-3 md:flex-row md:items-end">
-              <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">01 / Start with your vehicle</p><h2 id="choose-heading" className="mt-3 text-3xl font-black tracking-tight md:text-4xl">Choose Your Car</h2></div>
-              <p className="max-w-md text-base leading-7 text-neutral-600">The right model. The right engine. A clearer path to the job.</p>
+              <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">01 / Start with the Mazda 3</p><h2 id="mazda-heading" className="mt-3 text-3xl font-black tracking-tight md:text-4xl">Mazda 3 Repair &amp; Learning</h2></div>
+              <p className="max-w-md text-base leading-7 text-neutral-600">Start with the Mazda 3. More vehicles will be added later.</p>
             </div>
-            <Link href="/cars" aria-label="Explore the planned Mazda 3 vehicle section: 2007, 2.3L" className={`group block rounded-2xl border border-neutral-300 bg-neutral-50 p-6 md:p-8 ${cardMotion}`}>
-              <div className="flex flex-wrap items-center justify-between gap-3"><span className="text-xs font-bold uppercase tracking-widest text-neutral-500">First vehicle in the garage</span><span className="rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-semibold">Repair guides coming soon</span></div>
-              <ol className="mt-7 grid grid-cols-2 gap-x-6 gap-y-7 lg:grid-cols-4">
-                {[["Make", "Mazda"], ["Model", "Mazda 3"], ["Year", "2007"], ["Engine", "2.3L"]].map(([label, value], index) => <li key={label} className="border-l-2 border-neutral-300 pl-4"><p className="text-sm text-neutral-500">{label}</p><p className="mt-2 flex items-center justify-between gap-2 text-2xl font-black tracking-tight sm:text-3xl">{value}{index < 3 && <span aria-hidden="true" className="text-lg font-normal text-neutral-400">→</span>}</p></li>)}
-              </ol>
-              <div className="mt-8 flex flex-col justify-between gap-3 border-t border-neutral-200 pt-5 sm:flex-row"><p className="text-sm leading-6 text-neutral-600">Browse the planned vehicle and repair-system structure.</p><span className="shrink-0 font-bold">Explore Mazda 3 <span aria-hidden="true">↗</span></span></div>
+            <Link href="/cars" aria-label="Explore Mazda 3 repair and learning: 2007, 2.3L" className={`group block rounded-2xl border border-neutral-300 bg-neutral-50 p-6 md:p-8 ${cardMotion}`}>
+              <div className="flex flex-wrap items-center justify-between gap-3"><span className="text-xs font-bold uppercase tracking-widest text-neutral-500">Our first repair focus</span><span className="rounded-full border border-neutral-300 bg-white px-3 py-1 text-xs font-semibold">Repair guides coming soon</span></div>
+              <h3 className="mt-7 text-3xl font-black tracking-tight sm:text-4xl">2007 Mazda 3 — 2.3L</h3>
+              <p className="mt-4 max-w-2xl text-lg leading-8 text-neutral-600">Repair and learning content built around this Mazda 3, starting with the systems below.</p>
+              <div className="mt-8 flex flex-col justify-between gap-3 border-t border-neutral-200 pt-5 sm:flex-row"><p className="text-sm leading-6 text-neutral-600">Get to know our first Mazda 3 and its repair systems.</p><span className="shrink-0 font-bold">Explore Mazda 3 <span aria-hidden="true">↗</span></span></div>
             </Link>
+            <Mazda3Illustration />
           </div>
         </section>
 
         <section aria-labelledby="systems-heading" className="mx-auto max-w-7xl px-6 py-16 md:py-20">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">02 / Find the system</p>
-          <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-end"><h2 id="systems-heading" className="text-3xl font-black tracking-tight md:text-4xl">What are you working on?</h2><Link href="/cars" className="font-semibold underline underline-offset-4">View the vehicle library →</Link></div>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-neutral-600">From a rough idle to a worn tire, start with the system involved. These repair categories are planned for the library.</p>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">02 / Mazda 3 repair systems</p>
+          <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-end"><h2 id="systems-heading" className="text-3xl font-black tracking-tight md:text-4xl">What are you working on?</h2><Link href="/cars" className="font-semibold underline underline-offset-4">Explore the Mazda 3 →</Link></div>
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-neutral-600">From a rough idle to a worn tire, start with the system involved. These are the repair categories we’re building for the 2007 Mazda 3 — 2.3L.</p>
           <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {systems.map(system => <article key={system.title} className={`flex flex-col rounded-xl border border-neutral-200 bg-white p-6 ${cardMotion}`}>
               <div className="mb-7 flex items-center justify-between"><PartIcon kind={system.icon} /><span className="text-xs font-medium text-neutral-500">Coming soon</span></div>
