@@ -1,109 +1,16 @@
-import Header from "../Header";
-import Footer from "../Footer";
+import type { Metadata } from "next";
+import Link from "next/link";
+import AutoPage, { TopicCards } from "../AutoPage";
+
+export const metadata: Metadata = { title: "About", description: "OrgToolTank is building practical automotive explanations for everyday car owners." };
 
 export default function AboutPage() {
-  return (
-    <main className="min-h-screen bg-[#f7f7f4] text-[#171717]">
-      <Header />
-
-      {/* Hero */}
-      <section className="border-b border-black/10">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="max-w-3xl">
-            <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
-              About OrgToolTank
-            </div>
-
-            <h1 className="mt-4 text-5xl font-black tracking-tight md:text-6xl">
-              Practical tech built one useful idea at a time.
-            </h1>
-
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600">
-              OrgToolTank creates focused products designed to solve real
-              problems without unnecessary complexity.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* What We Build */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-          <div>
-            <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
-              What We Build
-            </div>
-
-            <h2 className="mt-3 text-4xl font-black tracking-tight">
-              Different products. Same basic rule.
-            </h2>
-
-            <p className="mt-6 text-lg leading-8 text-neutral-600">
-              Some OrgToolTank products are software. Others may be electronics,
-              guides, apparel, music-related products, or other useful tech.
-            </p>
-
-            <p className="mt-4 text-lg leading-8 text-neutral-600">
-              The category can change. The goal does not: make something useful,
-              keep it understandable, and give it a clear purpose.
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-[#1c1c1c] p-8 text-white">
-            <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-400">
-              The OrgToolTank Rule
-            </div>
-
-            <div className="mt-8 space-y-5">
-              <div className="rounded-2xl bg-white/10 p-5">
-                <div className="text-lg font-bold">Find a real problem</div>
-                <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Start with something annoying, repetitive, confusing, or
-                  harder than it needs to be.
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white/10 p-5">
-                <div className="text-lg font-bold">
-                  Build a focused solution
-                </div>
-                <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Keep the product centered around the job it is supposed to do.
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white/10 p-5">
-                <div className="text-lg font-bold">Keep it practical</div>
-                <p className="mt-2 text-sm leading-6 text-neutral-300">
-                  Make it understandable, useful, and worth paying for.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why OrgToolTank */}
-      <section className="border-t border-black/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="max-w-3xl">
-            <div className="text-sm font-bold uppercase tracking-[0.2em] text-neutral-500">
-              Why OrgToolTank
-            </div>
-
-            <h2 className="mt-3 text-4xl font-black tracking-tight">
-              Useful does not have to mean complicated.
-            </h2>
-
-            <p className="mt-6 text-lg leading-8 text-neutral-600">
-              OrgToolTank is built around creating practical products that solve
-              clear problems without turning every idea into a giant platform.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
-  );
+  return <AutoPage eyebrow="About OrgToolTank" title="Car knowledge for everyday people." intro="OrgToolTank is building a practical place to understand cars and approach repair questions with more confidence. You should not need to be a mechanic to follow an explanation.">
+    <section><h2 className="mb-8 text-3xl font-bold">Our approach</h2><TopicCards items={[
+      { title: "Explain the purpose", text: "Start with what a system does and why it matters, using familiar words and clear explanations." },
+      { title: "Make it specific", text: "Organize future repair content around the right make, model, year, and engine so the context is clear." },
+      { title: "Understand the evidence", text: "Explain what an observation or test can tell you before moving toward a repair decision." },
+    ]} /></section>
+    <section className="grid gap-8 border-t border-neutral-200 pt-12 md:grid-cols-2"><h2 className="text-3xl font-bold">A foundation for what comes next.</h2><div className="space-y-5 text-lg leading-8 text-neutral-600"><p>The automotive library is at its starting point. The first planned vehicle is the 2007 Mazda 3 with a 2.3L engine. Detailed repair guides have not been published yet.</p><p>Have a question about OrgToolTank or an existing purchase? Our support and legal information remain available.</p><Link href="/contact" className="inline-block font-bold text-neutral-900 underline underline-offset-4">Contact OrgToolTank</Link><p className="text-base">Existing software customer? <Link href="/tools/duplicate-finder" className="underline underline-offset-4">Visit the Duplicate Finder product page</Link>.</p></div></section>
+  </AutoPage>;
 }

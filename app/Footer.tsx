@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="text-xl font-black">OrgToolTank</div>
 
             <div className="mt-1 text-sm text-neutral-400">
-              Practical tech for everyday problems.
+              Practical knowledge for everyday car owners.
             </div>
           </div>
 
@@ -51,7 +51,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-2 text-xs text-neutral-400">
-              Scan to visit the store
+              Scan to visit OrgToolTank
             </div>
           </div>
         </div>
