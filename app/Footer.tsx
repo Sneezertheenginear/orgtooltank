@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="text-xl font-black">OrgToolTank</div>
 
             <div className="mt-1 text-sm text-neutral-400">
-              Practical knowledge for everyday car owners.
+              Ideas built. Put out there. See what happens.
             </div>
           </div>
 

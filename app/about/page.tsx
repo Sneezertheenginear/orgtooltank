@@ -1,16 +1,6 @@
-import type { Metadata } from "next";
 import Link from "next/link";
-import AutoPage, { TopicCards } from "../AutoPage";
-
-export const metadata: Metadata = { title: "About", description: "OrgToolTank is building practical automotive explanations for everyday car owners." };
-
+import Shell from "../experiment-components/Shell";
+export const metadata = { title: "About", description: "The Scattered Mind Experiment: ideas built quickly and put into the world as-is." };
 export default function AboutPage() {
-  return <AutoPage eyebrow="About OrgToolTank" title="Car knowledge for everyday people." intro="OrgToolTank is building a practical place to understand cars and approach repair questions with more confidence. You should not need to be a mechanic to follow an explanation.">
-    <section><h2 className="mb-8 text-3xl font-bold">Our approach</h2><TopicCards items={[
-      { title: "Explain the purpose", text: "Start with what a system does and why it matters, using familiar words and clear explanations." },
-      { title: "Make it specific", text: "Organize future repair content around the right make, model, year, and engine so the context is clear." },
-      { title: "Understand the evidence", text: "Explain what an observation or test can tell you before moving toward a repair decision." },
-    ]} /></section>
-    <section className="grid gap-8 border-t border-neutral-200 pt-12 md:grid-cols-2"><h2 className="text-3xl font-bold">A foundation for what comes next.</h2><div className="space-y-5 text-lg leading-8 text-neutral-600"><p>The automotive library is at its starting point. The first planned vehicle is the 2007 Mazda 3 with a 2.3L engine. Detailed repair guides have not been published yet.</p><p>Have a question about OrgToolTank or an existing purchase? Our support and legal information remain available.</p><Link href="/contact" className="inline-block font-bold text-neutral-900 underline underline-offset-4">Contact OrgToolTank</Link><p className="text-base">Existing software customer? <Link href="/tools/duplicate-finder" className="underline underline-offset-4">Visit the Duplicate Finder product page</Link>.</p></div></section>
-  </AutoPage>;
+ return <Shell><div className="wrap page-space narrow-page"><p className="eyebrow">About OrgToolTank</p><h1 className="page-title">An idea needs<br />somewhere to go.</h1><div className="prose-copy about-copy"><p>I get ideas. Sometimes I spend a few hours building a working version, and then I want to put it somewhere people can actually try it. That’s what OrgToolTank is for.</p><p>I call it The Scattered Mind Experiment because there isn’t one neat subject tying everything together. A repair project today. A small utility tomorrow. Something completely different after that.</p><h2>Useful is enough of a start.</h2><p>These aren’t all finished products. They might be rough, incomplete, or untested. Some will grow. Some will stay exactly as they are. Some might get rebuilt or left behind.</p><p>I’m curious about what helps people and what they respond to. Try an idea. Like it, unlike it, leave a comment, and tell me why. Tell me what it should do next.</p><p>If something clicks and you want a desktop version or a version for your own workflow, we can talk about what you want built and what it would cost.</p><Link href="/experiments" className="ink-button">See what’s on the workbench ↗</Link><p className="small-note">Existing software customer? <Link href="/tools/duplicate-finder" className="text-link">Duplicate Finder</Link> and <Link href="/contact" className="text-link">support</Link> are still here.</p></div></div></Shell>;
 }

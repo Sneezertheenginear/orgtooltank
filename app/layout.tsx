@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "OrgToolTank | Understand Your Car", template: "%s | OrgToolTank" },
-  description: "Practical automotive knowledge for everyday car owners. Explore cars, learn how their systems work, and understand tools and testing.",
+  title: { default: "OrgToolTank | The Scattered Mind Experiment", template: "%s | OrgToolTank" },
+  description: "Ideas built quickly and put into the world as-is. Browse experiments, play with them, and tell me what should happen next.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
