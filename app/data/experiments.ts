@@ -43,7 +43,12 @@ export const experiments: Experiment[] = [
   awaitingConversion("Full App Researcher", "full-app-researcher", "tools", "A research project to bring into the browser one piece at a time. Scope and features still need review.", ["research"]),
   awaitingConversion("OrgTT Research App", "orgtt-research-app", "tools", "Another research experiment waiting for its browser version. Listed separately from Full App Researcher.", ["research", "notes"]),
   awaitingConversion("POD Chaser", "pod-chaser", "business", "The POD Chaser project, reserved here for a future browser experiment. Its purpose and browser scope still need a project review.", ["project review"]),
-  awaitingConversion("Rename Pro", "rename-pro", "tools", "A file-renaming idea waiting for browser conversion. File access and supported operations still need review.", ["files", "renaming"]),
+  {
+    ...awaitingConversion("Rename Pro", "rename-pro", "tools", "Rename files locally in your browser. Preview changes, preserve extensions, and download renamed copies in one ZIP.", ["files", "renaming", "local-first"]),
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/rename-pro",
+    limitations: ["Downloads renamed copies; original files stay untouched.", "ZIP batches are limited to 250 MB and 1,000 files.", "No folder access, presets, or history in this browser experiment."],
+    desktopBenefits: ["Work directly with folders and rename files in place.", "Larger workflows, History and Undo, and deeper filesystem access."],
+  },
   awaitingConversion("Workplace Case Builder", "workplace-case-builder", "business", "An idea for organizing workplace case information. No browser version is available to enter information into yet.", ["workplace", "organization"]),
   awaitingConversion("Audio Converter", "audio-converter", "music", "An audio conversion project. Supported formats and browser limits will be listed when its conversion is ready.", ["audio", "files"]),
   awaitingConversion("Compliance Watch", "compliance-watch", "business", "A compliance-related project awaiting review and browser conversion. No monitoring service is running here.", ["compliance", "research"]),
