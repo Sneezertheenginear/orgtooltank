@@ -34,3 +34,7 @@
 .rename-pro .browser-desktop { max-width: none; margin-top: 30px; }
 @media (max-width: 900px) { .rename-layout { grid-template-columns: 1fr; } .rename-rules { border-right: 0; border-bottom: 1px solid #ccc; } }
 @media (max-width: 600px) { .rename-drop { flex-direction: column; align-items: start; padding: 22px; } .rename-rules, .rename-preview-heading, .rename-download { padding: 20px; } .rename-preview th, .rename-preview td { padding: 10px; } }
+
+.rename-title-row { display: flex; align-items: center; gap: 28px; margin-block: 24px; }
+.rename-title-row .page-title { margin: 0; }
+@media (max-width: 480px) { .rename-title-row { align-items: flex-start; flex-direction: column; gap: 20px; } }

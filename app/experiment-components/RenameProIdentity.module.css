@@ -1,0 +1,8 @@
+.identity { display: flex; flex-direction: column; align-items: center; gap: 18px; color: #202020; }
+.mark { display: block; width: 136px; height: 136px; flex: none; }
+.caption { display: flex; align-items: center; gap: 10px; white-space: nowrap; font: 11px/1.5 "Courier New", monospace; letter-spacing: .02em; }
+.caption > span:first-child { color: #777; }
+.caption > span:last-child { border-bottom: 1px solid #999; padding-bottom: 2px; }
+.compact { gap: 10px; }
+.compact .mark { width: 88px; height: 88px; }
+.compact .caption { font-size: 9px; gap: 6px; }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Shell from "../../experiment-components/Shell";
+import RenameProIdentity from "../../experiment-components/RenameProIdentity";
 import RenameWorkbench from "./RenameWorkbench";
 import "./rename-pro.css";
 
@@ -10,7 +11,7 @@ export default function RenameProPage() {
     <Link href="/experiments" className="text-link">← All experiments</Link>
     <div className="experiment-heading">
       <p className="eyebrow">Tools / <span className="status-tag">Browser Experiment</span></p>
-      <h1 className="page-title">Rename Pro</h1>
+      <div className="rename-title-row"><RenameProIdentity compact /><h1 className="page-title">Rename Pro</h1></div>
       <p className="page-intro">A fresh name. The same file.<br />Batch rename, preview every change, and download your copies.</p>
       <p className="rename-privacy">Your files stay on your device. Rename Pro processes them locally in your browser.</p>
     </div>
