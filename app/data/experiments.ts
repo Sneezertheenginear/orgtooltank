@@ -50,7 +50,13 @@ export const experiments: Experiment[] = [
     desktopBenefits: ["Work directly with folders and rename files in place.", "Larger workflows, History and Undo, and deeper filesystem access."],
   },
   awaitingConversion("Workplace Case Builder", "workplace-case-builder", "business", "An idea for organizing workplace case information. No browser version is available to enter information into yet.", ["workplace", "organization"]),
-  awaitingConversion("Audio Converter", "audio-converter", "music", "An audio conversion project. Supported formats and browser limits will be listed when its conversion is ready.", ["audio", "files"]),
+  {
+    ...awaitingConversion("Audio Converter", "audio-converter", "music", "Convert MP3 to WAV or WAV to MP3 locally in your browser. Pick an MP3 bitrate, convert one file, and download the result.", ["audio", "mp3", "wav", "local-first"]),
+    logo: { src: "/audio-converter/icon.svg", alt: "Audio Converter logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/audio-converter/try",
+    limitations: ["Converts one file at a time, MP3 to WAV or WAV to MP3. Your audio stays on your device during conversion.", "Files up to 100 MB and 15 minutes long. Conversion uses your browser’s memory, so long files can be slow on phones.", "MP3 output is constant bitrate (128–320 kbps); audio that isn’t 32, 44.1, or 48 kHz is resampled to 44.1 kHz. WAV output is 16-bit.", "Tags and cover art aren’t copied, and converting to the same format isn’t offered."],
+    desktopBenefits: ["Larger files and long recordings without browser memory limits.", "Batch conversion of many files or whole folders.", "More formats, such as FLAC, AAC/M4A, and OGG.", "Deeper control over bitrate, VBR, sample rate, and channels.", "Stronger local file integration, like saving next to the original file."],
+  },
   awaitingConversion("Compliance Watch", "compliance-watch", "business", "A compliance-related project awaiting review and browser conversion. No monitoring service is running here.", ["compliance", "research"]),
   {
     ...awaitingConversion("Duplicate Finder", "duplicate-finder", "tools", "An existing desktop utility for finding exact duplicate files and reviewing copies. A browser version has not been built here.", ["files", "duplicates"]),
