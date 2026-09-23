@@ -178,5 +178,6 @@ button[aria-pressed="true"] { background: #222; color: #fff; border-color: #222;
 .browser-desktop h3 { color: #222; font-size: 23px; font-weight: 700; margin-top: 28px; }
 .browser-desktop ul { list-style: disc; padding-left: 23px; margin-top: 12px; }
 .browser-desktop li + li { margin-top: 9px; }
+.version-summary { margin-top: 8px; } .version-summary h3 { margin-top: 0; }
 
 .rename-card-identity { min-height: 260px; display: flex; align-items: center; justify-content: center; padding: 62px 24px 24px; background: #fff; }

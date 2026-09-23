@@ -18,6 +18,8 @@ export type Experiment = {
   status: ExperimentStatus;
   image: { src: string; alt: string } | null;
   logo?: { src: string; alt: string };
+  /** One-line browser vs desktop comparison, shown when both versions exist. */
+  versionSummary?: { browser: string; desktop: string };
   tags: string[];
   featured: boolean;
   limitations: string[];
@@ -59,12 +61,14 @@ export const experiments: Experiment[] = [
   },
   awaitingConversion("Compliance Watch", "compliance-watch", "business", "A compliance-related project awaiting review and browser conversion. No monitoring service is running here.", ["compliance", "research"]),
   {
-    ...awaitingConversion("Duplicate Finder", "duplicate-finder", "tools", "An existing desktop utility for finding exact duplicate files and reviewing copies. A browser version has not been built here.", ["files", "duplicates"]),
-    logo: { src: "/duplicate-finder/icon.png", alt: "Duplicate Finder logo" },
-    status: "Desktop Only For Now", desktopAvailable: true, desktopRoute: "/tools/duplicate-finder",
+    ...awaitingConversion("Duplicate Finder", "duplicate-finder", "tools", "Find identical files in a folder you choose, right in your browser. Review each group, choose the copy to keep, and download a cleanup list.", ["files", "duplicates", "local-first"]),
+    logo: { src: "/duplicate-finder/mark.svg", alt: "Duplicate Finder logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/duplicate-finder/try",
+    desktopAvailable: true, desktopRoute: "/tools/duplicate-finder",
     image: { src: "/duplicate-finder/app-preview.png", alt: "Duplicate Finder desktop app preview" },
-    limitations: ["No browser version is available here yet.", "The existing desktop page has its own platform, download, and purchase information. Check those details before using it."],
-    desktopBenefits: ["The existing desktop app works with local files without uploading them to a website."],
+    versionSummary: { browser: "Quick duplicate scanning directly in your browser. Your files stay on your device.", desktop: "Deeper computer access for larger scans and file-management features." },
+    limitations: ["Finds and reports duplicates without deleting, moving, or changing anything. You remove copies yourself using the cleanup list.", "Up to 20,000 files per scan, and up to 4 GB of same-size files compared by SHA-256.", "Scans only the folders and files you choose. On iPhone and iPad, choose individual files; folder selection isn’t available there.", "Empty files and system items such as .DS_Store, .git, and node_modules are skipped."],
+    desktopBenefits: ["Deeper computer access for larger scans and file-management features. See the desktop page for platform, download, and purchase details."],
   },
   awaitingConversion("Music Rights Ready", "music-rights-ready", "music", "A music-rights project waiting for a browser version. Its workflow and supported features still need review.", ["music", "rights"]),
   awaitingConversion("Organize My Files", "organize-my-files", "tools", "An idea for making file organization easier. Browser file access and supported actions still need review.", ["files", "organization"]),

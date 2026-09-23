@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Duplicate Finder mark: two overlapping files with an equals sign">
+  <rect x="1" y="1" width="118" height="118" rx="3" fill="#fff" stroke="#202020" stroke-width="2"/>
+  <path d="M24 18H56L70 32V80H24Z" fill="#fff" stroke="#8a8a8a" stroke-width="3" stroke-linejoin="miter"/>
+  <path d="M56 18V32H70" fill="none" stroke="#8a8a8a" stroke-width="3"/>
+  <path d="M46 38H80L96 54V102H46Z" fill="#fff" stroke="#202020" stroke-width="4" stroke-linejoin="miter"/>
+  <path d="M80 38V54H96" fill="none" stroke="#202020" stroke-width="4"/>
+  <rect x="58" y="65" width="26" height="6" fill="#202020"/>
+  <rect x="58" y="79" width="26" height="6" fill="#202020"/>
+</svg>

@@ -2,7 +2,10 @@ import type { Experiment } from "../data/experiments";
 export default function BrowserDesktop({ experiment }: { experiment: Experiment }) {
   return <section className="browser-desktop prose-copy">
     <h2>{experiment.browserAvailable ? "Browser vs Desktop" : "Browser version"}</h2>
-    {experiment.browserAvailable ? <>
+    {experiment.browserAvailable && experiment.versionSummary ? <div className="form-pair version-summary">
+      <div><h3>Browser</h3><p>{experiment.versionSummary.browser}</p></div>
+      <div><h3>Desktop</h3><p>{experiment.versionSummary.desktop}</p></div>
+    </div> : experiment.browserAvailable ? <>
       <p>This is the browser experiment. You can use it here without installing anything.</p>
       <p>Browsers limit what a website can access on your computer, so some features may be unavailable here.</p>
       <p>A desktop version can usually work more directly with your files, folders, devices, or operating system.</p>
