@@ -8,6 +8,7 @@ import { getStore, type FeedbackStore } from "../../../lib/feedback/store";
 
 async function authorize(request: Request, store: FeedbackStore, key: string): Promise<Response | null> {
   const expected = process.env.FEEDBACK_ADMIN_PASSWORD;
+  if (!expected || expected.length < 12) console.error(JSON.stringify({ event: "feedback_not_configured", route: "admin", problems: [expected ? `FEEDBACK_ADMIN_PASSWORD is ${expected.length} characters; at least 12 are required` : "FEEDBACK_ADMIN_PASSWORD is missing"] }));
   if (!expected || expected.length < 12) return json({ error: "not_configured", message: "Moderation isn’t set up. Add FEEDBACK_ADMIN_PASSWORD (12+ characters)." }, 503);
   const ip = ipHash(request, key);
   const locked = await alreadyLimited(store, "admin-fail", ip, LIMITS.adminFailures.perIp);
@@ -23,7 +24,7 @@ async function authorize(request: Request, store: FeedbackStore, key: string): P
 
 export async function GET(request: Request) {
   const store = getStore(), key = secret();
-  if (!store || !key) return unavailable();
+  if (!store || !key) return unavailable("admin");
   const denied = await authorize(request, store, key);
   if (denied) return denied;
   const [pending, approved, blocked] = await Promise.all([store.pending(), store.recentApproved(50), store.recentBlocked(50)]);
@@ -32,7 +33,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const store = getStore(), key = secret();
-  if (!store || !key) return unavailable();
+  if (!store || !key) return unavailable("admin");
   if (!sameOrigin(request)) return json({ error: "forbidden", message: "This request isn’t allowed." }, 403);
   const denied = await authorize(request, store, key);
   if (denied) return denied;

@@ -156,12 +156,17 @@ export class MemoryStore implements FeedbackStore {
 
 declare global { var __ottFeedbackMemoryStore: MemoryStore | undefined; }
 
+/** Why feedback storage can't be used, or null when it can. Names settings only, never their values. */
+export function storeProblem(): string | null {
+  if (process.env.FEEDBACK_STORE === "memory") return process.env.NODE_ENV === "production" ? "FEEDBACK_STORE=memory is not allowed in production" : null;
+  if (!(process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL)) return "Redis URL is missing (KV_REST_API_URL or UPSTASH_REDIS_REST_URL)";
+  if (!(process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN)) return "Redis token is missing (KV_REST_API_TOKEN or UPSTASH_REDIS_REST_TOKEN)";
+  return null;
+}
+
 /** The configured store, or null when feedback storage isn't set up (the API then answers 503). */
 export function getStore(): FeedbackStore | null {
-  if (process.env.FEEDBACK_STORE === "memory") {
-    if (process.env.NODE_ENV === "production") return null;
-    return (globalThis.__ottFeedbackMemoryStore ??= new MemoryStore());
-  }
-  if (!(process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL)) return null;
+  if (storeProblem()) return null;
+  if (process.env.FEEDBACK_STORE === "memory") return (globalThis.__ottFeedbackMemoryStore ??= new MemoryStore());
   return new UpstashStore(Redis.fromEnv({ automaticDeserialization: false }));
 }

@@ -8,7 +8,7 @@ import { isKnownSlug, validateComment } from "../../../lib/feedback/validate";
 
 export async function GET(request: Request) {
   const store = getStore(), key = secret();
-  if (!store || !key) return unavailable();
+  if (!store || !key) return unavailable("comments_read");
   const ip = ipHash(request, key);
   const wait = await limited(store, "read", ip, LIMITS.read.perIp);
   if (wait) { await logBlocked(store, { route: "comments_read", reason: "rate_limit_ip", ip }); return rateLimited(wait); }
@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const store = getStore(), key = secret();
-  if (!store || !key) return unavailable();
+  if (!store || !key) return unavailable("comment");
   const ip = ipHash(request, key);
   if (!sameOrigin(request)) { await logBlocked(store, { route: "comment", reason: "bad_origin", ip }); return json({ error: "forbidden", message: "This request isn’t allowed." }, 403); }
   const body = await readJson(request);
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
   if (!checked.ok) return json({ error: "invalid", message: checked.error }, 400, {}, session);
 
   const human = await verifyTurnstile(body.token);
+  if (human === "not_configured") console.error(JSON.stringify({ event: "feedback_not_configured", route: "comment", problems: ["TURNSTILE_SECRET_KEY is missing"] }));
   if (human === "not_configured") return json({ error: "not_configured", message: "Comments aren’t available right now." }, 503, {}, session);
   if (human === "failed") { await logBlocked(store, { route: "comment", reason: "turnstile_failed", slug, ip, voter: session.voter }); return json({ error: "verification_failed", message: "We couldn’t confirm you’re not a bot. Please try again." }, 403, {}, session); }
 

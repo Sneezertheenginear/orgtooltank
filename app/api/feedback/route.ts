@@ -6,7 +6,7 @@ import { isKnownSlug } from "../../lib/feedback/validate";
 
 export async function GET(request: Request) {
   const store = getStore(), key = secret();
-  if (!store || !key) return unavailable();
+  if (!store || !key) return unavailable("counts");
   const ip = ipHash(request, key);
   const wait = await limited(store, "read", ip, LIMITS.read.perIp);
   if (wait) { await logBlocked(store, { route: "counts", reason: "rate_limit_ip", ip }); return rateLimited(wait); }

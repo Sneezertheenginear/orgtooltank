@@ -8,7 +8,7 @@ import { isKnownSlug, isVoteRequest } from "../../../lib/feedback/validate";
 
 export async function POST(request: Request) {
   const store = getStore(), key = secret();
-  if (!store || !key) return unavailable();
+  if (!store || !key) return unavailable("vote");
   const ip = ipHash(request, key);
   if (!sameOrigin(request)) { await logBlocked(store, { route: "vote", reason: "bad_origin", ip }); return json({ error: "forbidden", message: "This request isn’t allowed." }, 403); }
   const body = await readJson(request);

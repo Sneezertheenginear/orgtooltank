@@ -3,7 +3,7 @@
 // hash of the network address, and raw addresses are never stored.
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { LIMITS, MAX_BODY_BYTES, RATE_LIMITED_MESSAGE, SESSION_COOKIE, SESSION_MAX_AGE } from "./config";
-import type { BlockEntry, FeedbackStore } from "./store";
+import { storeProblem, type BlockEntry, type FeedbackStore } from "./store";
 
 const DEV_SECRET = "orgtooltank-local-development-only";
 /** The signing secret, or null in production when FEEDBACK_SECRET isn't set (the API then answers 503). */
@@ -11,6 +11,12 @@ export function secret(): string | null {
   const value = process.env.FEEDBACK_SECRET;
   if (value && value.length >= 32) return value;
   return process.env.NODE_ENV === "production" ? null : DEV_SECRET;
+}
+/** Why the signing secret can't be used, or null when it can. Reports length only, never the value. */
+export function secretProblem(): string | null {
+  const value = process.env.FEEDBACK_SECRET;
+  if ((value && value.length >= 32) || process.env.NODE_ENV !== "production") return null;
+  return value ? `FEEDBACK_SECRET is ${value.length} characters; at least 32 are required` : "FEEDBACK_SECRET is missing";
 }
 const hmac = (key: string, purpose: string, value: string) => createHmac("sha256", key).update(`${purpose}:${value}`).digest("base64url");
 
@@ -97,7 +103,21 @@ export function json(body: unknown, status = 200, extra: Record<string, string> 
   return Response.json(body, { status, headers });
 }
 export const rateLimited = (retryAfter: number, session?: Session) => json({ error: "rate_limited", message: RATE_LIMITED_MESSAGE }, 429, { "Retry-After": String(retryAfter) }, session);
-export const unavailable = () => json({ error: "not_configured", message: "Feedback isn’t available right now." }, 503);
+/**
+ * 503 when feedback isn't configured. Logs exactly which check failed, plus which settings exist
+ * (true/false only), so the cause shows in Vercel logs. No setting values are ever logged or returned.
+ */
+export function unavailable(route: string) {
+  const storage = storeProblem(), signing = secretProblem(), env = process.env;
+  console.error(JSON.stringify({
+    event: "feedback_not_configured", route, problems: [storage, signing].filter(Boolean),
+    nodeEnv: env.NODE_ENV ?? null, vercelEnv: env.VERCEL_ENV ?? null,
+    present: { KV_REST_API_URL: !!env.KV_REST_API_URL, KV_REST_API_TOKEN: !!env.KV_REST_API_TOKEN, UPSTASH_REDIS_REST_URL: !!env.UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN: !!env.UPSTASH_REDIS_REST_TOKEN, FEEDBACK_SECRET: !!env.FEEDBACK_SECRET, FEEDBACK_STORE: !!env.FEEDBACK_STORE },
+    feedbackSecretLength: env.FEEDBACK_SECRET?.length ?? 0,
+  }));
+  const reason = storage && signing ? "storage_and_secret" : storage ? "storage" : signing ? "secret" : "unknown";
+  return json({ error: "not_configured", reason, message: "Feedback isn’t available right now." }, 503);
+}
 
 /** Constant-time password check (compares keyed hashes so lengths never leak). */
 export function passwordMatches(given: string, expected: string, key: string) {
