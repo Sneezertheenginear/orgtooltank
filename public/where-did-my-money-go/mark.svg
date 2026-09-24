@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Where Did My Money Go? mark: one stream splitting into three outgoing streams">
+  <rect x="1" y="1" width="118" height="118" rx="3" fill="#fff" stroke="#202020" stroke-width="2"/>
+  <rect x="16" y="34" width="12" height="52" fill="#202020"/>
+  <g fill="none" stroke-linecap="butt">
+    <path d="M28 44C56 44 58 32 90 32" stroke="#202020" stroke-width="10"/>
+    <path d="M28 60H90" stroke="#555" stroke-width="7"/>
+    <path d="M28 76C56 76 58 88 90 88" stroke="#8a8a8a" stroke-width="4"/>
+  </g>
+  <g fill="#202020">
+    <path d="M90 22L104 32L90 42Z"/>
+    <path d="M90 52L101 60L90 68Z" fill="#555"/>
+    <path d="M90 81L99 88L90 95Z" fill="#8a8a8a"/>
+  </g>
+</svg>

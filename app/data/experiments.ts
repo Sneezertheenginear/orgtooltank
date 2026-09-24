@@ -59,6 +59,14 @@ export const experiments: Experiment[] = [
     limitations: ["Converts one file at a time, MP3 to WAV or WAV to MP3. Your audio stays on your device during conversion.", "Files up to 100 MB and 15 minutes long. Conversion uses your browser’s memory, so long files can be slow on phones.", "MP3 output is constant bitrate (128–320 kbps); audio that isn’t 32, 44.1, or 48 kHz is resampled to 44.1 kHz. WAV output is 16-bit.", "Tags and cover art aren’t copied, and converting to the same format isn’t offered."],
     desktopBenefits: ["Larger files and long recordings without browser memory limits.", "Batch conversion of many files or whole folders.", "More formats, such as FLAC, AAC/M4A, and OGG.", "Deeper control over bitrate, VBR, sample rate, and channels.", "Stronger local file integration, like saving next to the original file."],
   },
+  {
+    ...awaitingConversion("Where Did My Money Go?", "where-did-my-money-go", "business", "I made money. Where did it go? Import bank and card CSV files, or try the demo, and see money in, money out, and where the rest went.", ["money", "csv", "local-first"]),
+    dateAdded: "2026-09-23",
+    logo: { src: "/where-did-my-money-go/mark.svg", alt: "Where Did My Money Go? logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/where-did-my-money-go/try",
+    limitations: ["Reads CSV exports only. There are no bank, Stripe, Square, PayPal, or payroll connections, and Excel files need to be saved as CSV first.", "Everything stays in this page’s memory. Nothing is uploaded or saved, so refreshing or closing the page clears it.", "Up to 10 MB and 50,000 rows at a time. Regular-charge detection works best with about three months of history.", "Estimates based only on the transactions you provide. Not accounting, tax, or financial advice."],
+    desktopBenefits: ["Keep your history between visits, stored privately on your own computer.", "Month-over-month comparisons, alerts, and more planning tools.", "Saved category rules that apply to every future import."],
+  },
   awaitingConversion("Compliance Watch", "compliance-watch", "business", "A compliance-related project awaiting review and browser conversion. No monitoring service is running here.", ["compliance", "research"]),
   {
     ...awaitingConversion("Duplicate Finder", "duplicate-finder", "tools", "Find identical files in a folder you choose, right in your browser. Review each group, choose the copy to keep, and download a cleanup list.", ["files", "duplicates", "local-first"]),
