@@ -100,17 +100,6 @@ export const experiments: Experiment[] = [
   },
   awaitingConversion("OrgToolTank Publisher", "orgtooltank-publisher", "business", "A publishing project to explore in the browser later. No publishing connections are active here.", ["publishing"]),
   awaitingConversion("Pro Tools Beats", "pro-tools-beats", "music", "A beats-related project awaiting browser conversion. Audio features and integrations haven’t been prepared here yet.", ["beats", "audio"]),
-  {
-    title: "2007 Mazda 3 Repair Experiment", slug: "mazda-3",
-    description: "A growing visual repair and maintenance experiment built while working on a real 2007 Mazda 3 2.3L.",
-    category: "cars", dateAdded: "2026-09-22", status: "Browser Ready",
-    browserAvailable: true, browserRoute: "/cars/mazda-3-repair",
-    desktopAvailable: false, desktopRoute: null,
-    image: { src: "/illustrations/mazda-3-graphite.webp", alt: "Graphite illustration of the 2007 Mazda 3" },
-    tags: ["repair", "maintenance", "growing experiment"], featured: true,
-    limitations: ["This is a growing, untested repair library, not a complete workshop manual.", "Some repair systems are still planned. Engine & Air guides are available.", "The vehicle viewer currently shows a single view; full rotation is still being prepared."],
-    desktopBenefits: ["A custom desktop version could keep repair notes and reference material available offline.", "Local photos and job records could be considered as part of a custom request; these features are not built yet."],
-  },
 ];
 export function dateLabel(date: string) {
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));

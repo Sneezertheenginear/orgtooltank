@@ -39,12 +39,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 The homepage is the experiment workbench. Add entries in `app/data/experiments.ts`
 (including a category, collection date, status, and optional launch URL). Cards,
-filters, category pages, and `/experiments/[slug]` use that registry. The Mazda
-collection date is its addition to this experiment directory, not the original
-publication date of the repair material.
-
-The former homepage is preserved in `app/MazdaRepairHome.tsx`, served at
-`/cars/mazda-3-repair`. All pre-existing Mazda guide URLs and assets remain intact.
+filters, category pages, and `/experiments/[slug]` use that registry. The collection
+date is when a project was added to this directory, not when it was first built.
 
 `app/request-app/RequestForm.tsx` validates the request and prepares a reviewable
 email to the existing contact address. The visitor must send it in their email
@@ -57,9 +53,8 @@ an alternative production build without changing project configuration.
 
 ### Adding the next browser experiment
 
-The registry now includes all 16 projects. Descriptions for unconverted projects
-are provisional catalog copy, not verified feature lists. Mazda is browser ready;
-Duplicate Finder points to the existing desktop information page. Other desktop
+The registry now includes all 15 projects. Descriptions for unconverted projects
+are provisional catalog copy, not verified feature lists. Duplicate Finder points to the existing desktop information page. Other desktop
 availability is unconfirmed, so those entries are not offered as downloads here.
 
 Each `Experiment` supplies `title`, `slug`, `description`, `category`, `dateAdded`,
