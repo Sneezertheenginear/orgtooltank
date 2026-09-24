@@ -1,5 +1,8 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import Shell from "../../experiment-components/Shell";
+import BrowserDesktop from "../../experiment-components/BrowserDesktop";
+import { experiments } from "../../data/experiments";
 import RenameProIdentity from "../../experiment-components/RenameProIdentity";
 import RenameWorkbench from "./RenameWorkbench";
 import "./rename-pro.css";
@@ -7,6 +10,8 @@ import "./rename-pro.css";
 export const metadata = { title: "Rename Pro", description: "Rename files locally in your browser. Preview changes and download renamed copies without uploading your files." };
 
 export default function RenameProPage() {
+  const experiment = experiments.find(e => e.slug === "rename-pro");
+  if (!experiment) notFound();
   return <Shell><div className="wrap page-space rename-pro">
     <Link href="/experiments" className="text-link">← All experiments</Link>
     <div className="experiment-heading">
@@ -16,11 +21,10 @@ export default function RenameProPage() {
       <p className="rename-privacy">Your files stay on your device. Rename Pro processes them locally in your browser.</p>
     </div>
     <RenameWorkbench />
-    <section className="browser-desktop prose-copy">
-      <h2>Browser vs Desktop</h2>
+    <BrowserDesktop experiment={experiment}>
       <div className="form-pair"><div><h3>Browser</h3><ul><li>Quick renaming without installing anything</li><li>Choose or drop files</li><li>Preview changes</li><li>Download renamed copies</li></ul></div>
       <div><h3>Desktop</h3><ul><li>Work directly with folders</li><li>Rename files in place</li><li>Larger workflows</li><li>History and Undo</li><li>Deeper filesystem access</li></ul></div></div>
       <p className="small-note">This first browser experiment keeps originals untouched. ZIP downloads are prepared in memory; use smaller batches for large files. Presets and history are not included.</p>
-    </section>
+    </BrowserDesktop>
   </div></Shell>;
 }

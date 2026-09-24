@@ -40,7 +40,13 @@ function awaitingConversion(title: string, slug: string, category: Category, des
   };
 }
 export const experiments: Experiment[] = [
-  awaitingConversion("Capital Call Tracker", "capital-call-tracker", "business", "An idea for keeping capital calls and related tracking notes together. Browser conversion is still ahead.", ["tracking", "finance"]),
+  {
+    ...awaitingConversion("Capital Call Tracker", "capital-call-tracker", "business", "Track the capital calls you enter, see what’s overdue or due in the next 30 days, and mark calls paid. Saved only in your browser.", ["tracking", "finance", "local-first"]),
+    logo: { src: "/capital-call-tracker/mark.svg", alt: "Capital Call Tracker logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/capital-call-tracker/try",
+    limitations: ["A tracking tool, not financial, legal, or tax advice. It doesn’t verify amounts against fund documents.", "One currency (US dollars), up to 500 calls. It tracks calls only: no commitments, distributions, or document uploads.", "Saved only in this browser on this device. Clearing browser data removes it, so download a CSV now and then.", "No reminders are sent. Check the list for what’s overdue or due soon."],
+    desktopBenefits: ["Keep call notices and wire confirmations with each call.", "Track commitments and what’s still unfunded for each fund.", "Local reminders before calls are due, even when no browser is open."],
+  },
   awaitingConversion("Crypto Learning Lab", "crypto-learning-lab", "tools", "A place to explore crypto learning ideas. Its browser lessons and features haven’t been prepared yet.", ["learning", "crypto"]),
   awaitingConversion("Full App Researcher", "full-app-researcher", "tools", "A research project to bring into the browser one piece at a time. Scope and features still need review.", ["research"]),
   awaitingConversion("OrgTT Research App", "orgtt-research-app", "tools", "Another research experiment waiting for its browser version. Listed separately from Full App Researcher.", ["research", "notes"]),
