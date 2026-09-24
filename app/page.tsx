@@ -16,7 +16,7 @@ export default function Home() {
         <p>This site is where the human mind and AI meet to look at everyday problems, useful tools, strange ideas, and different ways of doing things.</p>
         <p>Some ideas may be useful. Some may be rough. Some may never go any further than what you see here.</p>
         <p>Most are untested and posted as-is.</p>
-        <p>Use them. Play with them. Like them, unlike them, comment, and tell me why.</p>
+        <p>Use them. Play with them. Email me what worked, what didn’t, and why.</p>
         <p className="underlined-note">No guarantees. No promises. Just ideas being put into the world to see what happens.</p>
       </div>
     </section>
