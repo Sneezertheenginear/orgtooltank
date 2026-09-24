@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { MAX_FILES, MAX_HASH_BYTES, categoryLabels, cleanupCsv, entryKey, formatBytes, groupDuplicates, hashFile, limitError, matchesSearch, planScan, recoverable, suggestedKeeper, summarize, typeLabel, type Category, type Entry, type Group } from "../engine";
 import { canPickFolders, fromDrop, fromInput, type Collected } from "./collect";
+import { NextStep, QuickStart } from "../../../experiment-components/Guidance";
 
 type Phase = "select" | "scanning" | "results";
 type Live = { hashedBytes: number; hashedFiles: number; groups: number; duplicateFiles: number; recoverableBytes: number };
@@ -115,6 +116,7 @@ export default function DuplicateWorkbench() {
   const visible = groups.filter(group => (filter === "all" || group.category === filter) && matchesSearch(group, query));
 
   return <div className="dupe-workbench">
+    <QuickStart>Choose a folder or some files, press Find duplicates, then pick the copy to keep in each group and download your cleanup list. Nothing on your device is deleted or moved.</QuickStart>
     <section className={`dupe-drop ${dragging ? "is-dragging" : ""}`} aria-label="Choose or drop a folder or files"
       onDragOver={event => { event.preventDefault(); if (!busy) setDragging(true); }}
       onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setDragging(false); }}
@@ -139,6 +141,7 @@ export default function DuplicateWorkbench() {
         {phase === "select" && <div className="detail-links"><button type="button" className="ink-button" disabled={!selection.length || busy || !!overLimit} onClick={scan}>Find duplicates ↗</button>{selection.length > 0 && <button type="button" className="text-link" onClick={startOver}>Clear selection</button>}</div>}
         {phase === "scanning" && <button type="button" className="text-link" onClick={cancel}>Cancel scan</button>}
       </div>
+      {!selection.length && !collecting && <p className="small-note">No files chosen yet. Choose a folder or files above to begin.</p>}
       {phase === "select" && overLimit && <p className="dupe-error" role="alert">{overLimit}</p>}
       {selection.length > 0 && (plan.skippedEmpty > 0 || plan.skippedSystem > 0) && <p className="small-note">Skipping {[plan.skippedEmpty && `${plan.skippedEmpty.toLocaleString()} empty`, plan.skippedSystem && `${plan.skippedSystem.toLocaleString()} system`].filter(Boolean).join(" and ")} {plan.skippedEmpty + plan.skippedSystem === 1 ? "file" : "files"}.</p>}
       {selection.length > 0 && phase === "select" && !overLimit && <p className="small-note">{plan.candidates.length ? `${plan.candidates.length.toLocaleString()} files share a size with another file, so ${formatBytes(plan.candidateBytes)} will be compared. Files with a unique size can’t be duplicates and aren’t read.` : "No two files share the same size, so there’s nothing to compare."}</p>}
@@ -161,6 +164,7 @@ export default function DuplicateWorkbench() {
       <h2 id="dupe-review-heading">{groups.length ? `${groups.length.toLocaleString()} ${groups.length === 1 ? "group" : "groups"} of identical files` : "No duplicates found."}</h2>
       {groups.length ? <>
         <p className="dupe-lede">Every file in a group has exactly the same contents. We picked the copy with the shortest path to keep. Change it with <strong>Keep This One</strong>.</p>
+        <NextStep>Check each group, then download your cleanup list at the bottom.</NextStep>
         <div className="dupe-tools">
           <div className="filter-list" role="group" aria-label="Filter by file type">
             <button type="button" aria-pressed={filter === "all"} onClick={() => { setFilter("all"); setShown(PAGE); }}>All · {groups.length}</button>
@@ -183,7 +187,7 @@ export default function DuplicateWorkbench() {
           </li>;
         })}</ol> : <p className="dupe-none">No groups match this filter or search.</p>}
         {visible.length > shown && <button type="button" className="text-link dupe-more" onClick={() => setShown(count => count + PAGE)}>Show more groups ({(visible.length - shown).toLocaleString()} more)</button>}
-      </> : <p className="dupe-lede">None of the {plan.scanned.length.toLocaleString()} files have an identical copy in this selection. Nice and tidy.</p>}
+      </> : <><p className="dupe-lede">None of the {plan.scanned.length.toLocaleString()} files have an identical copy in this selection. Nice and tidy: there’s nothing to clean up.</p><NextStep>Choose another folder above to scan more, or Start Over.</NextStep></>}
     </section>}
 
     {phase === "results" && <section className="dupe-panel dupe-finish" aria-labelledby="dupe-finish-heading">

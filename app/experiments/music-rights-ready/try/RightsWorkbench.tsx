@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useSyncExternalStore } from "react";
 import { LINKS_CHECKED, explainers, items, officialLinks, registrationItems, type ItemId } from "../content";
+import { QuickStart } from "../../../experiment-components/Guidance";
 import { STORAGE_KEY, checklistText, counts, emptyState, masterSplits, notesFor, parseSaved, proOptions, publishingOptions, roles, serialize, songSplits, statusOf, statuses, writesSong, type Owner, type Person, type RightsState, type Role, type Status } from "../engine";
 
 // Saved progress lives only in this browser's local storage, and only when the user turns it on.
@@ -18,6 +19,7 @@ export default function RightsWorkbench() {
   const [edited, setEdited] = useState<RightsState | null>(null);
   const [saveChoice, setSaveChoice] = useState<boolean | null>(null);
   const [message, setMessage] = useState("");
+  const [downloaded, setDownloaded] = useState("");
   const saving = saveChoice ?? !!saved;
   const state = edited ?? saved?.state ?? emptyState();
 
@@ -52,6 +54,7 @@ export default function RightsWorkbench() {
     anchor.href = url; anchor.download = `music-rights-checklist-${slug}.txt`;
     document.body.appendChild(anchor); anchor.click(); anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    setDownloaded(`Checklist downloaded as ${anchor.download}. It was created on your device.`);
   }
 
   const setSong = (field: keyof RightsState["song"], value: string) => update(current => ({ ...current, song: { ...current.song, [field]: value } }));
@@ -75,6 +78,7 @@ export default function RightsWorkbench() {
       {message && <p className="small-note" role="status">{message}</p>}
     </section>
 
+    <QuickStart>Enter the song, add everyone who worked on it, then fill in who owns what. Your checklist at the bottom updates as you go.</QuickStart>
     <div className="music-steps">
       <section className="music-panel" aria-labelledby="music-song-heading">
         <p className="eyebrow">01 / About the song</p>
@@ -102,11 +106,12 @@ export default function RightsWorkbench() {
             <fieldset className="music-roles"><legend>What they did</legend>{roles.map(role => <label key={role}><input type="checkbox" checked={person.roles.includes(role)} onChange={() => toggleRole(person, role)} />{role}</label>)}</fieldset>
             {!writer && person.roles.length > 0 && <label className="music-check"><input type="checkbox" checked={person.sharesSong} onChange={event => setPerson(person.id, { sharesSong: event.target.checked })} />Everyone agrees this person also helped write the song</label>}
             {writesSong(person) && <div className="music-grid">
-              <label>PRO <small>(performing rights organization)</small><select value={person.pro} onChange={event => setPerson(person.id, { pro: event.target.value as Person["pro"] })}>{proOptions.map(option => <option key={option} value={option}>{option || "Choose…"}</option>)}</select></label>
-              <label>Publishing<select value={person.publishing} onChange={event => setPerson(person.id, { publishing: event.target.value as Person["publishing"] })}>{publishingOptions.map(option => <option key={option} value={option}>{option || "Choose…"}</option>)}</select></label>
+              <div><label>PRO <small>(performing rights organization)</small><select value={person.pro} aria-describedby={`pro-hint-${person.id}`} onChange={event => setPerson(person.id, { pro: event.target.value as Person["pro"] })}>{proOptions.map(option => <option key={option} value={option}>{option || "Choose…"}</option>)}</select></label><p className="field-hint music-hint" id={`pro-hint-${person.id}`}>Collects this writer’s performance royalties. “Not sure” is fine for now.</p></div>
+              <div><label>Publishing<select value={person.publishing} aria-describedby={`pub-hint-${person.id}`} onChange={event => setPerson(person.id, { publishing: event.target.value as Person["publishing"] })}>{publishingOptions.map(option => <option key={option} value={option}>{option || "Choose…"}</option>)}</select></label><p className="field-hint music-hint" id={`pub-hint-${person.id}`}>Who collects the publisher share of this writer’s song income, if anyone yet.</p></div>
             </div>}
           </article>;
         })}
+        {!state.people.length && <p className="small-note music-empty">No one added yet. Add each person who wrote, produced, or performed on the song.</p>}
         <button type="button" className="ink-button" onClick={addPerson}>{state.people.length ? "Add another person" : "Add a person"} +</button>
       </section>
 
@@ -116,13 +121,13 @@ export default function RightsWorkbench() {
         <p className="music-lede">This organizes what you enter. It doesn’t decide what anyone legally owns; that’s for everyone involved to agree, ideally in writing.</p>
         <div className="music-own">
           <div>
-            <h3>The song: proposed songwriter splits</h3>
+            <h3>The song: proposed songwriter splits</h3><p className="field-hint">Each songwriter’s agreed share of the song. Together they usually add up to 100%.</p>
             {writers.length ? writers.map(person => <label key={person.id} className="music-share">{person.name.trim() || "Unnamed"}<span><input inputMode="decimal" value={person.songShare} maxLength={8} onChange={event => setPerson(person.id, { songShare: event.target.value })} placeholder="0" aria-label={`${person.name || "Unnamed"} share of the song`} />%</span></label>)
               : <p className="small-note">Mark people as Songwriter or Composer in step 02 to enter splits.</p>}
             <p className={song.ok ? "music-ok" : "music-warn"} role="status">{song.ok ? "✓ " : "! "}{song.message}</p>
           </div>
           <div>
-            <h3>The recording: master owners</h3>
+            <h3>The recording: master owners</h3><p className="field-hint">Who owns the recorded audio. Owners can be people or a company, like a label.</p>
             <label className="music-check"><input type="checkbox" checked={state.ownersNotSure} onChange={event => update(current => ({ ...current, ownersNotSure: event.target.checked }))} />Not sure yet</label>
             {!state.ownersNotSure && <>
               {state.owners.map(owner => <div key={owner.id} className="music-owner">
@@ -160,6 +165,7 @@ export default function RightsWorkbench() {
         <p className="music-sync"><strong>Licensing for film, TV, ads, or games</strong> is a separate process that involves both the composition and the master. It isn’t covered here.</p>
         <p className="small-note">Official links checked {LINKS_CHECKED}. Check each organization’s current requirements and fees before registering.</p>
         <div className="detail-links"><button type="button" className="ink-button" onClick={download}>Download checklist (.txt) ↓</button><button type="button" className="ink-button is-secondary" onClick={() => window.print()}>Print / Save as PDF</button><button type="button" className="text-link" onClick={startOver}>Start Over</button></div>
+        {downloaded && <p className="small-note" role="status">{downloaded}</p>}
       </section>
     </div>
 

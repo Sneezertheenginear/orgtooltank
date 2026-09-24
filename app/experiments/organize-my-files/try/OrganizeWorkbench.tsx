@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { canPickFolders, selectionFromDrop, selectionFromInput, type Selection } from "../../../experiment-components/file-selection";
+import { NextStep, QuickStart } from "../../../experiment-components/Guidance";
 import { MAX_BYTES, MAX_FILES, PLAN_NAME, TOP, buildItems, buildZip, categories, formatBytes, limitError, planCsv, planOutputs, renameStyles, zipRootName, type Placement, type RenameStyle, type Source } from "../engine";
 
 type Phase = "select" | "zipping" | "done";
@@ -100,6 +101,7 @@ export default function OrganizeWorkbench() {
   const status = phase === "zipping" ? `Creating your ZIP… ${Math.floor(progress * 100)}% · ${formatBytes(Math.round(progress * totalBytes))} of ${formatBytes(totalBytes)}` : phase === "done" ? "Done. Your organized ZIP is ready." : "";
 
   return <div className="organize-workbench">
+    <QuickStart>Choose a messy folder or some files, check where each item will go, then create your organized ZIP. Your original files aren’t moved or changed.</QuickStart>
     <section className={`organize-drop ${dragging ? "is-dragging" : ""}`} aria-label="Choose or drop a folder or files"
       onDragOver={event => { event.preventDefault(); if (!busy) setDragging(true); }}
       onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setDragging(false); }}
@@ -155,7 +157,7 @@ export default function OrganizeWorkbench() {
             {sectionRows.length > SHOWN && <button type="button" className="text-link organize-more" onClick={() => setExpanded(current => { const next = new Set(current); if (open) next.delete(placement); else next.add(placement); return next; })}>{open ? "Show fewer" : `Show all ${sectionRows.length}`}</button>}
           </section>;
         })}</div>
-      </> : <div className="organize-empty"><span aria-hidden="true">mess/ → Photos/ Documents/ Audio/</span><p>Choose a folder or files to see where everything will go.</p></div>}
+      </> : <div className="organize-empty"><span aria-hidden="true">mess/ → Photos/ Documents/ Audio/</span><p>No files yet. Choose a folder or files above, and each item’s new folder will appear here.</p></div>}
     </section>
 
     <section className="organize-panel" aria-labelledby="organize-rename-heading">
@@ -176,7 +178,7 @@ export default function OrganizeWorkbench() {
         {meterBars.map((height, index) => <span key={index} className={index < Math.floor(progress * meterBars.length) ? "is-on" : ""} style={{ height: `${height}%` }} />)}
       </div>
       <p className="organize-status" role="status">{status}</p>
-      {result && <p className="organize-result"><strong>{result.name}</strong> · {formatBytes(result.size)}</p>}
+      {result && <><p className="organize-result"><strong>{result.name}</strong> · {formatBytes(result.size)}</p><NextStep>Download the ZIP, then unzip it wherever you want the organized copy.</NextStep></>}
       <div className="detail-links">
         {result ? <a className="ink-button" href={result.url} download={result.name}>Download ZIP ↓</a>
           : <button type="button" className="ink-button" disabled={!sources.length || !!overLimit || busy} onClick={create}>{phase === "zipping" ? "Creating ZIP…" : "Create organized ZIP ↗"}</button>}

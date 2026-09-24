@@ -81,6 +81,9 @@
 .music-page .browser-desktop { max-width: none; margin-top: 30px; }
 .music-feedback { margin-bottom: 10px; }
 .music-print { display: none; }
+.music-workbench > .quick-start { margin: 20px 0 0; }
+.music-hint { margin-top: 6px; }
+.music-empty { margin: 0 0 14px; }
 
 @media (max-width: 900px) {
   .music-own, .music-explain.is-three { grid-template-columns: minmax(0, 1fr); }

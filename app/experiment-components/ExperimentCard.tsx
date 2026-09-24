@@ -3,10 +3,11 @@ import Image from "next/image";
 import RenameProIdentity from "./RenameProIdentity";
 import Link from "next/link";
 import { categories, dateLabel, type Experiment } from "../data/experiments";
-import { useFeedback } from "./feedback-store";
+import { useFeedbackEntries } from "./feedback-client";
 import ExperimentActions from "./ExperimentActions";
 export default function ExperimentCard({ experiment }: { experiment: Experiment }) {
-  const feedback = useFeedback(experiment.slug);
+  const feedback = useFeedbackEntries([experiment.slug])[experiment.slug];
+  const counts = feedback && feedback !== "unavailable" ? feedback.counts : null;
   return <article className="experiment-card">
     <Link href={`/experiments/${experiment.slug}`} className="card-art" aria-label={`Open ${experiment.title}`}>
       <span className="card-stamp">Untested / As-is</span>
@@ -21,7 +22,7 @@ export default function ExperimentCard({ experiment }: { experiment: Experiment 
       <p>{experiment.description}</p><span className="status-tag">◌ {experiment.status}</span>
       <dl className="availability"><div><dt>Browser</dt><dd>{experiment.browserAvailable ? "Available to try" : "Not available yet"}</dd></div><div><dt>Desktop</dt><dd>{experiment.desktopAvailable ? "Available — see details" : "Not offered here yet"}</dd></div></dl>
       <ExperimentActions experiment={experiment} showDetail />
-      <div className="card-counts"><span>{Number(feedback.vote === "like")} likes</span><span>{Number(feedback.vote === "unlike")} unlikes</span><span>{feedback.comments.length} comments</span></div><p className="small-note">Your activity on this browser only.</p>
+      {counts && <div className="card-counts"><span>{counts.like} {counts.like === 1 ? "like" : "likes"}</span><span>{counts.unlike} {counts.unlike === 1 ? "unlike" : "unlikes"}</span><span>{counts.comments} {counts.comments === 1 ? "comment" : "comments"}</span></div>}
     </div>
   </article>;
 }

@@ -67,7 +67,13 @@ export const experiments: Experiment[] = [
     limitations: ["Reads CSV exports only. There are no bank, Stripe, Square, PayPal, or payroll connections, and Excel files need to be saved as CSV first.", "Everything stays in this page’s memory. Nothing is uploaded or saved, so refreshing or closing the page clears it.", "Up to 10 MB and 50,000 rows at a time. Regular-charge detection works best with about three months of history.", "Estimates based only on the transactions you provide. Not accounting, tax, or financial advice."],
     desktopBenefits: ["Keep your history between visits, stored privately on your own computer.", "Month-over-month comparisons, alerts, and more planning tools.", "Saved category rules that apply to every future import."],
   },
-  awaitingConversion("Compliance Watch", "compliance-watch", "business", "A compliance-related project awaiting review and browser conversion. No monitoring service is running here.", ["compliance", "research"]),
+  {
+    ...awaitingConversion("Compliance Watch", "compliance-watch", "business", "Track the licenses, permits, insurance, inspections, and renewals you enter, and see what’s overdue or due soon. Saved only in your browser.", ["compliance", "deadlines", "renewals", "local-first"]),
+    logo: { src: "/compliance-watch/mark.svg", alt: "Compliance Watch logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/compliance-watch/try",
+    limitations: ["An organization tool, not legal advice. It tracks only what you enter and doesn’t determine which laws or regulations apply to you.", "One organization at a time, up to 500 items. No document uploads; use Notes for where paperwork is kept.", "Saved only in this browser on this device. Clearing browser data removes it, so download a backup now and then.", "No reminders are sent. You can export a calendar file, and any reminders then come from your own calendar app."],
+    desktopBenefits: ["Attach documents and keep them with each requirement.", "Track people and equipment, with renewal history over time.", "Local notifications before things are due, even when no browser is open."],
+  },
   {
     ...awaitingConversion("Duplicate Finder", "duplicate-finder", "tools", "Find identical files in a folder you choose, right in your browser. Review each group, choose the copy to keep, and download a cleanup list.", ["files", "duplicates", "local-first"]),
     logo: { src: "/duplicate-finder/mark.svg", alt: "Duplicate Finder logo" },
@@ -94,7 +100,6 @@ export const experiments: Experiment[] = [
   },
   awaitingConversion("OrgToolTank Publisher", "orgtooltank-publisher", "business", "A publishing project to explore in the browser later. No publishing connections are active here.", ["publishing"]),
   awaitingConversion("Pro Tools Beats", "pro-tools-beats", "music", "A beats-related project awaiting browser conversion. Audio features and integrations haven’t been prepared here yet.", ["beats", "audio"]),
-  awaitingConversion("Security Inspector", "security-inspector", "tools", "A security inspection idea awaiting review. There is no browser scanner or inspection service running here.", ["security", "inspection"]),
   {
     title: "2007 Mazda 3 Repair Experiment", slug: "mazda-3",
     description: "A growing visual repair and maintenance experiment built while working on a real 2007 Mazda 3 2.3L.",

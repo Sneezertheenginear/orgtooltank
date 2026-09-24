@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { MAX_BYTES, MAX_ROWS, amountStyles, categorize, emptyChoices, fileFingerprint, formatDate, formatMoney, guessSettings, isSpreadsheet, limitError, parseCsv, readRows, type Choices, type Mapping, type ParsedFile, type Settings } from "../engine";
 import { demoFiles } from "../demo";
 import MoneyResults from "./MoneyResults";
+import { QuickStart } from "../../../experiment-components/Guidance";
 
 // Everything lives in this component's memory only: no storage, no uploads. Refreshing clears it.
 type Imported = { name: string; fingerprint: string; bytes: number; parsed: ParsedFile; settings: Settings };
@@ -75,6 +76,7 @@ export default function MoneyWorkbench() {
   const setColumn = (name: string, field: keyof Mapping, value: string) => update(name, settings => ({ ...settings, mapping: { ...settings.mapping, [field]: value || undefined } }));
 
   return <div className="money-workbench">
+    <QuickStart>Try the demo to see how it works, or add your bank and card CSV files. You’ll check the columns, then see money in, money out, and where it went.</QuickStart>
     <section className="money-start" aria-labelledby="money-start-heading">
       <div className="money-demo">
         <p className="eyebrow">01 / Bring your numbers</p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { NextStep, QuickStart } from "../../../experiment-components/Guidance";
 import { MAX_DURATION_SECONDS, MAX_INPUT_BYTES, detectAudio, downloadName, encodeMp3, encodeWav, formatBytes, formatDuration, mimeTypes, mp3Bitrates, outputName, targetSampleRate, type AudioFormat, type AudioInfo, type Mp3Bitrate } from "../engine";
 
 type Selected = { file: File; info: AudioInfo; nameMismatch: boolean };
@@ -97,6 +98,7 @@ export default function AudioWorkbench() {
   const filled = phase === "done" ? meterBars.length : phase === "encoding" ? Math.floor(progress * meterBars.length) : 0;
 
   return <div className="audio-workbench">
+    <QuickStart>Choose an MP3 or WAV file, pick the format you want, then press Convert. You can rename the new file before downloading it. Your original audio isn’t changed.</QuickStart>
     <section className={`audio-drop ${dragging ? "is-dragging" : ""}`} aria-label="Choose or drop an audio file"
       onDragOver={event => { event.preventDefault(); if (!busy) setDragging(true); }}
       onDragLeave={event => { if (!event.currentTarget.contains(event.relatedTarget as Node)) setDragging(false); }}
@@ -117,7 +119,7 @@ export default function AudioWorkbench() {
           <div><dt>Type</dt><dd>{labels[selected.info.format]}</dd></div>
           <div><dt>Size</dt><dd>{formatBytes(selected.file.size)}</dd></div>
           <div><dt>Audio</dt><dd>{selected.info.sampleRate / 1000} kHz · {selected.info.channels === 1 ? "mono" : selected.info.channels === 2 ? "stereo" : `${selected.info.channels} channels`}{selected.info.duration ? ` · ${formatDuration(selected.info.duration)}` : ""}</dd></div>
-        </dl> : <div className="audio-empty"><span aria-hidden="true">.wav ⇄ .mp3</span><p>No file yet. Its name, type, and size will show here.</p></div>}
+        </dl> : <div className="audio-empty"><span aria-hidden="true">.wav ⇄ .mp3</span><p>No file chosen yet. Choose or drop an MP3 or WAV above to begin.</p></div>}
         {selected?.nameMismatch && <p className="small-note">The file name doesn’t end in .{selected.info.format}, but its contents are {labels[selected.info.format]}. It will be converted based on its contents.</p>}
       </section>
 
@@ -143,6 +145,7 @@ export default function AudioWorkbench() {
       </div>
       <p role="status" className="audio-status">{status}</p>
       {result && <div className="audio-result">
+        <NextStep>Rename the file if you like, then press Download.</NextStep>
         <label htmlFor="audio-filename" className="audio-label">Name your file</label>
         <div className="audio-name-field"><input id="audio-filename" value={fileStem} onChange={event => setFileStem(event.target.value)} spellCheck={false} autoComplete="off" aria-describedby="audio-filename-extension audio-filename-note" aria-invalid={!!download.error} /><span id="audio-filename-extension">.{output}</span></div>
         <p id="audio-filename-note" className={download.error ? "audio-name-error" : "small-note"} aria-live="polite">{download.error ?? <>Downloads as <strong>{download.name}</strong> · {formatBytes(result.size)}. Your original file is unchanged.</>}</p>

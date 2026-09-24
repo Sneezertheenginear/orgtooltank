@@ -46,12 +46,6 @@ publication date of the repair material.
 The former homepage is preserved in `app/MazdaRepairHome.tsx`, served at
 `/cars/mazda-3-repair`. All pre-existing Mazda guide URLs and assets remain intact.
 
-Feedback currently uses browser-local storage in
-`app/experiment-components/feedback-store.ts`. Counts represent only the current
-browser; there are no invented public totals. Replace this adapter and its hooks
-with a server-backed implementation to add shared reactions/comments. Add input
-validation, moderation, and rate limiting before enabling public comments.
-
 `app/request-app/RequestForm.tsx` validates the request and prepares a reviewable
 email to the existing contact address. The visitor must send it in their email
 client. No server delivery is claimed. Replace the documented integration point
@@ -89,3 +83,61 @@ there is something to launch, not that the app has been comprehensively tested.
 All detail pages retain the untested/as-is notice and browser-local feedback.
 Availability controls launch buttons independently from editorial status. Never
 mark a build as available before its destination is usable.
+
+## Likes, unlikes, and comments
+
+Feedback is shared through the site's own API (`app/api/feedback/`) and stored in Upstash Redis.
+Votes and comments are validated on the server; the browser never sends counts. Comments are
+held for review and only appear after approval at `/feedback-admin` (not linked, not indexed).
+
+### Environment variables (Vercel → Project → Settings → Environment Variables)
+
+| Variable | What it's for |
+|---|---|
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` (or `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`) | Upstash Redis. Added automatically when you connect Upstash from the Vercel Marketplace. |
+| `FEEDBACK_SECRET` | 32+ random characters. Signs the anonymous browser cookie and hashes network addresses. Changing it resets everyone's "already voted" state. |
+| `FEEDBACK_ADMIN_PASSWORD` | 12+ characters. Password for `/feedback-admin`. |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile site key (public, used in the browser). |
+| `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret key (server only, never sent to the browser). |
+
+Generate a secret with `openssl rand -base64 48`. In production, feedback answers
+"not available" (HTTP 503) until Redis and `FEEDBACK_SECRET` are set, and comments are refused
+until `TURNSTILE_SECRET_KEY` is set, so nothing runs unprotected.
+
+### How it's protected
+
+- **One vote per item per browser.** A random, signed, HttpOnly cookie (`ott_sid`) identifies the
+  browser anonymously; only a keyed hash of it is stored. Switching like ↔ unlike updates the
+  existing vote in one atomic Redis operation, so repeated or simultaneous requests can't inflate
+  counts. Voting the same way twice returns "You already voted on this." (HTTP 409).
+- **Rate limits (HTTP 429, "Too many requests. Try again in a moment.")** per browser cookie *and*
+  per hashed network address. New anonymous cookies are also limited per network address, so
+  clearing cookies can't be used to vote repeatedly.
+- **Comments:** empty and oversized comments are rejected, links are capped, control characters are
+  removed, and comments are always displayed as plain text (never HTML), so markup can't run. A
+  30-second cooldown, a hidden honeypot field, and Cloudflare Turnstile block automated posting.
+- **Direct API calls:** every POST must come from this site (Origin check), be small JSON, and pass
+  the same limits and checks as the page does.
+- **Privacy:** no accounts and no fingerprinting. Raw IP addresses are never stored or logged, only
+  a keyed hash used for rate limits. Blocked requests are logged (Vercel logs and the last 200 in
+  Redis, visible at `/feedback-admin`) with the reason and shortened hashes, never comment text.
+
+### Turnstile
+
+Create a widget at Cloudflare → Turnstile (add your domain and `localhost`), then set the two keys
+above. The page renders Turnstile in "interaction-only" mode, so most visitors see nothing; a
+challenge only appears when Cloudflare decides one is needed. The token is checked on the server
+with Cloudflare's siteverify API before a comment is saved.
+
+### Changing the limits
+
+All limits live in `app/lib/feedback/config.ts` (`LIMITS`, comment lengths, link cap, cooldown).
+Edit the numbers and redeploy. Current defaults: votes 12/min per browser and 40/min per network;
+comments 3 per 10 min per browser and 30 s apart (counting only submissions that pass the checks), 20 attempts/hour per network; reads 120/min per network;
+new browser IDs 20/hour per network; wrong moderator passwords 5 per 15 min.
+
+### Local testing
+
+`FEEDBACK_STORE=memory npm run dev` uses an in-memory store (refused in production). Without
+Turnstile keys, local development skips the Turnstile check and logs a warning. Cloudflare's test
+keys (`1x00000000000000000000AA` / `1x0000000000000000000000000000000AA`) always pass.

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Compliance Watch mark: a calendar page with a checklist and a marked due date">
+  <rect x="1" y="1" width="118" height="118" rx="3" fill="#fff" stroke="#202020" stroke-width="2"/>
+  <rect x="20" y="24" width="80" height="80" fill="#fff" stroke="#202020" stroke-width="4"/>
+  <rect x="20" y="24" width="80" height="18" fill="#202020"/>
+  <rect x="38" y="14" width="7" height="18" rx="1" fill="#fff" stroke="#202020" stroke-width="3"/>
+  <rect x="75" y="14" width="7" height="18" rx="1" fill="#fff" stroke="#202020" stroke-width="3"/>
+  <rect x="84" y="28" width="10" height="10" fill="#fff"/>
+  <rect x="30" y="52" width="11" height="11" fill="#202020"/>
+  <path d="M32.5 57.5L35 60L39 54.5" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="square"/>
+  <rect x="47" y="55" width="38" height="5" fill="#202020"/>
+  <rect x="31.5" y="70.5" width="8" height="8" fill="#fff" stroke="#8a8a8a" stroke-width="3"/>
+  <rect x="47" y="72" width="30" height="5" fill="#8a8a8a"/>
+  <rect x="31.5" y="86.5" width="8" height="8" fill="#fff" stroke="#8a8a8a" stroke-width="3"/>
+  <rect x="47" y="88" width="22" height="5" fill="#8a8a8a"/>
+</svg>

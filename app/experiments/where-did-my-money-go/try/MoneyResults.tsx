@@ -4,6 +4,7 @@ import { useMemo, useState, type Dispatch, type SetStateAction } from "react";
 import { formatDate, formatMoney, inPeriod, monthsOf, periodLabel, spendingByCategory, summarize, topMerchants, type Choices, type Period, type Txn } from "../engine";
 import { averageMonthlyLeft, detectDuplicates, detectRecurring, dollarsToCents, estimateGoal, monthsCovered, summaryCsv } from "../insights";
 import { RULES } from "../rules";
+import { NextStep } from "../../../experiment-components/Guidance";
 
 type Props = { txns: Txn[]; files: string[]; demo: boolean; setChoices: Dispatch<SetStateAction<Choices>>; onEditColumns?: () => void; onStartOver: () => void };
 const SHOWN = 40;
@@ -17,6 +18,7 @@ export default function MoneyResults({ txns, files, demo, setChoices, onEditColu
   const [target, setTarget] = useState("");
   const [saved, setSaved] = useState("");
   const [monthly, setMonthly] = useState<string | null>(null);
+  const [downloaded, setDownloaded] = useState("");
 
   const months = useMemo(() => monthsOf(txns), [txns]);
   const inRange = useMemo(() => inPeriod(txns, period), [txns, period]);
@@ -47,6 +49,7 @@ export default function MoneyResults({ txns, files, demo, setChoices, onEditColu
     anchor.href = url; anchor.download = `where-did-my-money-go-${period}.csv`;
     document.body.appendChild(anchor); anchor.click(); anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    setDownloaded(`Summary downloaded as ${anchor.download}. It was created on your device.`);
   }
 
   const list = (rows: Txn[], allowCategory: boolean) => <>
@@ -77,6 +80,7 @@ export default function MoneyResults({ txns, files, demo, setChoices, onEditColu
         <div className={totals.left < 0 ? "is-negative" : ""}><dt>Actually Left</dt><dd>{formatMoney(totals.left)}</dd><span>{totals.left < 0 ? "More went out than came in" : "Money In minus Money Out"}</span></div>
       </dl>
       <p className="small-note">{periodLabel(period)}. {totals.transfers ? `${totals.transfers.toLocaleString()} transfers between your own accounts (like card payments and savings transfers) aren’t counted as money in or out.` : "No transfers between your own accounts were found."}{onEditColumns && <> <button type="button" className="text-link" onClick={onEditColumns}>Check the columns again</button></>}</p>
+      <NextStep>Scroll down to see where the money went, regular charges, and anything worth a second look.</NextStep>
     </section>
 
     <section className="money-panel" aria-labelledby="money-where-heading">
@@ -142,6 +146,7 @@ export default function MoneyResults({ txns, files, demo, setChoices, onEditColu
       <h2 id="money-download-heading">Download a summary</h2>
       <p className="money-lede">A CSV with the {periodLabel(period).toLowerCase()} totals, categories, regular charges, possible duplicates{estimate ? ", and your goal" : ""}. It’s created on your device and isn’t sent anywhere.</p>
       <div className="detail-links"><button type="button" className="ink-button" onClick={download}>Download summary CSV ↓</button><button type="button" className="text-link" onClick={onStartOver}>Start Over</button></div>
+      {downloaded && <p className="small-note" role="status">{downloaded}</p>}
     </section>
   </div>;
 }
