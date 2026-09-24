@@ -1,0 +1,117 @@
+.music-back { margin-block: 0; }
+.music-page .experiment-heading { padding-bottom: 28px; }
+.music-page .eyebrow .status-tag { margin: 0 0 0 8px; }
+.music-title-row { display: flex; align-items: center; gap: 28px; margin-block: 24px; }
+.music-title-row .page-title { margin: 0; }
+.music-logo { width: 96px; height: 96px; flex: none; }
+.music-privacy { border-left: 2px solid #222; padding: 12px 16px; font-size: 16px; font-weight: 700; line-height: 1.7; background: #f6f6f4; max-width: 760px; }
+.music-disclaimer { margin-top: 12px; max-width: 760px; font-size: 13px; line-height: 1.7; color: #626262; }
+.music-page h2 { font-size: 26px; font-weight: 800; letter-spacing: -.035em; margin: 8px 0 14px; overflow-wrap: anywhere; }
+.music-page h3 { font-size: 18px; font-weight: 800; letter-spacing: -.02em; }
+.music-lede { max-width: 760px; color: #555; font-size: 16px; line-height: 1.8; margin-bottom: 16px; }
+.music-page input:not([type="checkbox"]):not([type="radio"]), .music-page select { border: 1px solid #aaa; background: #fff; padding: 11px 12px; font: 400 16px/1.4 Arial, sans-serif; color: #222; min-width: 0; max-width: 100%; }
+.music-page input:focus-visible, .music-page select:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
+.music-page label small { font-weight: 400; color: #777; }
+
+.music-save { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; border: 1px dashed #999; background: #fafaf8; padding: 16px 20px; }
+.music-save > p { flex: 1 1 320px; font-size: 14px; line-height: 1.6; color: #555; }
+.music-save .small-note, .music-restored { flex-basis: 100%; margin: 0; }
+.music-restored { font-size: 14px; font-weight: 700; }
+.music-check { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; }
+.music-check input, .music-roles input, .music-choice input { width: 17px; height: 17px; accent-color: #222; flex: none; }
+
+.music-panel { border: 1px solid #ccc; padding: 28px; margin-top: 24px; }
+.music-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+.music-grid label, .music-date, .music-person-head label { display: grid; gap: 7px; font-size: 14px; font-weight: 700; }
+.music-date { max-width: 280px; margin-top: 16px; }
+.music-choice { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 18px; font-size: 15px; }
+.music-choice legend { font-size: 14px; font-weight: 700; margin-bottom: 8px; width: 100%; }
+.music-choice label { display: flex; align-items: center; gap: 9px; }
+.music-explain { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #ddd; border: 1px solid #ddd; margin-block: 6px 20px; }
+.music-explain.is-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.music-explain > div { background: #f6f6f4; padding: 16px 18px; }
+.music-explain strong { font-size: 15px; }
+.music-explain p { margin-top: 6px; font-size: 14px; line-height: 1.7; color: #555; }
+
+.music-person { border: 1px solid #c9c9c6; padding: 18px; margin-bottom: 14px; }
+.music-person-head { display: flex; align-items: end; gap: 16px; }
+.music-person-head label { flex: 1; }
+.music-person-head .text-link { padding-bottom: 12px; }
+.music-roles { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.music-roles legend { font-size: 14px; font-weight: 700; margin-bottom: 8px; width: 100%; }
+.music-roles label { display: flex; align-items: center; gap: 8px; border: 1px solid #ccc; padding: 9px 12px; font-size: 14px; cursor: pointer; }
+.music-roles label:has(input:checked) { border-color: #202020; background: #f0f0ed; font-weight: 700; }
+.music-person > .music-check { margin-top: 14px; font-weight: 400; }
+
+.music-own { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.music-own > div { display: grid; align-content: start; gap: 12px; border: 1px solid #ddd; padding: 20px; }
+.music-share, .music-owner { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+.music-share span, .music-owner span { display: flex; align-items: center; gap: 6px; flex: none; }
+.music-share input, .music-owner span input { width: 88px; text-align: right; }
+.music-owner > input { flex: 1; min-width: 0; width: 100%; }
+.music-own > div { min-width: 0; }
+.music-remove { font-size: 22px; padding: 4px 8px; cursor: pointer; color: #555; }
+.music-ok, .music-warn { padding: 10px 12px; font-size: 14px; font-weight: 700; line-height: 1.5; }
+.music-ok { background: #f0f0ed; }
+.music-warn { background: #fbf4f2; color: #a12718; border-left: 3px solid #a12718; }
+
+.music-quick { display: grid; gap: 8px; margin-top: 4px; }
+.music-quick li, .music-stage li { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.music-quick li { border-bottom: 1px solid #eee; padding: 8px 0; font-size: 15px; }
+.music-status select { font-size: 14px; padding: 9px 10px; min-width: 150px; }
+.music-status select[data-status="Done"] { background: #202020; color: #fff; border-color: #202020; }
+.music-status select[data-status="Not sure"] { border-style: dashed; }
+
+.music-counts { font: 700 13px "Courier New", monospace; letter-spacing: .02em; color: #444; }
+.music-stage { margin-top: 26px; }
+.music-stage h3 { font: 700 12px "Courier New", monospace; text-transform: uppercase; letter-spacing: .1em; color: #555; border-bottom: 1px solid #ccc; padding-bottom: 8px; }
+.music-stage li { align-items: flex-start; padding: 16px 0 16px 14px; border-bottom: 1px solid #eee; border-left: 3px solid transparent; }
+.music-stage li[data-status="Done"] { border-left-color: #202020; }
+.music-stage li[data-status="Not applicable"] .music-item { opacity: .6; }
+.music-item { min-width: 0; }
+.music-item strong { font-size: 17px; }
+.music-item p { margin-top: 6px; font-size: 15px; line-height: 1.7; color: #555; max-width: 760px; }
+.music-item .music-note { color: #202020; font-weight: 700; font-size: 14px; }
+.music-links { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.music-links a { font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; color: #242424; }
+.music-sync { margin-top: 24px; padding: 14px 16px; background: #f6f6f4; font-size: 15px; line-height: 1.7; }
+.music-panel .detail-links { align-items: center; margin-bottom: 0; }
+.ink-button.is-secondary { background: #fff; color: #202020; }
+.ink-button.is-secondary:hover { background: #f0f0ed; }
+.music-page .browser-desktop { max-width: none; margin-top: 30px; }
+.music-feedback { margin-bottom: 10px; }
+.music-print { display: none; }
+
+@media (max-width: 900px) {
+  .music-own, .music-explain.is-three { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  .music-panel, .music-person, .music-own > div { padding: 18px; }
+  .music-grid, .music-explain { grid-template-columns: minmax(0, 1fr); }
+  .music-quick li, .music-stage li { flex-direction: column; align-items: stretch; gap: 10px; }
+  .music-status select { width: 100%; }
+  .music-person-head { flex-direction: column; align-items: stretch; gap: 6px; }
+  .music-person-head .text-link { padding: 0; align-self: flex-start; }
+}
+@media (max-width: 480px) { .music-title-row { align-items: flex-start; flex-direction: column; gap: 20px; } }
+
+/* Print / Save as PDF: only the clean summary and draft split sheet. */
+@media print {
+  header, footer, .skip-link, .music-back, .music-workbench > .music-save, .music-steps, .browser-desktop, .music-feedback, .music-privacy, nextjs-portal { display: none !important; }
+  .page-space { padding: 0; }
+  .music-page .experiment-heading { padding: 0 0 8px; }
+  .music-title-row { margin: 0 0 8px; gap: 14px; }
+  .music-title-row .page-title { font-size: 26px; }
+  .music-logo { width: 48px; height: 48px; }
+  .page-intro { display: none; }
+  .music-print { display: block; color: #000; font-size: 11pt; line-height: 1.45; }
+  .music-print h1 { font-size: 16pt; font-weight: 800; margin-bottom: 4px; }
+  .music-print h2 { font-size: 12.5pt; font-weight: 800; margin: 14px 0 6px; }
+  .music-print h3 { font-size: 10pt; text-transform: uppercase; letter-spacing: .06em; margin: 10px 0 4px; }
+  .music-print ul { list-style: disc; padding-left: 18px; }
+  .music-print li { margin-bottom: 5px; break-inside: avoid; }
+  .music-print-sheet { break-before: page; }
+  .music-print-sheet table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .music-print-sheet th, .music-print-sheet td { border: 1px solid #000; padding: 10px 8px; text-align: left; height: 34px; }
+  .music-print-sheet th:nth-child(4) { width: 34%; }
+}

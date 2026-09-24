@@ -78,7 +78,13 @@ export const experiments: Experiment[] = [
     limitations: ["Finds and reports duplicates without deleting, moving, or changing anything. You remove copies yourself using the cleanup list.", "Up to 20,000 files per scan, and up to 4 GB of same-size files compared by SHA-256.", "Scans only the folders and files you choose. On iPhone and iPad, choose individual files; folder selection isn’t available there.", "Empty files and system items such as .DS_Store, .git, and node_modules are skipped."],
     desktopBenefits: ["Deeper computer access for larger scans and file-management features. See the desktop page for platform, download, and purchase details."],
   },
-  awaitingConversion("Music Rights Ready", "music-rights-ready", "music", "A music-rights project waiting for a browser version. Its workflow and supported features still need review.", ["music", "rights"]),
+  {
+    ...awaitingConversion("Music Rights Ready", "music-rights-ready", "music", "For one song: who wrote it, who owns the recording, and what to register before and after release. A plain-English checklist that stays on your device.", ["music", "rights", "checklist", "local-first"]),
+    logo: { src: "/music-rights-ready/mark.svg", alt: "Music Rights Ready logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/music-rights-ready/try",
+    limitations: ["One song at a time. Albums, EPs, and catalogs aren’t covered in this version.", "An educational organization tool, not legal or financial advice. It doesn’t register anything and isn’t connected to BMI, ASCAP, SESAC, GMR, The MLC, SoundExchange, the U.S. Copyright Office, or any distributor.", "Guidance is general and U.S.-focused. Fees and procedures aren’t listed because they change; check each organization’s official site.", "Saved progress, if you turn it on, stays only in this browser on this device and is lost if you clear browser data."],
+    desktopBenefits: ["Keep many songs and projects together, saved as files on your own computer.", "Attach the final audio, artwork, and agreements to each song.", "Track registration records and release details over time."],
+  },
   {
     ...awaitingConversion("Organize My Files", "organize-my-files", "tools", "Sort a messy folder into tidy categories right in your browser. Preview where everything goes, then download an organized ZIP.", ["files", "organization", "local-first"]),
     logo: { src: "/organize-my-files/mark.svg", alt: "Organize My Files logo" },
