@@ -172,11 +172,8 @@ button[aria-pressed="true"] { background: #222; color: #fff; border-color: #222;
 .browser-desktop ul { list-style: disc; padding-left: 23px; margin-top: 12px; }
 .browser-desktop li + li { margin-top: 9px; }
 .version-summary { margin-top: 8px; } .version-summary h3 { margin-top: 0; }
-/* Browser Ready experiments: a short note, with tool details in a Details section that starts closed. */
-.browser-use { padding-block: 28px 32px; border-top: 1px solid #ddd; }
-.browser-use h2 { font-size: 22px; font-weight: 800; letter-spacing: -.03em; color: #202020; }
-.browser-use > p { margin-top: 6px; font-size: 16px; line-height: 1.7; color: #555; }
-.browser-details { margin-top: 16px; }
+/* Browser Ready experiments: just a Details control that starts closed, holding the tool details. */
+.browser-use { padding-block: 24px 28px; }
 .browser-details summary { display: inline-flex; align-items: center; gap: 10px; border: 1px solid #bbb; padding: 8px 14px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; cursor: pointer; list-style: none; }
 .browser-details summary::-webkit-details-marker { display: none; }
 .browser-details summary::after { content: "+"; font-size: 16px; line-height: 1; }
