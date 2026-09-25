@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Crypto Warning Check mark: a warning sign above a short checklist">
+  <rect x="1" y="1" width="118" height="118" rx="3" fill="#fff" stroke="#202020" stroke-width="2"/>
+  <path d="M60 14L94 72H26Z" fill="#fff" stroke="#202020" stroke-width="4" stroke-linejoin="miter"/>
+  <rect x="57" y="34" width="6" height="22" fill="#202020"/>
+  <rect x="57" y="61" width="6" height="6" fill="#202020"/>
+  <rect x="26" y="84" width="10" height="10" fill="#202020"/>
+  <path d="M28.5 89L30.8 91.3L34 86.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="square"/>
+  <rect x="42" y="87" width="50" height="5" fill="#202020"/>
+  <rect x="27.5" y="100.5" width="7" height="7" fill="#fff" stroke="#8a8a8a" stroke-width="3"/>
+  <rect x="42" y="102" width="36" height="5" fill="#8a8a8a"/>
+</svg>
