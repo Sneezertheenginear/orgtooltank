@@ -41,6 +41,22 @@ function awaitingConversion(title: string, slug: string, category: Category, des
 }
 export const experiments: Experiment[] = [
   {
+    ...awaitingConversion("Bot Watch", "bot-watch", "tools", "See who or what is hammering your website. Analyze Past Traffic reads your own traffic files in your browser. Live View isn’t connected yet, but you can preview it with sample traffic.", ["websites", "security", "logs", "local-first"]),
+    dateAdded: "2026-09-28",
+    logo: { src: "/bot-watch/mark.svg", alt: "Bot Watch logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/bot-watch/try",
+    limitations: ["Live View isn’t connected to any real website yet, and says Not connected. Preview Demo shows clearly labeled sample traffic, and Block there doesn’t block anything.", "Analyze Past Traffic reads Apache and Nginx access logs (including .gz files) and JSON or CSV log exports such as Vercel’s, up to 50 MB and 500,000 records. Files without visitor IP addresses can be reviewed, but not blocked.", "Labels come from simple, visible rules (missing-page probes, repeated form or API hits, request bursts, script and scanner user agents). They aren’t proof of intent, and a quiet attacker can look normal.", "Bot Watch can’t block anyone. Block builds a list of rules to copy into your own server or firewall.", "Your traffic file is read in this browser and never uploaded or saved. Your Watch, Allow, and Block choices are saved in this browser only."],
+    desktopBenefits: ["Watch a live log as it grows, instead of loading a copy.", "Remember visitors across many days of logs.", "Apply blocks directly to your server or firewall."],
+  },
+  {
+    ...awaitingConversion("OBD Code Lookup", "obd-code-lookup", "cars", "Enter an OBD-II trouble code to see what it means in plain English, what to check first, and what to test before replacing parts.", ["cars", "diagnostics", "obd-ii", "check engine"]),
+    dateAdded: "2026-09-28",
+    logo: { src: "/obd-code-lookup/mark.svg", alt: "OBD Code Lookup logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/obd-code-lookup/try",
+    limitations: ["Explains what a code usually means and what to check. It can’t diagnose your vehicle, and a code doesn’t prove which part failed.", "Starts with a set of common generic engine and transmission codes (P0xxx). Manufacturer-specific codes and body, chassis, and network codes aren’t included yet.", "Results are generic. Entering your vehicle doesn’t change them yet, and your manufacturer’s service information may call for different tests.", "Runs from a code list built into the page. Nothing you enter is saved or sent."],
+    desktopBenefits: ["A larger code library that works offline in the garage.", "Save the codes and notes for each of your vehicles over time."],
+  },
+  {
     ...awaitingConversion("Capital Call Tracker", "capital-call-tracker", "business", "Track the capital calls you enter, see what’s overdue or due in the next 30 days, and mark calls paid. Saved only in your browser.", ["tracking", "finance", "local-first"]),
     logo: { src: "/capital-call-tracker/mark.svg", alt: "Capital Call Tracker logo" },
     status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/capital-call-tracker/try",
@@ -48,22 +64,32 @@ export const experiments: Experiment[] = [
     desktopBenefits: ["Keep call notices and wire confirmations with each call.", "Track commitments and what’s still unfunded for each fund.", "Local reminders before calls are due, even when no browser is open."],
   },
   {
-    ...awaitingConversion("Crypto Warning Check", "crypto-learning-lab", "tools", "A short checklist of common warning signs to go through before you send money, buy crypto, or connect a wallet. Nothing is saved or sent.", ["learning", "crypto", "scam warning signs"]),
-    logo: { src: "/crypto-learning-lab/mark.svg", alt: "Crypto Warning Check logo" },
-    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/crypto-learning-lab/try",
-    limitations: ["Educational only. Not financial, investment, legal, or tax advice.", "It looks for common warning signs in your answers. It can’t check any coin, website, wallet, or person, and finding no warning signs doesn’t mean something is safe.", "Nothing is saved or sent. Answers stay on the page and clear when you reload or leave.", "No prices, charts, trading, or wallet connections."],
-    desktopBenefits: ["Keep private notes about projects and contacts you’ve checked.", "A longer, offline learning guide alongside the checklist."],
+    ...awaitingConversion("Full App Researcher", "full-app-researcher", "tools", "Describe an app idea, check whether the first version is focused enough to try, and get a one-page brief to copy or download. Nothing is saved or sent.", ["research", "app ideas", "planning"]),
+    logo: { src: "/full-app-researcher/mark.svg", alt: "Full App Researcher logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/full-app-researcher/try",
+    limitations: ["The result is guidance about how focused the first version is, not a judgment of whether the idea is good.", "Nothing is saved or sent. Reloading or leaving the page clears it, so copy or download the brief to keep it.", "One idea at a time, from your own answers. No market data or outside research."],
+    desktopBenefits: ["Keep briefs for your ideas in a folder you choose.", "Work on an idea offline and pick it up later."],
   },
-  awaitingConversion("Full App Researcher", "full-app-researcher", "tools", "A research project to bring into the browser one piece at a time. Scope and features still need review.", ["research"]),
-  awaitingConversion("OrgTT Research App", "orgtt-research-app", "tools", "Another research experiment waiting for its browser version. Listed separately from Full App Researcher.", ["research", "notes"]),
-  awaitingConversion("POD Chaser", "pod-chaser", "business", "The POD Chaser project, reserved here for a future browser experiment. Its purpose and browser scope still need a project review.", ["project review"]),
+  {
+    ...awaitingConversion("POD Chaser", "pod-chaser", "business", "Track delivered freight loads waiting on signed proof of delivery. See which PODs to chase today, which need review, and what’s ready to bill. Saved only in your browser.", ["freight", "billing", "follow-ups", "local-first"]),
+    logo: { src: "/pod-chaser/mark.svg", alt: "POD Chaser logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/pod-chaser/try",
+    limitations: ["Tracks the loads and follow-ups you enter. It doesn’t store POD files, send email, create invoices, or connect to a TMS or accounting system.", "Draft Follow-up Email opens your own email app with a message ready to edit. Nothing is sent from OrgToolTank, so choose Log Email after you send it.", "Saved only in this browser on this device, up to 1,000 loads. Clearing browser data removes them, so export a backup now and then.", "No reminders are sent. Check the Chase list for overdue and due-today follow-ups."],
+    desktopBenefits: ["Keep the signed POD files with each load.", "Share one load list with the rest of the billing team.", "Reminders when follow-ups come due, even when no browser is open."],
+  },
   {
     ...awaitingConversion("Rename Pro", "rename-pro", "tools", "Rename files locally in your browser. Preview changes, preserve extensions, and download renamed copies in one ZIP.", ["files", "renaming", "local-first"]),
     status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/rename-pro",
     limitations: ["Downloads renamed copies; original files stay untouched.", "ZIP batches are limited to 250 MB and 1,000 files.", "No folder access, presets, or history in this browser experiment."],
     desktopBenefits: ["Work directly with folders and rename files in place.", "Larger workflows, History and Undo, and deeper filesystem access."],
   },
-  awaitingConversion("Workplace Case Builder", "workplace-case-builder", "business", "An idea for organizing workplace case information. No browser version is available to enter information into yet.", ["workplace", "organization"]),
+  {
+    ...awaitingConversion("Workplace Case Builder", "workplace-case-builder", "business", "Organize a workplace problem into a clean case summary: basics, timeline, people, evidence, and actions already taken. Print it, save it as a PDF, or copy it.", ["workplace", "organization", "timeline", "local-first"]),
+    logo: { src: "/workplace-case-builder/mark.svg", alt: "Workplace Case Builder logo" },
+    status: "Browser Ready", browserAvailable: true, browserRoute: "/experiments/workplace-case-builder/try",
+    limitations: ["An organization tool, not legal advice. It doesn’t determine whether you have a legal claim, score your case, or say where or when to file anything.", "Things You May Want to Add only looks for blanks and loose ends in what you entered. It doesn’t judge the situation.", "No file uploads. You describe your evidence and keep the originals yourself.", "Saving is off by default, so reloading or leaving the page clears the case. If you turn saving on, the case stays only in this browser on this device. One case at a time."],
+    desktopBenefits: ["Keep copies of emails, documents, and photos with each timeline event.", "Keep your case in a file on your own computer instead of browser storage."],
+  },
   {
     ...awaitingConversion("Audio Converter", "audio-converter", "music", "Convert MP3 to WAV or WAV to MP3 locally in your browser. Pick an MP3 bitrate, convert one file, and download the result.", ["audio", "mp3", "wav", "local-first"]),
     logo: { src: "/audio-converter/icon.svg", alt: "Audio Converter logo" },
@@ -110,8 +136,6 @@ export const experiments: Experiment[] = [
     limitations: ["Creates organized copies in a ZIP. Your original files are never moved, renamed, or changed.", "Up to 2,000 files and 500 MB at a time. You’ll need free space for the ZIP.", "Folders you already made stay whole. Empty folders aren’t included, because browsers don’t expose them.", "On iPhone and iPad, choose individual files; folder selection isn’t available there. Files stored only in the cloud may need downloading first."],
     desktopBenefits: ["Organize folders in place instead of downloading copies.", "Undo for the last batch of changes.", "Larger folders without browser memory limits."],
   },
-  awaitingConversion("OrgToolTank Publisher", "orgtooltank-publisher", "business", "A publishing project to explore in the browser later. No publishing connections are active here.", ["publishing"]),
-  awaitingConversion("Pro Tools Beats", "pro-tools-beats", "music", "A beats-related project awaiting browser conversion. Audio features and integrations haven’t been prepared here yet.", ["beats", "audio"]),
 ];
 export function dateLabel(date: string) {
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(date));

@@ -1,0 +1,144 @@
+/* Build an Outfit: products and scene on the left, the outfit board in the center, variations and background on the right.
+   Below 1180px the right panel moves under the center; on phones everything stacks, preview first. */
+.ob-page .page-intro { margin-bottom: 14px; }
+.ob-builder { display: grid; grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(260px, 300px); grid-template-areas: "left center right"; gap: 24px; align-items: start; margin-top: 30px; color: #202020; }
+.ob-left { grid-area: left; }
+.ob-center { grid-area: center; display: grid; gap: 12px; position: sticky; top: 16px; min-width: 0; }
+.ob-right { grid-area: right; display: grid; gap: 18px; min-width: 0; }
+.ob-builder button:focus-visible, .ob-builder input:focus-visible { outline: 2px solid #202020; outline-offset: 3px; }
+
+.ob-panel { border: 1px solid #ccc; background: #fff; padding: 18px; min-width: 0; }
+.ob-heading { font-size: 19px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 12px; }
+.ob-subheading { font: 700 12px "Courier New", monospace; letter-spacing: .08em; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+.ob-note { font-size: 14.5px; line-height: 1.5; color: #555; margin: 4px 0 12px; }
+.ob-later { margin: 14px 0 0; font-size: 13.5px; }
+.ob-empty { font-size: 14.5px; line-height: 1.55; color: #555; padding: 12px 14px; border: 1px dashed #bbb; margin-bottom: 12px; }
+.ob-message { min-height: 1.5em; font-size: 15px; font-weight: 700; text-align: center; }
+
+/* Small outlined buttons */
+.ob-mini { min-height: 40px; padding: 8px 14px; border: 1px solid #202020; background: #fff; color: #202020; font-size: 14px; font-weight: 700; cursor: pointer; }
+.ob-mini:hover:not(:disabled) { background: #f0f0ed; }
+.ob-mini:disabled { opacity: .4; cursor: not-allowed; }
+.ob-wide { width: 100%; }
+.ob-x { flex: none; width: 32px; height: 32px; border: 1px solid #ccc; background: #fff; font-size: 18px; line-height: 1; color: #444; cursor: pointer; }
+.ob-x:hover { border-color: #202020; color: #202020; }
+
+/* Tabs and category chips */
+.ob-tabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #202020; margin-bottom: 16px; }
+.ob-tabs button { min-height: 46px; border: 0; background: #fff; font-size: 16px; font-weight: 800; color: #202020; cursor: pointer; }
+.ob-tabs button[aria-selected="true"] { background: #202020; color: #fff; }
+.ob-cats { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.ob-cats button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 7px 12px; border: 1px solid #bbb; background: #fff; font-size: 14.5px; font-weight: 700; color: #202020; cursor: pointer; }
+.ob-cats button:hover { border-color: #202020; }
+.ob-cats button[aria-pressed="true"] { background: #202020; border-color: #202020; color: #fff; }
+.ob-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: #e2e2de; color: #202020; font-size: 12px; }
+
+/* Clothing cards */
+.ob-items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 0; }
+.ob-item { display: grid; align-content: start; gap: 2px; padding: 8px 8px 10px; border: 1px solid #d5d5d2; background: #fff; }
+.ob-item[data-on] { border-color: #202020; box-shadow: inset 0 0 0 2px #202020; }
+.ob-item-thumb { display: grid; place-items: center; aspect-ratio: 1; background: #f3f3f0; margin-bottom: 6px; overflow: hidden; }
+.ob-item-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.ob-item-name { font-size: 15px; font-weight: 800; line-height: 1.25; }
+.ob-item-meta { font-size: 13px; color: #666; }
+.ob-item-link { margin-top: 4px; font-size: 13px; font-weight: 700; color: #202020; }
+
+/* Scene tab and pickers */
+.ob-toggle { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border: 1px solid #ccc; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
+.ob-toggle input { width: 20px; height: 20px; accent-color: #202020; }
+.ob-scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; margin-bottom: 14px; }
+.ob-scene { display: grid; gap: 5px; padding: 5px 5px 8px; border: 1px solid #ccc; background: #fff; font-size: 13px; font-weight: 700; color: #202020; text-align: center; cursor: pointer; }
+.ob-scene:hover { border-color: #202020; }
+.ob-scene[aria-pressed="true"] { border-color: #202020; box-shadow: inset 0 0 0 2px #202020; }
+.ob-scene-thumb { display: grid; place-items: center; background: #ecece9; aspect-ratio: 4 / 3; background-size: cover; background-position: center; border: 1px solid rgba(0,0,0,.08); }
+.ob-walls { display: grid; gap: 8px; }
+.ob-walls-label { font-size: 14px; font-weight: 700; }
+.ob-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.ob-swatch { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #aaa; padding: 0; cursor: pointer; }
+.ob-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #202020; }
+.ob-picker { position: relative; display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1px dashed #777; background: conic-gradient(#e44, #ec4, #4c6, #4ae, #a4e, #e44); cursor: pointer; overflow: hidden; }
+.ob-picker input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+
+.ob-scene-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+
+.ob-stage-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; max-width: 620px; width: 100%; margin: 0 auto; }
+.ob-save { padding: 11px 18px; }
+
+/* Right panel: this look and saved looks */
+.ob-worn, .ob-variations { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 6px; }
+.ob-worn li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.ob-worn-name { flex: 1; font-weight: 700; }
+.ob-worn-price { color: #555; }
+.ob-total { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; margin-bottom: 12px; border-top: 1px solid #ddd; font-size: 15px; }
+.ob-total strong { font-size: 20px; }
+.ob-variations { margin: 12px 0 0; }
+.ob-variations li { display: flex; gap: 6px; align-items: stretch; }
+.ob-variation { flex: 1; display: grid; gap: 2px; padding: 8px 10px; text-align: left; border: 1px solid #ccc; background: #fff; color: #202020; cursor: pointer; font: inherit; min-width: 0; }
+.ob-variation:hover { border-color: #202020; }
+.ob-variation strong { font-size: 15px; }
+.ob-variations .ob-x { height: auto; }
+
+@media (max-width: 1180px) {
+  .ob-builder { grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); grid-template-areas: "left center" "right right"; }
+  .ob-right { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
+}
+@media (max-width: 760px) {
+  .ob-builder { grid-template-columns: minmax(0, 1fr); grid-template-areas: "center" "left" "right"; gap: 18px; }
+  .ob-center { position: static; }
+  .ob-items { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+
+
+/* This look: small product pictures instead of color dots */
+.ob-worn-thumb { flex: none; width: 40px; height: 40px; background: #f3f3f0; border: 1px solid #e2e2de; }
+.ob-worn-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.ob-worn-name small { display: block; font-size: 12.5px; font-weight: 400; color: #8a4a2a; }
+
+/* Setup mode only (next dev): missing images are marked as asset slots with their file names. */
+.ob-slot { display: grid; place-content: center; gap: 4px; width: 100%; height: 100%; padding: 8px; text-align: center; border: 2px dashed #b0522e; background: repeating-linear-gradient(135deg, #fbf5f1 0 10px, #f6ece5 10px 20px); color: #6b2e16; font-size: 12px; line-height: 1.35; }
+.ob-slot strong { font-size: 13px; }
+.ob-slot code, .ob-slot-corner code, .ob-item-missing code { font: 11.5px "Courier New", monospace; word-break: break-all; }
+.ob-slot-corner { position: absolute; left: 8px; right: 8px; top: 8px; padding: 6px 8px; background: #fbf5f1; border: 1px dashed #b0522e; color: #6b2e16; font-size: 12px; }
+.ob-slot-mini { padding: 2px 6px; border: 1px dashed #b0522e; background: #fbf5f1; color: #6b2e16; font-size: 11px; }
+
+/* Product cards */
+.ob-item-action { width: 100%; margin-top: 8px; padding: 10px 12px; }
+.ob-item[data-on] .ob-item-name::after { content: " ✓"; }
+.ob-item-thumb .ob-slot { overflow: hidden; }
+.ob-item-thumb .ob-slot code { font-size: 10px; }
+.ob-empty code, .ob-note code { font: 12.5px "Courier New", monospace; word-break: break-all; }
+
+/* The outfit board: a 3:4 frame; board-layout.ts places each product's spot, and the image is shown whole (object-fit: contain), never stretched or cropped. */
+.ob-board { position: relative; width: 100%; max-width: 620px; max-height: 80vh; aspect-ratio: 3 / 4; margin: 0 auto; overflow: hidden; border: 1px solid #ccc; }
+.ob-scene-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ob-spot { position: absolute; display: grid; place-items: center; }
+.ob-spot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 6px 10px rgba(0,0,0,.14)); user-select: none; }
+.ob-board-empty { position: absolute; inset: 0; display: grid; place-items: center; padding: 15%; text-align: center; font-size: 17px; font-weight: 700; color: #444; }
+.ob-board[data-dark] .ob-board-empty { color: #eee; }
+.ob-stage-bar { justify-content: space-between; }
+.ob-save { padding: 11px 18px; }
+
+/* Saved looks */
+.ob-saved-heading { margin-top: 16px; }
+.ob-variation-items { display: grid; font-size: 13px; color: #555; }
+.ob-worn-name small { color: #666; }
+
+
+@media (max-width: 760px) { .ob-board { max-height: 72vh; } }
+
+/* Preview zoom: the composition scales as one group; the board frame and background stay put. */
+.ob-board-zoom { position: absolute; inset: 0; z-index: 1; }
+.ob-zoom { display: inline-flex; align-items: center; gap: 6px; }
+.ob-zoom-btn { width: 40px; height: 40px; border: 1px solid #202020; background: #fff; color: #202020; font-size: 22px; font-weight: 700; line-height: 1; cursor: pointer; }
+.ob-zoom-btn:hover:not(:disabled) { background: #f0f0ed; }
+.ob-zoom-btn:disabled { opacity: .4; cursor: not-allowed; }
+.ob-zoom-level { min-width: 52px; text-align: center; font: 700 14px "Courier New", monospace; }
+.ob-zoom-reset { margin-left: 4px; }
+.ob-look-actions { display: flex; gap: 8px; }
+
+/* The outfit floats on the board: grab to move it, wheel or pinch to zoom. Images can't be picked up or selected. */
+.ob-board { user-select: none; -webkit-user-select: none; }
+.ob-board[data-pannable] { cursor: grab; }
+.ob-board[data-dragging] { cursor: grabbing; }
+.ob-board img { -webkit-user-drag: none; }

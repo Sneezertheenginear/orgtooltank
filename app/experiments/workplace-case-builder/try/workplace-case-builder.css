@@ -1,0 +1,158 @@
+.wc-back { margin-block: 0; }
+.wc-page .experiment-heading { padding-bottom: 24px; }
+.wc-page .eyebrow .status-tag { margin: 0 0 0 8px; }
+.wc-title-row { display: flex; align-items: center; gap: 28px; margin-block: 24px; }
+.wc-title-row .page-title { margin: 0; }
+.wc-logo { width: 96px; height: 96px; flex: none; }
+.wc-disclaimer { max-width: 780px; border-left: 2px solid #222; padding: 12px 16px; background: #f6f6f4; font-size: 14px; line-height: 1.7; color: #444; }
+.wc-page h2 { font-size: 26px; font-weight: 800; letter-spacing: -.035em; margin: 8px 0 10px; overflow-wrap: anywhere; }
+.wc-lede { max-width: 760px; color: #555; font-size: 16px; line-height: 1.7; }
+.wc-page input:not([type="checkbox"]):not([type="radio"]), .wc-page select, .wc-page textarea { border: 1px solid #aaa; background: #fff; padding: 11px 12px; font: 400 16px/1.4 Arial, sans-serif; color: #222; min-width: 0; max-width: 100%; width: 100%; }
+.wc-page textarea { resize: vertical; }
+.wc-page input:focus-visible, .wc-page select:focus-visible, .wc-page textarea:focus-visible, .wc-page button:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
+.wc-page label small { font-weight: 400; color: #777; }
+.wc-page .ink-button.is-secondary { background: #fff; color: #202020; }
+.wc-page .ink-button.is-secondary:hover { background: #f0f0ed; }
+.wc-page .quick-start .text-link { font-size: 15px; }
+
+.wc-save { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; border: 1px dashed #999; background: #fafaf8; padding: 14px 20px; }
+.wc-save > p:not(.wc-message) { flex: 1 1 320px; font-size: 14px; line-height: 1.6; color: #444; }
+.wc-check { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.wc-check input { width: 17px; height: 17px; accent-color: #202020; margin: 0; }
+.wc-save-links { display: flex; flex-wrap: wrap; gap: 18px; }
+.wc-message { flex-basis: 100%; font-size: 14px; font-weight: 700; }
+.wc-workbench > .quick-start { margin: 24px 0 0; }
+
+.wc-space { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 24px; margin-top: 24px; scroll-margin-top: 16px; align-items: start; }
+.wc-steps { position: sticky; top: 16px; }
+.wc-steps ol { display: grid; border: 1px solid #ccc; }
+.wc-steps li + li { border-top: 1px solid #e2e2e2; }
+.wc-steps button { display: flex; align-items: baseline; gap: 10px; width: 100%; padding: 13px 14px; background: #fff; border: 0; text-align: left; font-size: 15px; font-weight: 700; color: #333; cursor: pointer; }
+.wc-steps button:hover { background: #f6f6f4; }
+.wc-steps button[aria-current="step"] { background: #202020; color: #fff; }
+.wc-step-num { flex: none; font: 700 11px/1.6 "Courier New", monospace; color: #888; }
+.wc-steps button[aria-current="step"] .wc-step-num { color: #bbb; }
+.wc-step-name { flex: 1; }
+.wc-count { flex: none; min-width: 22px; padding: 1px 6px; border: 1px solid #bbb; font: 700 11px/1.5 "Courier New", monospace; text-align: center; color: #444; background: #fff; }
+
+.wc-panel { border: 1px solid #ccc; padding: 28px; min-width: 0; }
+.wc-sub { font-size: 19px; font-weight: 800; margin: 26px 0 4px; padding-top: 22px; border-top: 1px solid #e2e2e2; }
+.wc-sub:first-of-type { margin-top: 18px; padding-top: 0; border-top: 0; }
+
+.wc-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.wc-basics { margin-top: 20px; }
+.wc-fields label { display: grid; gap: 7px; font-size: 14px; font-weight: 700; align-content: start; }
+.wc-fields .is-wide { grid-column: 1 / -1; }
+.wc-field { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.wc-hint { font-size: 12.5px; line-height: 1.5; color: #6b6b6b; }
+.wc-radio { border: 0; padding: 0; margin: 0; min-width: 0; }
+.wc-radio legend { font-size: 14px; font-weight: 700; margin-bottom: 7px; }
+.wc-radio > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.wc-fields .wc-option { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #aaa; padding: 10px 14px; font-size: 14px; cursor: pointer; background: #fff; }
+.wc-option input { width: 16px; height: 16px; accent-color: #202020; margin: 0; }
+.wc-option:has(input:checked) { background: #202020; border-color: #202020; color: #fff; }
+.wc-option:has(input:checked) input { accent-color: #fff; }
+.wc-option:has(input:focus-visible) { outline: 2px solid #222; outline-offset: 3px; }
+
+.wc-empty { margin-top: 16px; padding: 16px 18px; border: 1px dashed #bbb; font-size: 15px; line-height: 1.6; color: #555; }
+.wc-add { margin-top: 16px; }
+.wc-form { border: 1px solid #202020; padding: 20px; margin-top: 16px; background: #fff; }
+.wc-form h3 { font-size: 18px; font-weight: 800; margin-bottom: 14px; }
+.wc-error { margin-top: 12px; color: #a12718; font-weight: 700; font-size: 14px; }
+.wc-form .detail-links { align-items: center; margin-bottom: 0; }
+
+.wc-list { display: grid; gap: 10px; margin-top: 16px; }
+.wc-item { display: flex; justify-content: space-between; gap: 18px; border: 1px solid #ccc; border-left: 4px solid #202020; padding: 14px 18px; background: #fff; }
+.wc-item.is-editing { display: block; border: 0; padding: 0; }
+.wc-item.is-editing .wc-form { margin: 0; }
+.wc-item-main { min-width: 0; display: grid; gap: 4px; }
+.wc-item-main strong { font-size: 17px; overflow-wrap: anywhere; }
+.wc-date { font: 700 12px/1.6 "Courier New", monospace; letter-spacing: .04em; text-transform: uppercase; color: #666; }
+.wc-meta { font-size: 14px; color: #555; }
+.wc-notes { font-size: 14px; color: #444; line-height: 1.6; overflow-wrap: anywhere; white-space: pre-wrap; }
+.wc-missing { color: #8a8a8a; font-style: italic; }
+.wc-row-links { flex: none; display: flex; gap: 14px; align-self: start; }
+
+.wc-checks { display: grid; gap: 10px; margin-top: 18px; }
+.wc-checks li { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; padding: 14px 18px; border: 1px solid #ccc; border-left: 4px solid #8a8a8a; background: #fafaf8; }
+.wc-checks p { font-size: 15px; line-height: 1.6; color: #444; overflow-wrap: anywhere; }
+.wc-checks strong { color: #202020; }
+.wc-checks .text-link { flex: none; }
+.wc-all-set { margin-top: 18px; padding: 16px 18px; border: 1px solid #ccc; font-weight: 700; }
+
+.wc-next { margin-top: 28px; padding-top: 20px; border-top: 1px solid #e2e2e2; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; }
+.wc-next .next-step { margin: 0; flex: 1 1 280px; }
+
+.wc-exports { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
+.wc-doc-frame { margin-top: 22px; border: 1px solid #ccc; padding: 32px; background: #fff; }
+.wc-print { display: none; }
+
+/* The summary document: shared by the Case Summary step and the printed page. */
+.wc-doc { color: #202020; font-size: 15px; line-height: 1.6; }
+.wc-doc-head { padding-bottom: 14px; border-bottom: 2px solid #202020; }
+.wc-doc-kicker { font: 700 11px/1.6 "Courier New", monospace; letter-spacing: .08em; text-transform: uppercase; color: #666; }
+.wc-doc-title { font-size: 24px; font-weight: 800; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.wc-doc-meta { font-size: 13px; color: #666; }
+.wc-doc section { padding-top: 18px; }
+.wc-doc h3 { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; padding-bottom: 6px; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
+.wc-doc-basics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; }
+.wc-doc-basics dt { font-size: 12px; color: #666; }
+.wc-doc-basics dd { font-weight: 700; overflow-wrap: anywhere; }
+.wc-doc-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.wc-doc-none { color: #777; font-style: italic; }
+.wc-doc-list { display: grid; gap: 12px; }
+.wc-doc-list li { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 14px; }
+.wc-doc-date { font: 700 12px/1.9 "Courier New", monospace; color: #555; }
+.wc-doc-sub { font-size: 13px; color: #555; }
+.wc-doc table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.wc-doc th, .wc-doc td { border: 1px solid #ccc; padding: 7px 9px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.wc-doc th { background: #f6f6f4; font-size: 12px; }
+.wc-doc-checks { list-style: disc; padding-left: 20px; display: grid; gap: 4px; }
+.wc-doc-note { margin-top: 22px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 12px; color: #666; }
+
+.wc-page .browser-desktop { max-width: none; margin-top: 30px; }
+.wc-feedback { margin-bottom: 10px; }
+
+@media (max-width: 860px) {
+  .wc-space { grid-template-columns: minmax(0, 1fr); }
+  .wc-steps { position: static; }
+  .wc-steps ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .wc-steps li + li { border-top: 0; }
+  .wc-steps li { border-left: 1px solid #e2e2e2; }
+  .wc-steps li:nth-child(3n + 1) { border-left: 0; }
+  .wc-steps li:nth-child(n + 4) { border-top: 1px solid #e2e2e2; }
+}
+@media (max-width: 600px) {
+  .wc-panel, .wc-form { padding: 18px; }
+  .wc-doc-frame { padding: 16px; }
+  .wc-fields, .wc-doc-basics { grid-template-columns: minmax(0, 1fr); }
+  .wc-steps ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wc-steps li:nth-child(3n + 1) { border-left: 1px solid #e2e2e2; }
+  .wc-steps li:nth-child(odd) { border-left: 0; }
+  .wc-steps li:nth-child(n + 3) { border-top: 1px solid #e2e2e2; }
+  .wc-steps button { padding: 11px 12px; font-size: 14px; }
+  .wc-item, .wc-checks li { flex-direction: column; gap: 8px; }
+  .wc-doc-list li { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .wc-doc table, .wc-doc tbody, .wc-doc tr, .wc-doc td { display: block; }
+  .wc-doc thead { display: none; }
+  .wc-doc tr { border: 1px solid #ccc; margin-bottom: 8px; }
+  .wc-doc td { border: 0; padding: 3px 9px; }
+  .wc-exports .ink-button, .wc-next .ink-button { width: 100%; }
+}
+@media (max-width: 480px) { .wc-title-row { align-items: flex-start; flex-direction: column; gap: 20px; } }
+
+/* Print / Save as PDF: only the case summary. */
+@media print {
+  header, footer, .skip-link, .wc-back, .wc-page .experiment-heading, .wc-save, .wc-workbench > .quick-start, .wc-space, .browser-desktop, .wc-feedback, nextjs-portal { display: none !important; }
+  .page-space { padding: 0; }
+  .wc-print { display: block; }
+  .wc-doc { color: #000; font-size: 10.5pt; line-height: 1.5; }
+  .wc-doc-title { font-size: 18pt; }
+  .wc-doc section { padding-top: 12pt; }
+  .wc-doc h3 { font-size: 9.5pt; border-bottom-color: #000; break-after: avoid; }
+  .wc-doc table { font-size: 9.5pt; }
+  .wc-doc th, .wc-doc td { border-color: #000; padding: 4pt 6pt; }
+  .wc-doc th { background: none; }
+  .wc-doc tr, .wc-doc-list li, .wc-doc-checks li { break-inside: avoid; }
+  .wc-doc-note { font-size: 8.5pt; color: #333; }
+}

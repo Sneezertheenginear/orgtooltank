@@ -1,0 +1,49 @@
+/* eslint-disable @next/next/no-img-element -- stacked transparent layers must share one exact box; next/image adds wrappers and sizing */
+import { UNDER_ARMS, isDark, layerFor, resolveImage, type ClothingItem, type Model, type Scene, type View } from "./catalog";
+
+// The preview: background photo (or the chosen wall color), then the model photo, then each clothing layer
+// in LAYER_ORDER. Every layer is the same full-canvas image stacked in the same box, so they line up
+// without positioning code. Only real images are drawn. In setup mode a missing model photo or scene
+// photo shows as a marked asset slot with its file name; it never stands in for a person.
+
+const NEUTRAL_WALL = "#ecece9";
+
+export default function ModelStage({ found, model, view, showModel, worn, scene, wall, setup }: {
+  found: ReadonlySet<string>; model: Model; view: View; showModel: boolean; worn: ClothingItem[]; scene: Scene; wall: string; setup: boolean;
+}) {
+  const sceneImage = resolveImage(found, scene.image);
+  const modelPath = view === "front" ? model.front : model.back;
+  const modelImage = resolveImage(found, modelPath);
+  // The arms cut-out only belongs to the front photo.
+  const arms = view === "front" ? resolveImage(found, model.arms) : undefined;
+  const layers = worn.flatMap(item => { const src = resolveImage(found, layerFor(item, view, model.id), model.id); return src ? [{ item, src }] : []; });
+  const dark = scene.id === "custom" ? isDark(wall) : !!sceneImage && !!scene.dark;
+  const description = showModel
+    ? `${model.name}, ${model.description}, ${view} view${layers.length ? `, wearing ${layers.map(l => l.item.name).join(", ")}` : ""}, ${scene.name.toLowerCase()} background.`
+    : `${scene.name} background with no model.`;
+
+  return <div className="ob-stage" role="img" aria-label={description} data-dark={dark ? "" : undefined}
+    style={{ background: scene.id === "custom" ? wall : NEUTRAL_WALL }}>
+    {sceneImage && <img className="ob-scene-img" src={sceneImage} alt="" />}
+    {showModel && <div className="ob-figure" aria-hidden="true">
+      {modelImage && <img className="ob-layer" src={modelImage} alt="" />}
+      {modelImage && layers.filter(l => UNDER_ARMS.includes(l.item.category)).map(l => <img key={l.item.id} className="ob-layer" src={l.src} alt="" />)}
+      {modelImage && arms && <img className="ob-layer" src={arms} alt="" />}
+      {modelImage && layers.filter(l => !UNDER_ARMS.includes(l.item.category)).map(l => <img key={l.item.id} className="ob-layer" src={l.src} alt="" />)}
+    </div>}
+    {setup && showModel && !modelImage && modelPath && <AssetSlot className="ob-slot-stage" title={`${model.name} photo needed`} file={modelPath} size="1200 × 2400 px, transparent" />}
+    {setup && scene.image && !sceneImage && <p className="ob-slot-corner">Background photo needed: <code>{publicPath(scene.image)}</code></p>}
+  </div>;
+}
+
+/** A clearly marked missing image, shown only in setup mode: what it is, and the exact file that fills it. */
+export function AssetSlot({ title, file, size, className = "" }: { title: string; file: string; size?: string; className?: string }) {
+  return <span className={`ob-slot ${className}`}>
+    <strong>{title}</strong>
+    <code>{publicPath(file)}</code>
+    {size && <span>{size}</span>}
+  </span>;
+}
+
+export const publicPath = (path: string) => `public${path}`;
+

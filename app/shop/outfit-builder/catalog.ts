@@ -1,0 +1,157 @@
+// Everything the Outfit Builder shows, as plain data: real products and backgrounds. The UI is built
+// from these lists, so adding a product or a scene is a data change only.
+//
+// Product rule: every product here is a real item that can be offered or linked to, shown with its own
+// real product image (Printful, Apliiq, OrgToolTank, or another approved partner). Nothing is drawn,
+// generated, or recolored. Images are shown whole, at their own proportions. Full guide: ASSETS.md.
+
+// ---- Categories --------------------------------------------------------------------------------------
+
+export type CategoryId = "shirts" | "pants" | "jackets" | "shoes" | "hats" | "accessories";
+export type Category = { id: CategoryId; name: string; /** Singular, for messages ("Remove shirt"). */ one: string };
+export const CATEGORIES: Category[] = [
+  { id: "shirts", name: "Shirts", one: "shirt" },
+  { id: "pants", name: "Pants", one: "pants" },
+  { id: "jackets", name: "Jackets", one: "jacket" },
+  { id: "shoes", name: "Shoes", one: "shoes" },
+  { id: "hats", name: "Hats", one: "hat" },
+  { id: "accessories", name: "Accessories", one: "accessory" },
+];
+export const categoryOf = (id: CategoryId) => CATEGORIES.find(c => c.id === id)!;
+
+// ---- Products ----------------------------------------------------------------------------------------
+
+/** Where a product comes from. Add approved partners here as they're added. */
+export type Source = "Printful" | "Apliiq" | "OrgToolTank";
+
+export type Product = {
+  id: string;
+  name: string;
+  category: CategoryId;
+  /** The real product image, shown whole on the outfit board. Lives in public/outfit-builder/products/<source>/. */
+  image: string;
+  /** A smaller picture for the product card. Falls back to `image`. */
+  thumbnail?: string;
+  /** In cents. Leave out until the real price is set; the card then says the price is coming. */
+  price?: number;
+  source: Source;
+  /** The product's page in the store. */
+  productUrl?: string;
+  /** A partner link, used instead of productUrl when set. */
+  affiliateUrl?: string;
+  /** Whether it can be offered now. Unavailable products show as "Coming soon" and can't be added. */
+  available: boolean;
+};
+
+const PRINTFUL = "/outfit-builder/products/printful";
+
+// Only real products. To add one, drop its image in public/outfit-builder/products/<source>/ and add a line here.
+export const PRODUCTS: Product[] = [
+  {
+    id: "i-renamed-the-pain-tee-black", name: "I Renamed the Pain Tee, Black", category: "shirts", source: "Printful", available: true,
+    image: `${PRINTFUL}/unisex-classic-tee-black-front-6abc103a5d2c3.png`,
+  },
+  {
+    id: "i-renamed-the-pain-tee-maroon", name: "I Renamed the Pain Tee, Maroon", category: "shirts", source: "Printful", available: true,
+    image: `${PRINTFUL}/unisex-classic-tee-maroon-front-6abc103a5d2fe.png`,
+  },
+  {
+    id: "i-renamed-the-pain-sweatpants-black", name: "I Renamed the Pain Sweatpants, Black", category: "pants", source: "Printful", available: true,
+    image: `${PRINTFUL}/pain-black-sweatpants.webp`,
+  },
+  {
+    id: "i-renamed-the-pain-slides-white", name: "I Renamed the Pain Slides, White", category: "shoes", source: "Printful", available: true,
+    image: `${PRINTFUL}/pain-white-slides.webp`,
+  },
+];
+export const productOf = (id: string) => PRODUCTS.find(p => p.id === id);
+export const productsIn = (category: CategoryId) => PRODUCTS.filter(p => p.category === category);
+export const linkOf = (p: Product) => p.affiliateUrl ?? p.productUrl;
+
+// ---- Scenes ------------------------------------------------------------------------------------------
+
+export type SceneId = "plain" | "studio" | "brick" | "living-room" | "street" | "custom";
+export type Scene = {
+  id: SceneId;
+  name: string;
+  /** Background photo, 3:4 portrait (see ASSETS.md). Plain and Custom color need none. */
+  image?: string;
+  /** Plain color for Plain; Custom color uses the chosen wall color. */
+  color?: string;
+  /** Whether text on top should turn light. */
+  dark?: boolean;
+};
+const SCENES_DIR = "/outfit-builder/scenes";
+export const SCENES: Scene[] = [
+  { id: "plain", name: "Plain", color: "#fafaf8" },
+  { id: "studio", name: "Studio", image: `${SCENES_DIR}/studio.webp` },
+  { id: "brick", name: "Brick wall", image: `${SCENES_DIR}/brick-wall.webp`, dark: true },
+  { id: "living-room", name: "Living room", image: `${SCENES_DIR}/living-room.webp` },
+  { id: "street", name: "Street", image: `${SCENES_DIR}/street.webp` },
+  { id: "custom", name: "Custom color" },
+];
+export const sceneOf = (id: SceneId) => SCENES.find(s => s.id === id) ?? SCENES[0];
+
+/** Preset wall colors for the Custom color scene. Any other color can be picked too. */
+export const WALL_COLORS: { name: string; hex: string }[] = [
+  { name: "White", hex: "#f6f6f4" },
+  { name: "Cream", hex: "#eee5d1" },
+  { name: "Light gray", hex: "#d4d4d0" },
+  { name: "Gray", hex: "#8f8f8a" },
+  { name: "Charcoal", hex: "#333333" },
+  { name: "Black", hex: "#1c1c1c" },
+  { name: "Navy", hex: "#26324a" },
+  { name: "Olive", hex: "#5f6344" },
+  { name: "Red", hex: "#9e2f28" },
+  { name: "Sage", hex: "#a9b39a" },
+];
+
+/** Whether a color is dark enough that text on it should turn light. */
+export function isDark(hex: string) {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.45;
+}
+
+// ---- The look ----------------------------------------------------------------------------------------
+
+/** What's on the board: one product id per category. */
+export type Look = Partial<Record<CategoryId, string>>;
+
+/** Adds a product, replacing what's in its category; picking the one already there takes it off. */
+export function toggleProduct(look: Look, product: Product): Look {
+  return { ...look, [product.category]: look[product.category] === product.id ? undefined : product.id };
+}
+export const clearCategory = (look: Look, category: CategoryId): Look => ({ ...look, [category]: undefined });
+
+/** Everything in the look, in category order. */
+export function lookProducts(look: Look): Product[] {
+  return CATEGORIES.flatMap(c => { const p = look[c.id] ? productOf(look[c.id]!) : undefined; return p ? [p] : []; });
+}
+/** The total of the products that have a price, and how many don't have one yet. */
+export function lookTotal(look: Look) {
+  const products = lookProducts(look);
+  return { cents: products.reduce((sum, p) => sum + (p.price ?? 0), 0), unpriced: products.filter(p => p.price === undefined).length };
+}
+export const formatPrice = (cents: number) => `$${(cents / 100).toFixed(cents % 100 ? 2 : 0)}`;
+
+// ---- Finding images ----------------------------------------------------------------------------------
+
+/** The files a path may be found as: the path itself, or the same name as .webp, .png, or .jpg. Full URLs are used as they are. */
+export function candidates(path: string): string[] {
+  if (/^https?:\/\//.test(path)) return [path];
+  const base = path.replace(/\.(webp|png|jpe?g)$/i, "");
+  return [...new Set([path, `${base}.webp`, `${base}.png`, `${base}.jpg`])];
+}
+/** The image to show for a path, or undefined while its file hasn't been added. */
+export function resolveImage(found: ReadonlySet<string>, path: string | undefined): string | undefined {
+  if (!path) return undefined;
+  return candidates(path).find(p => /^https?:\/\//.test(p) || found.has(p));
+}
+
+// ---- Readiness ---------------------------------------------------------------------------------------
+// Visitors only see products and backgrounds whose images exist. While running locally (setup mode),
+// a missing image shows as a marked "image needed" slot with its exact file path.
+
+export const productReady = (found: ReadonlySet<string>, p: Product) => !!resolveImage(found, p.image);
+export const sceneReady = (found: ReadonlySet<string>, s: Scene) => !s.image || !!resolveImage(found, s.image);
+

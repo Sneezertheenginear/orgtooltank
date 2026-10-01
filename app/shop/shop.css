@@ -1,0 +1,10 @@
+/* The Shop page reuses the category cards. These cards aren't links yet, so they don't change on hover. */
+.shop-eyebrow { margin-top: 30px; }
+.shop-note { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; font-size: 14px; color: #626262; }
+.shop-note .status-tag { margin-top: 0; }
+.shop-grid { grid-template-columns: repeat(3, 1fr); }
+.shop-section:hover { background: none; }
+.shop-outfit { display: grid; gap: 4px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #ddd; }
+.category-drawer .shop-outfit span { font-size: 14px; color: #666; }
+@media (max-width: 900px) { .shop-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 720px) { .shop-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Full App Researcher mark: a magnifying glass over a one-page brief">
+  <rect x="1" y="1" width="118" height="118" rx="3" fill="#fff" stroke="#202020" stroke-width="2"/>
+  <rect x="24" y="18" width="56" height="76" fill="#fff" stroke="#202020" stroke-width="4"/>
+  <rect x="34" y="30" width="36" height="5" fill="#202020"/>
+  <rect x="34" y="42" width="28" height="4" fill="#8a8a8a"/>
+  <rect x="34" y="52" width="32" height="4" fill="#8a8a8a"/>
+  <rect x="34" y="62" width="20" height="4" fill="#8a8a8a"/>
+  <circle cx="74" cy="72" r="15" fill="#fff" stroke="#202020" stroke-width="5"/>
+  <path d="M85 83L99 97" stroke="#202020" stroke-width="7" stroke-linecap="square"/>
+</svg>

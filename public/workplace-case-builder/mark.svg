@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Workplace Case Builder mark: a case folder holding a short timeline">
+  <rect x="1" y="1" width="118" height="118" rx="3" fill="#fff" stroke="#202020" stroke-width="2"/>
+  <path d="M18 30H48L54 38H102V100H18Z" fill="#fff" stroke="#202020" stroke-width="4" stroke-linejoin="miter"/>
+  <rect x="18" y="38" width="84" height="4" fill="#202020"/>
+  <rect x="36.5" y="52" width="3" height="38" fill="#8a8a8a"/>
+  <rect x="32" y="50" width="12" height="12" fill="#202020"/>
+  <rect x="50" y="53" width="38" height="5" fill="#202020"/>
+  <rect x="32.5" y="67.5" width="11" height="11" fill="#fff" stroke="#202020" stroke-width="3"/>
+  <rect x="50" y="70" width="30" height="5" fill="#202020"/>
+  <rect x="33.5" y="85.5" width="9" height="9" fill="#fff" stroke="#8a8a8a" stroke-width="3"/>
+  <rect x="50" y="87" width="22" height="5" fill="#8a8a8a"/>
+</svg>

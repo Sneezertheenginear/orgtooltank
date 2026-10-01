@@ -1,0 +1,57 @@
+.ar-back { margin-block: 0; }
+.ar-page .experiment-heading { padding-bottom: 24px; }
+.ar-page .eyebrow .status-tag { margin: 0 0 0 8px; }
+.ar-title-row { display: flex; align-items: center; gap: 28px; margin-block: 24px; }
+.ar-title-row .page-title { margin: 0; }
+.ar-logo { width: 96px; height: 96px; flex: none; }
+.ar-page h2 { font-size: 26px; font-weight: 800; letter-spacing: -.035em; margin: 8px 0 14px; overflow-wrap: anywhere; }
+.ar-lede { max-width: 760px; color: #555; font-size: 16px; line-height: 1.8; }
+.ar-page .ink-button.is-secondary { background: #fff; color: #202020; }
+.ar-page .ink-button.is-secondary:hover { background: #f0f0ed; }
+.ar-page .ink-button:disabled { opacity: .4; cursor: not-allowed; }
+.ar-page .quick-start .text-link { font-size: inherit; }
+
+.ar-privacy { border: 1px dashed #999; background: #fafaf8; padding: 14px 20px; font-size: 14px; line-height: 1.6; color: #444; }
+.ar-message { margin-top: 10px; font-size: 14px; font-weight: 700; }
+.ar-workbench > .quick-start { margin: 24px 0 0; }
+.ar-panel { border: 1px solid #ccc; padding: 28px; margin-top: 24px; }
+.ar-panel .next-step { margin-top: 16px; }
+.ar-progress { font: 700 12px/1.6 "Courier New", monospace; letter-spacing: .06em; text-transform: uppercase; color: #666; }
+
+.ar-fields { display: grid; gap: 18px; margin-top: 8px; }
+.ar-field { display: grid; gap: 6px; min-width: 0; }
+.ar-field label { font-size: 16px; font-weight: 700; color: #202020; }
+.ar-page textarea { border: 1px solid #aaa; background: #fff; padding: 11px 12px; font: 400 16px/1.5 Arial, sans-serif; color: #222; width: 100%; max-width: 100%; resize: vertical; }
+.ar-page textarea:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
+
+.ar-questions { display: grid; gap: 12px; margin-top: 18px; }
+.ar-question { border: 1px solid #ddd; border-left: 5px solid #ddd; padding: 16px 18px; background: #fff; }
+.ar-question[data-answered] { border-left-color: #8a8a8a; }
+.ar-question fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.ar-question legend { display: flex; gap: 12px; font-size: 17px; font-weight: 700; line-height: 1.5; color: #202020; }
+.ar-number { flex: none; font: 700 12px/1.9 "Courier New", monospace; color: #717171; }
+.ar-hint { margin: 6px 0 0 32px; }
+.ar-options { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0 32px; }
+.ar-option { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #aaa; padding: 9px 14px; font-size: 14px; font-weight: 700; cursor: pointer; background: #fff; }
+.ar-option input { width: 16px; height: 16px; accent-color: #202020; margin: 0; }
+.ar-option:has(input:checked) { background: #202020; border-color: #202020; color: #fff; }
+.ar-option:has(input:checked) input { accent-color: #fff; }
+.ar-option:has(input:focus-visible) { outline: 2px solid #222; outline-offset: 3px; }
+
+.ar-result:not([data-result="pending"]) { border-color: #202020; border-width: 2px; }
+.ar-guidance { margin-top: 8px; font-size: 13px; color: #6b6b6b; }
+.ar-brief-title { font-size: 18px; font-weight: 800; margin-top: 26px; }
+.ar-brief { margin-top: 10px; padding: 18px 20px; background: #f6f6f4; border: 1px solid #ddd; font: 400 13px/1.65 "Courier New", monospace; color: #202020; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 520px; overflow: auto; }
+.ar-brief:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
+.ar-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.ar-page .browser-desktop { max-width: none; margin-top: 30px; }
+.ar-feedback { margin-bottom: 10px; }
+
+@media (max-width: 600px) {
+  .ar-panel { padding: 18px; }
+  .ar-question { padding: 14px; }
+  .ar-hint, .ar-options { margin-left: 0; }
+  .ar-option { flex: 1 1 auto; justify-content: center; }
+  .ar-actions .ink-button { flex: 1 1 auto; }
+}
+@media (max-width: 480px) { .ar-title-row { align-items: flex-start; flex-direction: column; gap: 20px; } }
