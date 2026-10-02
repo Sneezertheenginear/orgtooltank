@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Shell from "./experiment-components/Shell";
-import ExperimentCard from "./experiment-components/ExperimentCard";
+import HomeFeatured from "./HomeFeatured";
 import DesktopRequest from "./experiment-components/DesktopRequest";
 import { experiments } from "./data/experiments";
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
         <p className="underlined-note">No guarantees. No promises. Just ideas being put into the world to see what happens.</p>
       </div>
     </section>
-    <section id="latest" className="workbench"><div className="wrap"><div className="section-heading"><div><p className="eyebrow">On the workbench / {String(experiments.length).padStart(3, "0")}</p><h2>Latest experiments</h2></div><Link href="/experiments" className="text-link">All {experiments.length} experiments ↗</Link></div><div className="feed-grid">{[...experiments].filter(experiment => experiment.featured).sort((a, b) => b.dateAdded.localeCompare(a.dateAdded)).map(experiment => <ExperimentCard key={experiment.slug} experiment={experiment} />)}<aside className="empty-workbench"><span className="rough-star" aria-hidden="true">✳</span><h3>The next idea<br />could be anything.</h3><p>A tiny tool. Something musical. A fix for an everyday annoyance. There’s room on the bench.</p><Link className="text-link" href="/categories">See what’s here ↗</Link><span className="pencil-note">Nothing here has to be the final version.</span></aside></div><div className="played-note"><h3>Most played with</h3><p>No public play counts yet. Take a look around and see what you find.</p></div></div></section>
+    <section id="latest" className="workbench"><div className="wrap"><div className="section-heading"><div><p className="eyebrow">On the workbench / {String(experiments.length).padStart(3, "0")}</p><h2>Latest experiments &amp; notes</h2></div><Link href="/experiments" className="text-link">All {experiments.length} experiments ↗</Link></div><HomeFeatured /><div className="played-note"><h3>Most played with</h3><p>No public play counts yet. Take a look around and see what you find.</p></div></div></section>
     <div className="wrap"><DesktopRequest /></div>
   </Shell>;
 }

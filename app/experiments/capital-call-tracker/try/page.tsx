@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Shell from "../../../experiment-components/Shell";
 import BrowserDesktop from "../../../experiment-components/BrowserDesktop";
+import SupportNote from "../../../experiment-components/SupportNote";
 import { categories, experiments } from "../../../data/experiments";
 import CapitalCallWorkbench from "./CapitalCallWorkbench";
 import "./capital-call-tracker.css";
@@ -26,5 +27,6 @@ export default function CapitalCallTrackerPage() {
     <CapitalCallWorkbench />
     <BrowserDesktop experiment={experiment} />
     <p className="cc-feedback"><Link className="text-link" href={`/experiments/${experiment.slug}#feedback`}>Tell me how it went ↗</Link></p>
+    <SupportNote />
   </div></Shell>;
 }
