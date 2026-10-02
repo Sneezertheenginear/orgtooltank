@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { CONTACT_EMAIL, contactMessage, mailtoHref, reasonsFor, type ContactRequest } from "../data/contact";
+import GmailHint from "../experiment-components/GmailHint";
 
 /**
  * The Contact page's prefilled message, when a visitor arrives from a feedback or Shop action (for example
@@ -36,7 +37,7 @@ export default function ContactDraft({ initial }: { initial: ContactRequest }) {
     <label htmlFor="contact-body">Message</label>
     <textarea id="contact-body" value={body} onChange={e => setBody(e.target.value)} rows={9} />
     <p className="contact-draft-actions">
-      <a className="ink-button" href={mailtoHref(subject, body)}>Open in my email app ↗</a>
+      <span className="contact-action-wrap"><a className="ink-button" href={mailtoHref(subject, body)}>Open in my email app ↗</a><GmailHint source={initial.source} /></span>
       <button type="button" className="contact-action" onClick={copy}>Copy message</button>
     </p>
     <p className="interact-note" role="status">{copied ?? `Goes to ${CONTACT_EMAIL} from your own email. Nothing is sent or saved by this site.`}</p>

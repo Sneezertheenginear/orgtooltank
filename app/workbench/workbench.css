@@ -76,7 +76,7 @@
 .wb-feedback { margin-top: 44px; padding: 20px 24px; border: 1px solid #dcdcd8; }
 .wb-feedback h2 { font-size: 18px; font-weight: 800; color: #141414; }
 .wb-feedback-copy p { margin-top: 6px; font-size: 15px; line-height: 1.55; color: #555; }
-.wb-feedback-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 16px; }
+.wb-feedback-actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 14px; margin-top: 16px; }
 .wb-feedback .wb-feedback-button { flex: none; padding: 12px 18px; gap: 0; }
 .wb-feedback .wb-feedback-note { margin-top: 14px; }
 @media (max-width: 560px) { .wb-feedback { padding: 18px; } .wb-feedback .wb-feedback-button { width: 100%; } }

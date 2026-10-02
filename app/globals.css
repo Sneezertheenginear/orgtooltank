@@ -212,7 +212,13 @@ button[aria-pressed="true"] { background: #222; color: #fff; border-color: #222;
 .site-donate-button:disabled { background: #8a8a86; border-color: #8a8a86; cursor: not-allowed; }
 .site-donate p { max-width: 620px; font-size: 14px; line-height: 1.55; color: #555; }
 /* Visitor interactions: small email actions and Share. Nothing is counted or stored; actions open an email. */
-.interact-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.interact-actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 14px; }
+/* An email action with its Gmail label under it ("● Gmail: Workbench"): a small dot in the label's color, small gray text. */
+.contact-action-wrap { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.gmail-hint { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; line-height: 1.3; color: #7a7a7a; letter-spacing: .01em; }
+.gmail-dot { flex: none; width: 7px; height: 7px; border-radius: 50%; }
+/* One label for a whole group of actions, right under the row. */
+.gmail-group { margin-top: 8px; line-height: 1; }
 .contact-action, .share-action button { display: inline-flex; align-items: center; min-height: 38px; padding: 8px 14px; border: 1px solid #bdbdb9; background: #fff; color: #202020; font: inherit; font-size: 13.5px; font-weight: 700; text-decoration: none; cursor: pointer; }
 .contact-action:hover, .share-action button:hover { border-color: #202020; background: #f6f6f4; }
 .contact-action:focus-visible, .share-action button:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
@@ -233,7 +239,7 @@ section.experiment-feedback h2 { margin: 0 0 12px; letter-spacing: normal; line-
 .contact-draft-reasons .radio-row label { display: inline-flex; gap: 8px; font-weight: 400; }
 .contact-draft .contact-draft-subject { display: block; width: 100%; margin-block: 8px 18px; border: 1px solid #aaa; border-radius: 0; padding: 12px 13px; background: #fff; font: inherit; }
 .contact-draft .contact-draft-subject:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
-.contact-draft .contact-draft-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-block: 0 10px; }
+.contact-draft .contact-draft-actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; margin-block: 0 10px; }
 .contact-draft .contact-draft-actions .contact-action { min-height: 50px; }
 /* Support note: one quiet card at the bottom of each free browser tool. */
 .support-note { max-width: 850px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; margin-top: 32px; padding: 16px 20px; border: 1px solid #dcdcd8; background: #fff; }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContactAction from "../experiment-components/ContactAction";
 import ShareAction from "../experiment-components/ShareAction";
+import GmailHint from "../experiment-components/GmailHint";
 import { CONTACT_EMAIL, contactPageHref } from "../data/contact";
 
 // The note at the bottom of every Workbench article: readers share their experience privately by email,
@@ -20,6 +21,7 @@ export default function ReaderFeedback({ title }: { title: string }) {
         <ShareAction title={title} label="Share note" />
       </div>
     </div>
+    <p className="gmail-group"><GmailHint source="workbench" /></p>
     <p className="wb-feedback-note interact-note">Opens your email app, addressed to {CONTACT_EMAIL}. Nothing is posted publicly. No email app? <Link href={contactPageHref("workbench", title)}>Write it on the contact page</Link>.</p>
   </section>;
 }

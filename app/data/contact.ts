@@ -8,14 +8,21 @@
 
 export const CONTACT_EMAIL = "orgtooltank@gmail.com";
 
-/** Where a message comes from, with the subject prefix used for it. Keep these prefixes: Gmail filters rely on them. */
+/**
+ * Where a message comes from: the subject prefix (keep these, Gmail filters rely on them), the Gmail label
+ * those filters sort it into, and that label's color. The label and a dot in its color are shown under each
+ * email action ("● Gmail: Workbench"); the colors match the Gmail labels.
+ */
 export const CONTACT_SOURCES = {
-  workbench: { prefix: "Workbench", about: "Workbench note" },
-  experiment: { prefix: "Experiment", about: "Experiment" },
-  shop: { prefix: "Shop", about: "Shop" },
-  "custom-build": { prefix: "Custom Build", about: "Custom build" },
+  workbench: { prefix: "Workbench", about: "Workbench note", gmail: "Workbench", gmailColor: "#4a86e8" },      // blue
+  experiment: { prefix: "Experiment", about: "Experiment", gmail: "Experiments", gmailColor: "#16a766" },     // green
+  shop: { prefix: "Shop", about: "Shop", gmail: "Shop", gmailColor: "#e8453c" },                             // red
+  "custom-build": { prefix: "Custom Build", about: "Custom build", gmail: "Custom Builds", gmailColor: "#f6a13a" }, // orange
 } as const;
 export type ContactSource = keyof typeof CONTACT_SOURCES;
+/** The Gmail label a source's emails are sorted into, and its color. Display only; it doesn't change the email. */
+export const gmailLabel = (source: ContactSource) => CONTACT_SOURCES[source].gmail;
+export const gmailColor = (source: ContactSource) => CONTACT_SOURCES[source].gmailColor;
 
 /** Why someone's writing, per source: the subject's middle part and the starter message. */
 const REASONS = {

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContactAction from "./ContactAction";
 import ShareAction from "./ShareAction";
+import GmailHint from "./GmailHint";
 import { contactPageHref } from "../data/contact";
 
 /**
@@ -16,6 +17,7 @@ export default function ExperimentFeedback({ title }: { title: string }) {
       <ContactAction source="experiment" title={title} reason="suggestion" />
       <ShareAction title={title} label="Share experiment" />
     </div>
+    <p className="gmail-group"><GmailHint source="experiment" /></p>
     <p className="interact-note">Opens your email app. Nothing is posted publicly. No email app? <Link href={contactPageHref("experiment", title)}>Write it on the contact page</Link>.</p>
   </section>;
 }

@@ -43,7 +43,7 @@ export default function ShopPage() {
         <p>{c.description}</p>
         <div className="shop-card-foot">
           {c.id === "original-goods" && <Link href="/shop/outfit-builder" className="text-link">Build an Outfit →</Link>}
-          {c.ask && <ContactAction className="text-link" arrow {...c.ask} title={c.name} />}
+          {c.ask && <ContactAction className="text-link" arrow hint {...c.ask} title={c.name} />}
           <span className="shop-card-status">Coming soon</span>
         </div>
       </div>
