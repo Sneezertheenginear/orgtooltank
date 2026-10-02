@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Shell from "../../experiment-components/Shell";
 import BrowserDesktop from "../../experiment-components/BrowserDesktop";
+import ExperimentFeedback from "../../experiment-components/ExperimentFeedback";
 import SupportNote from "../../experiment-components/SupportNote";
 import { experiments } from "../../data/experiments";
 import RenameProIdentity from "../../experiment-components/RenameProIdentity";
@@ -27,6 +28,7 @@ export default function RenameProPage() {
       <div><h3>Desktop</h3><ul><li>Work directly with folders</li><li>Rename files in place</li><li>Larger workflows</li><li>History and Undo</li><li>Deeper filesystem access</li></ul></div></div>
       <p className="small-note">This first browser experiment keeps originals untouched. ZIP downloads are prepared in memory; use smaller batches for large files. Presets and history are not included.</p>
     </BrowserDesktop>
+    <ExperimentFeedback title={experiment.title} />
     <SupportNote />
   </div></Shell>;
 }

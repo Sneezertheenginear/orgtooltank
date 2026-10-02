@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Shell from "../experiment-components/Shell";
+import ContactAction from "../experiment-components/ContactAction";
 import "./shop.css";
 
 export const metadata = { title: "Shop", description: "Original products, rebuilt electronics, useful project gear, and things we make. Coming soon." };
@@ -9,17 +10,23 @@ export const metadata = { title: "Shop", description: "Original products, rebuil
 // to a store or print-on-demand service. The photos in public/shop/ are temporary, cropped from
 // design/workbench-shop-preview.png; Original Goods uses the real Printful tee photo. Replace a photo by
 // saving a new file with the same name. `wide` cards take the second row (two across instead of three).
-const categories: { id: string; name: string; description: string; image: { src: string; alt: string; product?: boolean }; wide?: boolean }[] = [
+// `ask` adds one contact action to a card (app/data/contact.ts: an email with the subject and message filled in).
+// No checkout or inventory.
+const categories: { id: string; name: string; description: string; image: { src: string; alt: string; product?: boolean }; wide?: boolean; ask?: { source: "shop"; reason: "question" | "similar" } | { source: "custom-build"; reason: "request" } }[] = [
   { id: "original-goods", name: "Original Goods", description: "Clothing, prints, accessories, and original OrgToolTank designs.",
     image: { src: "/outfit-builder/products/printful/unisex-classic-tee-black-front-6abc103a5d2c3.png", alt: "Black “I Renamed the Pain.” T-shirt", product: true } },
   { id: "electronics-audio", name: "Electronics & Audio", description: "Useful cables, adapters, small electronics, audio gear, sensors, and project hardware.",
-    image: { src: "/shop/electronics-audio.webp", alt: "Audio cables and connectors" } },
+    image: { src: "/shop/electronics-audio.webp", alt: "Audio cables and connectors" },
+    ask: { source: "shop", reason: "question" } },
   { id: "rebuilt-reused", name: "Rebuilt & Reused", description: "Electronics we repair, clean, test, and put back into service.",
-    image: { src: "/shop/rebuilt-reused.webp", alt: "Used speakers and audio equipment" } },
+    image: { src: "/shop/rebuilt-reused.webp", alt: "Used speakers and audio equipment" },
+    ask: { source: "shop", reason: "similar" } },
   { id: "computer-legacy-systems", name: "Computer & Legacy Systems", description: "Older computers, operating-system projects, upgrades, repairs, and ways to keep useful hardware working.",
-    image: { src: "/shop/computer-legacy-systems.webp", alt: "A laptop with drives and cables on a workbench" }, wide: true },
+    image: { src: "/shop/computer-legacy-systems.webp", alt: "A laptop with drives and cables on a workbench" }, wide: true,
+    ask: { source: "shop", reason: "question" } },
   { id: "custom-builds", name: "Custom Builds", description: "Small practical electronics, cable assemblies, enclosures, and project work built by request.",
-    image: { src: "/shop/custom-builds.webp", alt: "A small electronics enclosure on a workbench" }, wide: true },
+    image: { src: "/shop/custom-builds.webp", alt: "A small electronics enclosure on a workbench" }, wide: true,
+    ask: { source: "custom-build", reason: "request" } },
 ];
 
 export default function ShopPage() {
@@ -36,6 +43,7 @@ export default function ShopPage() {
         <p>{c.description}</p>
         <div className="shop-card-foot">
           {c.id === "original-goods" && <Link href="/shop/outfit-builder" className="text-link">Build an Outfit →</Link>}
+          {c.ask && <ContactAction className="text-link" arrow {...c.ask} title={c.name} />}
           <span className="shop-card-status">Coming soon</span>
         </div>
       </div>

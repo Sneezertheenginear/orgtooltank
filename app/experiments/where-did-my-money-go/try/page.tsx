@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Shell from "../../../experiment-components/Shell";
 import BrowserDesktop from "../../../experiment-components/BrowserDesktop";
+import ExperimentFeedback from "../../../experiment-components/ExperimentFeedback";
 import SupportNote from "../../../experiment-components/SupportNote";
 import { categories, experiments } from "../../../data/experiments";
 import MoneyWorkbench from "./MoneyWorkbench";
@@ -25,7 +26,7 @@ export default function WhereDidMyMoneyGoPage() {
     <MoneyWorkbench />
     <p className="money-disclaimer">Estimates based only on the transactions you provide. This isn’t accounting, tax, or financial advice.</p>
     <BrowserDesktop experiment={experiment} />
-    <p className="money-feedback"><Link className="text-link" href={`/experiments/${experiment.slug}#feedback`}>Tell me how it went ↗</Link></p>
+    <ExperimentFeedback title={experiment.title} />
     <SupportNote />
   </div></Shell>;
 }
