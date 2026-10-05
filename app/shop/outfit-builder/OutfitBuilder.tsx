@@ -3,8 +3,8 @@
 
 import { useMemo, useState } from "react";
 import {
-  CATEGORIES, PLAIN_COLOR, SCENES, WALL_COLORS, categoryOf, clearCategory, formatPrice, linkOf, lookProducts, lookTotal, productReady,
-  productsIn, resolveImage, sceneOf, toggleProduct, type CategoryId, type Look, type Product, type SceneId,
+  CATEGORIES, PLAIN_COLOR, PRODUCTS, SCENES, WALL_COLORS, categoryOf, clearCategory, collectionsWith, formatPrice, inCollection, linkOf, lookProducts, lookTotal, productReady,
+  productsIn, resolveImage, sceneOf, toggleProduct, type CategoryId, type CollectionName, type Look, type Product, type SceneId,
 } from "./catalog";
 import OutfitBoard from "./OutfitBoard";
 import { CENTERED, ZOOM, isCentered, stepZoom, type Pan } from "./board-layout";
@@ -21,7 +21,8 @@ type Variation = { id: number; name: string; look: Look };
 const MAX_VARIATIONS = 6;
 const START = "Choose a shirt, pants, or shoes to start building your look.";
 
-export default function OutfitBuilder({ assets, setup }: { assets: string[]; setup: boolean }) {
+/** `collection`: the collection to start with (from a Shop link); ignored if it has no products shown. */
+export default function OutfitBuilder({ assets, setup, collection: startCollection }: { assets: string[]; setup: boolean; collection?: CollectionName }) {
   const found = useMemo(() => new Set(assets), [assets]);
   const [category, setCategory] = useState<CategoryId>("shirts");
   const [look, setLook] = useState<Look>({});
@@ -35,7 +36,12 @@ export default function OutfitBuilder({ assets, setup }: { assets: string[]; set
   const [pan, setPan] = useState<Pan>(CENTERED);
 
   const scene = sceneOf(sceneId);
-  const offered = (c: CategoryId) => productsIn(c).filter(p => setup || productReady(found, p));
+  const shown = (p: Product) => setup || productReady(found, p);
+  // Only collections with at least one shown product get a button.
+  const collections = collectionsWith(PRODUCTS.filter(shown));
+  // Browsing filter only: which collection's products the cards show (none = All Products). The look isn't affected.
+  const [collection, setCollection] = useState<CollectionName | undefined>(() => collections.some(c => c.name === startCollection) ? startCollection : undefined);
+  const offered = (c: CategoryId) => productsIn(c).filter(p => shown(p) && inCollection(p, collection));
   const chosen = lookProducts(look), total = lookTotal(look);
   const canZoom = chosen.length > 0;
 
@@ -64,6 +70,13 @@ export default function OutfitBuilder({ assets, setup }: { assets: string[]; set
       <h2 id="ob-mode-heading" className="ob-mode">Clothing</h2>
 
       <div>
+        {collections.length > 0 && <div className="ob-collections">
+          <h3 id="ob-collections-heading" className="ob-subheading">Shop Collections</h3>
+          <div className="ob-collection-list" role="group" aria-labelledby="ob-collections-heading">
+            <button type="button" aria-pressed={!collection} onClick={() => setCollection(undefined)}>All Products</button>
+            {collections.map(c => <button key={c.id} type="button" aria-pressed={collection === c.name} onClick={() => setCollection(c.name)}>{c.name}</button>)}
+          </div>
+        </div>}
         <div className="ob-cats" role="group" aria-label="Category">
           {CATEGORIES.map(c => <button key={c.id} type="button" aria-pressed={category === c.id} onClick={() => setCategory(c.id)}>
             {c.name}{look[c.id] && <span className="ob-count" aria-label="1 selected">1</span>}
@@ -71,7 +84,11 @@ export default function OutfitBuilder({ assets, setup }: { assets: string[]; set
         </div>
         {offered(category).length
           ? <ul className="ob-items">{offered(category).map(p => <ProductCard key={p.id} product={p} found={found} setup={setup} on={look[p.category] === p.id} onPick={() => pick(p)} />)}</ul>
-          : <p className="ob-empty">{setup
+          : <p className="ob-empty">{collection && !PRODUCTS.some(p => shown(p) && inCollection(p, collection))
+            ? <>{collection} pieces are being added. <button type="button" className="text-link" onClick={() => setCollection(undefined)}>Show all products</button></>
+            : collection
+            ? <>No {categoryOf(category).name.toLowerCase()} in {collection} yet. <button type="button" className="text-link" onClick={() => setCollection(undefined)}>Show all products</button></>
+            : setup
             ? <>No {categoryOf(category).name.toLowerCase()} yet. Add the real product image to <code>public/outfit-builder/products/&lt;source&gt;/</code> and list it in <code>catalog.ts</code>.</>
             : `${categoryOf(category).name} are coming soon.`}</p>}
       </div>

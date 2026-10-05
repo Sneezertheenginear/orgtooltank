@@ -19,6 +19,46 @@ export const CATEGORIES: Category[] = [
 ];
 export const categoryOf = (id: CategoryId) => CATEGORIES.find(c => c.id === id)!;
 
+// ---- Collections -------------------------------------------------------------------------------------
+// Themed groups for browsing, like the old TeePublic collections. A product can be in any number of them.
+// A collection is only shown once at least one shown product is in it, so empty ones stay out of sight,
+// unless it has `showEmpty: true` (one being actively built: listed now, with a short "being added" note).
+// A collection is only a name: each product keeps its own garment and artwork colors.
+// To add one: add a line here, then put its name in a product's `collections` (or a design's, below).
+
+export const COLLECTIONS = [
+  { id: "quotables", name: "Quotables" },
+  // Short funny lines, usually 3 words or less, smart everyday humor (BILLS GOT JOKES., SLEEP OWES ME.), coming next.
+  { id: "comedy", name: "Comedy", showEmpty: true },
+  { id: "electronic-circuit-life", name: "Electronic / Circuit Life" },
+  { id: "scattered-mind-experiment", name: "Scattered Mind Experiment" },
+  { id: "money-hustle-capital", name: "Money / Hustle / Capital" },
+  { id: "code-rules-systems", name: "Code / Rules / Systems" },
+  { id: "pain-growth-pressure", name: "Pain / Growth / Pressure" },
+  { id: "garage-mechanical", name: "Garage / Mechanical" },
+  { id: "music-frequency", name: "Music / Frequency" },
+  { id: "orgtooltank", name: "OrgToolTank" },
+  // Colorful science / biotech / experimental shirts, coming next.
+  { id: "biotech", name: "Biotech", showEmpty: true },
+] as const;
+export type CollectionName = typeof COLLECTIONS[number]["name"];
+/** A collection by its id (as used in links, e.g. /shop/outfit-builder?collection=quotables). */
+export const collectionById = (id: unknown) => COLLECTIONS.find(c => c.id === id);
+
+/** Each design's collections, for the products made from it (for now the tees; I Renamed the Pain's
+ *  sweatpants and slides are in OrgToolTank only).
+ *  Designs whose products aren't added yet are listed here so they're ready when they are. */
+export const DESIGN_COLLECTIONS = {
+  "Pain Got Frequency": ["Quotables", "Music / Frequency", "Pain / Growth / Pressure", "OrgToolTank"],
+  "Dreams Cost Capital": ["Quotables", "Money / Hustle / Capital", "OrgToolTank"],
+  "Move by the Code": ["Quotables", "Code / Rules / Systems", "OrgToolTank"],
+  "Money Got Legs": ["Quotables", "Money / Hustle / Capital", "OrgToolTank"],
+  "I Renamed the Pain": ["Quotables", "Pain / Growth / Pressure", "Scattered Mind Experiment", "OrgToolTank"],
+  "Rules Got Receipts": ["Quotables", "Code / Rules / Systems", "OrgToolTank"],
+  "Life Ate the Profit": ["Quotables", "Money / Hustle / Capital", "Pain / Growth / Pressure", "OrgToolTank"],
+  "Chaos Got Order": ["Quotables", "Scattered Mind Experiment", "Code / Rules / Systems", "OrgToolTank"],
+} satisfies Record<string, CollectionName[]>;
+
 // ---- Products ----------------------------------------------------------------------------------------
 
 /** Where a product comes from. Add approved partners here as they're added. */
@@ -41,6 +81,8 @@ export type Product = {
   affiliateUrl?: string;
   /** Whether it can be offered now. Unavailable products show as "Coming soon" and can't be added. */
   available: boolean;
+  /** The collections it's browsed under, by name (see COLLECTIONS). Any number, or none. */
+  collections?: CollectionName[];
 };
 
 const PRINTFUL = "/outfit-builder/products/printful";
@@ -50,23 +92,33 @@ export const PRODUCTS: Product[] = [
   {
     id: "i-renamed-the-pain-tee-black", name: "I Renamed the Pain Tee, Black", category: "shirts", source: "Printful", available: true,
     image: `${PRINTFUL}/unisex-classic-tee-black-front-6abc103a5d2c3.png`,
+    collections: DESIGN_COLLECTIONS["I Renamed the Pain"],
   },
   {
     id: "i-renamed-the-pain-tee-maroon", name: "I Renamed the Pain Tee, Maroon", category: "shirts", source: "Printful", available: true,
     image: `${PRINTFUL}/unisex-classic-tee-maroon-front-6abc103a5d2fe.png`,
+    collections: DESIGN_COLLECTIONS["I Renamed the Pain"],
   },
   {
     id: "i-renamed-the-pain-sweatpants-black", name: "I Renamed the Pain Sweatpants, Black", category: "pants", source: "Printful", available: true,
     image: `${PRINTFUL}/pain-black-sweatpants.webp`,
+    collections: ["OrgToolTank"],
   },
   {
     id: "i-renamed-the-pain-slides-white", name: "I Renamed the Pain Slides, White", category: "shoes", source: "Printful", available: true,
     image: `${PRINTFUL}/pain-white-slides.webp`,
+    collections: ["OrgToolTank"],
   },
 ];
 export const productOf = (id: string) => PRODUCTS.find(p => p.id === id);
 export const productsIn = (category: CategoryId) => PRODUCTS.filter(p => p.category === category);
 export const linkOf = (p: Product) => p.affiliateUrl ?? p.productUrl;
+/** Whether a product is in a collection (no collection means all products). */
+export const inCollection = (p: Product, collection?: CollectionName) => !collection || !!p.collections?.includes(collection);
+/** The collections that hold at least one of these products (plus any marked showEmpty), in COLLECTIONS order.
+ *  The Shop and the builder only show these, so a collection with nothing in it stays hidden. */
+export const collectionsWith = (products: Product[]) =>
+  COLLECTIONS.filter(c => ("showEmpty" in c && c.showEmpty) || products.some(p => inCollection(p, c.name)));
 
 // ---- Scenes ------------------------------------------------------------------------------------------
 

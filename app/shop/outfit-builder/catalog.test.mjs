@@ -18,6 +18,30 @@ test("every product is a real listing: required fields, known category and sourc
   }
 });
 
+test("collections: unique, every name used is a known collection, and only collections with products are listed", () => {
+  const names = C.COLLECTIONS.map(c => c.name);
+  assert.equal(new Set(C.COLLECTIONS.map(c => c.id)).size, C.COLLECTIONS.length, "duplicate collection id");
+  assert.equal(new Set(names).size, names.length, "duplicate collection name");
+  for (const p of C.PRODUCTS) for (const c of p.collections ?? []) assert.ok(names.includes(c), `${p.id}: unknown collection ${c}`);
+  for (const [design, list] of Object.entries(C.DESIGN_COLLECTIONS)) for (const c of list) assert.ok(names.includes(c), `${design}: unknown collection ${c}`);
+  // A product can be in several collections; a collection with no products isn't listed.
+  const [tee] = C.productsIn("shirts");
+  assert.ok(tee.collections.length > 1);
+  const listed = C.collectionsWith([tee]).map(c => c.name);
+  assert.deepEqual(listed, names.filter(n => tee.collections.includes(n) || n === "Comedy" || n === "Biotech"), "listed in COLLECTIONS order");
+  assert.ok(!listed.includes("Garage / Mechanical"));
+  // Only collections marked showEmpty (Comedy, Biotech) are listed with no products.
+  assert.deepEqual(C.collectionsWith([]).map(c => c.name), ["Comedy", "Biotech"]);
+  assert.equal(listed.at(-1), "Biotech", "Biotech comes last");
+  assert.ok(C.inCollection(tee, undefined), "no collection = All Products");
+  assert.ok(C.inCollection(tee, "Quotables"));
+  assert.ok(!C.inCollection(tee, "Garage / Mechanical"));
+  // Shop links use the id: /shop/outfit-builder?collection=quotables
+  assert.equal(C.collectionById("quotables")?.name, "Quotables");
+  assert.equal(C.collectionById("not-a-collection"), undefined);
+  assert.equal(C.collectionById(["quotables"]), undefined, "a repeated ?collection= is ignored");
+});
+
 test("one product per category; picking it again takes it off", () => {
   const [black, maroon] = C.productsIn("shirts");
   let look = C.toggleProduct({}, black);

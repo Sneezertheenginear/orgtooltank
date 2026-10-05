@@ -30,6 +30,13 @@ to `PRODUCTS` in `catalog.ts`:
 Categories: `shirts`, `pants`, `jackets`, `shoes`, `hats`, `accessories`. One product per category is on the
 board at a time.
 
+**Collections** (Quotables, Money / Hustle / Capital, …) are for browsing: the product panel's
+Shop Collections buttons filter the cards. Give a product any number of them with
+`collections: ["Quotables", "Money / Hustle / Capital"]`, or use its design's list from
+`DESIGN_COLLECTIONS` (e.g. `collections: DESIGN_COLLECTIONS["Dreams Cost Capital"]`). A collection only
+shows once a product is in it. To add a new collection, add `{ id: "garage-mechanical", name: "Garage / Mechanical" }`
+to `COLLECTIONS` in `catalog.ts`.
+
 ## Image format and size
 
 - **Product images:** square, **2000 × 2000 px**, **transparent PNG** (WebP also works). Show just the product,
