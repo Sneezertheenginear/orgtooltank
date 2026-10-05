@@ -1,4 +1,4 @@
-/* Shop: image-led category cards, all Coming Soon (see design/workbench-shop-preview.png).
+/* Shop: image-led category cards (categories in app/data/shop.ts).
    .shop-eyebrow and .shop-note are also used by the outfit builder page. */
 .shop-eyebrow { margin-top: 30px; }
 .shop-note { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; font-size: 14px; color: #626262; }

@@ -43,7 +43,7 @@ test("images: a missing file resolves to nothing, so it is never shown", () => {
   assert.equal(C.resolveImage(new Set(), "/outfit-builder/scenes/studio.webp"), undefined);
   assert.equal(C.resolveImage(new Set(["/outfit-builder/scenes/studio.jpg"]), "/outfit-builder/scenes/studio.webp"), "/outfit-builder/scenes/studio.jpg");
   assert.ok(C.PRODUCTS.every(p => !C.productReady(new Set(), p)));
-  assert.ok(C.sceneReady(new Set(), C.sceneOf("plain")) && C.sceneReady(new Set(), C.sceneOf("custom")));
+  assert.deepEqual(C.SCENES.map(s => s.id), ["plain"], "Plain is the only background");
 });
 
 const L = await import("./board-layout.ts");

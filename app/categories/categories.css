@@ -1,0 +1,20 @@
+/* Categories: the Shop card system (see app/shop/shop.css), with what category cards add on top:
+   a count line, logo panels where there's no photo, a bottom link, and a hover since each card is a link. */
+.cat-cards { margin-top: 36px; }
+.cat-card { color: inherit; text-decoration: none; transition: border-color 120ms; }
+.cat-card:hover { border-color: #202020; }
+.cat-card:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
+.cat-card .cat-card-meta { margin: 0 0 6px; font: 700 11px/1.5 "Courier New", monospace; letter-spacing: .08em; text-transform: uppercase; color: #5a5a5a; }
+.cat-card .shop-card-foot { min-height: 0; padding-top: 18px; }
+.cat-card-action { font-size: 13.5px; font-weight: 700; color: #141414; text-decoration: underline; text-underline-offset: 4px; }
+.cat-card:hover .cat-card-action { text-decoration-thickness: 2px; }
+/* Card images: real photos with one shared treatment (a touch more contrast, a little less color, a soft dark
+   fade at the bottom) so all six cards share the same dark, practical mood. */
+.cat-art { display: grid; background: #1b1b1b; }
+.cat-art-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; }
+.cat-art-tile { position: relative; overflow: hidden; }
+.cat-art-tile img { object-fit: cover; filter: contrast(1.06) saturate(.88) brightness(.94); }
+.cat-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(0,0,0,.22)); pointer-events: none; }
+/* A product cutout sits on a dark tile, lit like the photos around it. */
+.cat-art-tile[data-product] { background: radial-gradient(circle at 50% 40%, #3a3a3a, #1e1e1e 75%); }
+.cat-art-tile[data-product] img { object-fit: contain; padding: 10%; filter: drop-shadow(0 8px 14px rgba(0,0,0,.45)); }

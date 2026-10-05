@@ -3,34 +3,30 @@
 
 import { useMemo, useState } from "react";
 import {
-  CATEGORIES, SCENES, WALL_COLORS, categoryOf, clearCategory, formatPrice, linkOf, lookProducts, lookTotal, productReady,
-  productsIn, resolveImage, sceneOf, sceneReady, toggleProduct, type CategoryId, type Look, type Product, type SceneId,
+  CATEGORIES, PLAIN_COLOR, SCENES, WALL_COLORS, categoryOf, clearCategory, formatPrice, linkOf, lookProducts, lookTotal, productReady,
+  productsIn, resolveImage, sceneOf, toggleProduct, type CategoryId, type Look, type Product, type SceneId,
 } from "./catalog";
 import OutfitBoard from "./OutfitBoard";
 import { CENTERED, ZOOM, isCentered, stepZoom, type Pan } from "./board-layout";
 
 // Mix and match real products on an outfit board: pick products on the left, see them together in the
-// center, save variations and choose a background on the right. The Scene tab works without any clothing,
-// for trying backgrounds (and, later, wall art) on their own.
+// center, save variations and choose a background on the right.
 // Everything is page state only: nothing is saved to an account, sent, or sold yet.
 //
 // Only real product images are shown. With `setup` on (next dev), a product or background whose image is
 // missing shows a marked "image needed" slot with its exact file path.
 // With it off (production), anything missing is simply left out.
 
-type Tab = "clothing" | "scene";
 type Variation = { id: number; name: string; look: Look };
 const MAX_VARIATIONS = 6;
-const START = "Choose a shirt, pants, shoes, or scene to start building your look.";
+const START = "Choose a shirt, pants, or shoes to start building your look.";
 
 export default function OutfitBuilder({ assets, setup }: { assets: string[]; setup: boolean }) {
   const found = useMemo(() => new Set(assets), [assets]);
-  const [tab, setTab] = useState<Tab>("clothing");
   const [category, setCategory] = useState<CategoryId>("shirts");
   const [look, setLook] = useState<Look>({});
-  const [showOutfit, setShowOutfit] = useState(true);
   const [sceneId, setSceneId] = useState<SceneId>("plain");
-  const [wall, setWall] = useState(WALL_COLORS[0].hex);
+  const [wall, setWall] = useState(PLAIN_COLOR);
   const [variations, setVariations] = useState<Variation[]>([]);
   const [message, setMessage] = useState("");
   // Preview zoom and position: 1 and centered is the board as laid out. Kept when the look changes, so comparing
@@ -41,7 +37,7 @@ export default function OutfitBuilder({ assets, setup }: { assets: string[]; set
   const scene = sceneOf(sceneId);
   const offered = (c: CategoryId) => productsIn(c).filter(p => setup || productReady(found, p));
   const chosen = lookProducts(look), total = lookTotal(look);
-  const canZoom = showOutfit && chosen.length > 0;
+  const canZoom = chosen.length > 0;
 
   function pick(p: Product) {
     const on = look[p.category] === p.id, replacing = look[p.category];
@@ -50,8 +46,9 @@ export default function OutfitBuilder({ assets, setup }: { assets: string[]; set
   }
   function remove(c: CategoryId) { const p = chosen.find(x => x.category === c); setLook(l => clearCategory(l, c)); if (p) setMessage(`Removed ${p.name}.`); }
   function reset() { setLook({}); setMessage("Look reset. Pick something new to start again."); }
-  function chooseScene(id: SceneId) { setSceneId(id); setMessage(`Background: ${sceneOf(id).name}.`); }
-  function chooseWall(hex: string) { setWall(hex); setSceneId("custom"); }
+  /** Plain: back to its clean starting color. */
+  function chooseScene(id: SceneId) { setSceneId(id); setWall(PLAIN_COLOR); setMessage(`Background: ${sceneOf(id).name}.`); }
+  function chooseWall(hex: string) { setWall(hex); }
   /** Save Look keeps the look in Outfit Variations for this visit. Nothing leaves the page. */
   function saveLook() {
     if (!chosen.length) { setMessage("Add a product first, then save the look."); return; }
@@ -62,37 +59,27 @@ export default function OutfitBuilder({ assets, setup }: { assets: string[]; set
   }
 
   return <><div className="ob-builder">
-    {/* Left: products and scene */}
-    <section className="ob-panel ob-left" aria-label="Build">
-      <div className="ob-tabs" role="tablist" aria-label="Builder">
-        {(["clothing", "scene"] as Tab[]).map(t => <button key={t} type="button" role="tab" id={`ob-tab-${t}`} aria-controls={`ob-tabpanel-${t}`} aria-selected={tab === t} onClick={() => setTab(t)}>
-          {t === "clothing" ? "Clothing" : "Scene"}
-        </button>)}
-      </div>
+    {/* Left: products */}
+    <section className="ob-panel ob-left" aria-labelledby="ob-mode-heading">
+      <h2 id="ob-mode-heading" className="ob-mode">Clothing</h2>
 
-      {tab === "clothing" ? <div role="tabpanel" id="ob-tabpanel-clothing" aria-labelledby="ob-tab-clothing">
+      <div>
         <div className="ob-cats" role="group" aria-label="Category">
           {CATEGORIES.map(c => <button key={c.id} type="button" aria-pressed={category === c.id} onClick={() => setCategory(c.id)}>
             {c.name}{look[c.id] && <span className="ob-count" aria-label="1 selected">1</span>}
           </button>)}
         </div>
-        {!showOutfit && <p className="ob-note">The outfit is hidden. <button type="button" className="text-link" onClick={() => setShowOutfit(true)}>Show outfit</button> to see it on the board.</p>}
         {offered(category).length
           ? <ul className="ob-items">{offered(category).map(p => <ProductCard key={p.id} product={p} found={found} setup={setup} on={look[p.category] === p.id} onPick={() => pick(p)} />)}</ul>
           : <p className="ob-empty">{setup
             ? <>No {categoryOf(category).name.toLowerCase()} yet. Add the real product image to <code>public/outfit-builder/products/&lt;source&gt;/</code> and list it in <code>catalog.ts</code>.</>
             : `${categoryOf(category).name} are coming soon.`}</p>}
-      </div> : <div role="tabpanel" id="ob-tabpanel-scene" aria-labelledby="ob-tab-scene" className="ob-scene-tab">
-        <p className="ob-note">Try backgrounds on their own, or with your outfit.</p>
-        <label className="ob-toggle"><input type="checkbox" checked={showOutfit} onChange={e => { setShowOutfit(e.target.checked); setMessage(e.target.checked ? "Outfit shown." : "Outfit hidden. Only the background is showing."); }} /> Show outfit on the board</label>
-        <ScenePicker sceneId={sceneId} wall={wall} found={found} setup={setup} onScene={chooseScene} onWall={chooseWall} />
-        <p className="ob-note ob-later">Wall art and room products are coming later.</p>
-      </div>}
+      </div>
     </section>
 
     {/* Center: the outfit board */}
     <div className="ob-center">
-      <OutfitBoard found={found} products={chosen} showOutfit={showOutfit} scene={scene} wall={wall} setup={setup} empty={START} zoom={zoom} onZoom={setZoom} pan={pan} onPan={setPan} />
+      <OutfitBoard found={found} products={chosen} showOutfit scene={scene} wall={wall} setup={setup} empty={START} zoom={zoom} onZoom={setZoom} pan={pan} onPan={setPan} />
       <div className="ob-stage-bar">
         <div className="ob-zoom" role="group" aria-label="Preview zoom">
           <button type="button" className="ob-zoom-btn" onClick={() => setZoom(z => stepZoom(z, -1))} disabled={!canZoom || zoom <= ZOOM.min} aria-label="Zoom out" title="Zoom out">−</button>
@@ -132,7 +119,7 @@ export default function OutfitBuilder({ assets, setup }: { assets: string[]; set
 
       <section className="ob-panel" aria-labelledby="ob-bg-heading">
         <h2 id="ob-bg-heading" className="ob-heading">Background / Scene</h2>
-        <ScenePicker sceneId={sceneId} wall={wall} found={found} setup={setup} onScene={chooseScene} onWall={chooseWall} />
+        <ScenePicker sceneId={sceneId} wall={wall} onScene={chooseScene} onWall={chooseWall} />
       </section>
     </div>
   </div></>;
@@ -153,22 +140,20 @@ function ProductCard({ product: p, found, setup, on, onPick }: { product: Produc
   </li>;
 }
 
-/** Background choices and the custom wall color. Used in both the Scene tab and the right panel, sharing one state. */
-function ScenePicker({ sceneId, wall, found, setup, onScene, onWall }: {
-  sceneId: SceneId; wall: string; found: ReadonlySet<string>; setup: boolean; onScene: (id: SceneId) => void; onWall: (hex: string) => void;
+/** The background (Plain, shown in the current wall color) and the wall color. Shown in the right panel. */
+function ScenePicker({ sceneId, wall, onScene, onWall }: {
+  sceneId: SceneId; wall: string; onScene: (id: SceneId) => void; onWall: (hex: string) => void;
 }) {
   return <div className="ob-scene-picker">
-    <div className="ob-scenes" role="group" aria-label="Background">{SCENES.filter(s => setup || sceneReady(found, s)).map(s => { const img = resolveImage(found, s.image);
-      return <button key={s.id} type="button" className="ob-scene" aria-pressed={sceneId === s.id} onClick={() => onScene(s.id)}>
-        <span className="ob-scene-thumb" style={s.id === "custom" ? { background: wall } : img ? { backgroundImage: `url(${img})` } : s.color ? { background: s.color } : undefined}>
-          {s.image && !img && <span className="ob-slot-mini">Photo needed</span>}
-        </span>
+    <div className="ob-scenes" role="group" aria-label="Background">{SCENES.map(s =>
+      <button key={s.id} type="button" className="ob-scene" aria-pressed={sceneId === s.id && wall === PLAIN_COLOR} onClick={() => onScene(s.id)}>
+        <span className="ob-scene-thumb" style={{ background: wall }} />
         <span>{s.name}</span>
-      </button>; })}</div>
+      </button>)}</div>
     <div className="ob-walls" role="group" aria-label="Wall color">
       <span className="ob-walls-label">Wall color</span>
       <span className="ob-swatches">
-        {WALL_COLORS.map(c => <button key={c.hex} type="button" className="ob-swatch" style={{ background: c.hex }} title={c.name} aria-pressed={sceneId === "custom" && wall === c.hex} onClick={() => onWall(c.hex)}><span className="sr-only">{c.name}</span></button>)}
+        {WALL_COLORS.map(c => <button key={c.hex} type="button" className="ob-swatch" style={{ background: c.hex }} title={c.name} aria-pressed={wall === c.hex} onClick={() => onWall(c.hex)}><span className="sr-only">{c.name}</span></button>)}
         <label className="ob-picker" title="Pick any color"><input type="color" value={wall} onChange={e => onWall(e.target.value)} /><span className="sr-only">Pick any wall color</span></label>
       </span>
     </div>

@@ -26,9 +26,9 @@ export default function OutfitBoard({ found, products, showOutfit, scene, wall, 
   const gesture = useRef<Gesture | null>(null);
   const [dragging, setDragging] = useState(false);
 
-  const sceneImage = resolveImage(found, scene.image);
-  const background = scene.id === "custom" ? wall : scene.color ?? "#ecece9";
-  const dark = scene.id === "custom" ? isDark(wall) : !!sceneImage && !!scene.dark;
+  // Plain background in the chosen wall color.
+  const background = wall;
+  const dark = isDark(wall);
   const shown = showOutfit ? products : [];
   const spots = boardLayout(shown.map(p => p.category));
   const center = compositionCenter(spots);
@@ -103,7 +103,6 @@ export default function OutfitBoard({ found, products, showOutfit, scene, wall, 
   return <div className="ob-board" ref={board} role="img" aria-label={label} data-dark={dark ? "" : undefined}
     data-pannable={canMove ? "" : undefined} data-dragging={dragging ? "" : undefined} style={{ background, touchAction: holdTouch ? "none" : canMove ? "pan-y" : undefined }}
     onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onDragStart={e => e.preventDefault()}>
-    {sceneImage && <img className="ob-scene-img" src={sceneImage} alt="" draggable={false} />}
     <div className="ob-board-zoom" style={zoomTransform(zoom, center, shownPan)}>
     {shown.map(p => { const src = resolveImage(found, p.image), b = spots[p.category]!;
       return <div key={p.id} className="ob-spot" data-slot={p.category} style={{ left: `${b.left}%`, top: `${b.top}%`, width: `${b.width}%`, height: `${b.height}%`, zIndex: b.z }}>
@@ -111,6 +110,5 @@ export default function OutfitBoard({ found, products, showOutfit, scene, wall, 
       </div>; })}
     </div>
     {showOutfit && !products.length && <p className="ob-board-empty">{empty}</p>}
-    {setup && scene.image && !sceneImage && <p className="ob-slot-corner">Background photo needed: <code>public{scene.image}</code></p>}
   </div>;
 }

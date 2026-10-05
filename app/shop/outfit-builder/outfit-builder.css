@@ -1,9 +1,13 @@
-/* Build an Outfit: products and scene on the left, the outfit board in the center, variations and background on the right.
-   Below 1180px the right panel moves under the center; on phones everything stacks, preview first. */
+/* Build an Outfit: products on the left, the outfit board in the center, variations and background on the right.
+   Below 1180px the right panels move to a second row under the left and center; at 760px and below everything
+   stacks in one column: clothing, preview (with its zoom and save controls), variations, background. */
 .ob-page .page-intro { margin-bottom: 14px; }
 .ob-builder { display: grid; grid-template-columns: minmax(260px, 300px) minmax(0, 1fr) minmax(260px, 300px); grid-template-areas: "left center right"; gap: 24px; align-items: start; margin-top: 30px; color: #202020; }
 .ob-left { grid-area: left; }
-.ob-center { grid-area: center; display: grid; gap: 12px; position: sticky; top: 16px; min-width: 0; }
+.ob-center { grid-area: center; display: grid; gap: 12px; min-width: 0; }
+/* The preview stays in view while scrolling only when nothing sits below it (three columns); in the
+   narrower layouts the right panels are underneath, and a sticky preview would slide over them. */
+@media (min-width: 1181px) { .ob-center { position: sticky; top: 16px; } }
 .ob-right { grid-area: right; display: grid; gap: 18px; min-width: 0; }
 .ob-builder button:focus-visible, .ob-builder input:focus-visible { outline: 2px solid #202020; outline-offset: 3px; }
 
@@ -11,7 +15,6 @@
 .ob-heading { font-size: 19px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 12px; }
 .ob-subheading { font: 700 12px "Courier New", monospace; letter-spacing: .08em; text-transform: uppercase; color: #666; margin-bottom: 8px; }
 .ob-note { font-size: 14.5px; line-height: 1.5; color: #555; margin: 4px 0 12px; }
-.ob-later { margin: 14px 0 0; font-size: 13.5px; }
 .ob-empty { font-size: 14.5px; line-height: 1.55; color: #555; padding: 12px 14px; border: 1px dashed #bbb; margin-bottom: 12px; }
 .ob-message { min-height: 1.5em; font-size: 15px; font-weight: 700; text-align: center; }
 
@@ -24,9 +27,7 @@
 .ob-x:hover { border-color: #202020; color: #202020; }
 
 /* Tabs and category chips */
-.ob-tabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #202020; margin-bottom: 16px; }
-.ob-tabs button { min-height: 46px; border: 0; background: #fff; font-size: 16px; font-weight: 800; color: #202020; cursor: pointer; }
-.ob-tabs button[aria-selected="true"] { background: #202020; color: #fff; }
+.ob-mode { display: grid; place-items: center; min-height: 46px; margin: 0 0 16px; border: 1px solid #202020; background: #202020; font-size: 16px; font-weight: 800; color: #fff; }
 .ob-cats { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
 .ob-cats button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 7px 12px; border: 1px solid #bbb; background: #fff; font-size: 14.5px; font-weight: 700; color: #202020; cursor: pointer; }
 .ob-cats button:hover { border-color: #202020; }
@@ -35,18 +36,17 @@
 
 /* Clothing cards */
 .ob-items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 0; }
-.ob-item { display: grid; align-content: start; gap: 2px; padding: 8px 8px 10px; border: 1px solid #d5d5d2; background: #fff; }
+/* Image, then name and details, then the button pinned to the bottom, so buttons line up across a row. */
+.ob-item { display: flex; flex-direction: column; gap: 2px; padding: 8px 8px 10px; border: 1px solid #d5d5d2; background: #fff; }
 .ob-item[data-on] { border-color: #202020; box-shadow: inset 0 0 0 2px #202020; }
 .ob-item-thumb { display: grid; place-items: center; aspect-ratio: 1; background: #f3f3f0; margin-bottom: 6px; overflow: hidden; }
 .ob-item-thumb img { width: 100%; height: 100%; object-fit: contain; }
 .ob-item-name { font-size: 15px; font-weight: 800; line-height: 1.25; }
-.ob-item-meta { font-size: 13px; color: #666; }
+.ob-item-meta { margin-bottom: 8px; font-size: 13px; color: #666; }
 .ob-item-link { margin-top: 4px; font-size: 13px; font-weight: 700; color: #202020; }
 
 /* Scene tab and pickers */
-.ob-toggle { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border: 1px solid #ccc; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 14px; }
-.ob-toggle input { width: 20px; height: 20px; accent-color: #202020; }
-.ob-scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; margin-bottom: 14px; }
+.ob-scenes { display: grid; grid-template-columns: minmax(84px, 120px); gap: 8px; margin-bottom: 14px; }
 .ob-scene { display: grid; gap: 5px; padding: 5px 5px 8px; border: 1px solid #ccc; background: #fff; font-size: 13px; font-weight: 700; color: #202020; text-align: center; cursor: pointer; }
 .ob-scene:hover { border-color: #202020; }
 .ob-scene[aria-pressed="true"] { border-color: #202020; box-shadow: inset 0 0 0 2px #202020; }
@@ -63,6 +63,7 @@
 
 
 .ob-stage-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; max-width: 620px; width: 100%; margin: 0 auto; }
+.ob-stage-bar > * { flex-wrap: wrap; }
 .ob-save { padding: 11px 18px; }
 
 /* Right panel: this look and saved looks */
@@ -84,8 +85,8 @@
   .ob-right { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
 }
 @media (max-width: 760px) {
-  .ob-builder { grid-template-columns: minmax(0, 1fr); grid-template-areas: "center" "left" "right"; gap: 18px; }
-  .ob-center { position: static; }
+  .ob-builder { grid-template-columns: minmax(0, 1fr); grid-template-areas: "left" "center" "right"; gap: 18px; }
+  .ob-right { grid-template-columns: minmax(0, 1fr); }
   .ob-items { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }
 
@@ -103,7 +104,7 @@
 .ob-slot-mini { padding: 2px 6px; border: 1px dashed #b0522e; background: #fbf5f1; color: #6b2e16; font-size: 11px; }
 
 /* Product cards */
-.ob-item-action { width: 100%; margin-top: 8px; padding: 10px 12px; }
+.ob-item-action { width: 100%; margin-top: auto; padding: 10px 12px; }
 .ob-item[data-on] .ob-item-name::after { content: " ✓"; }
 .ob-item-thumb .ob-slot { overflow: hidden; }
 .ob-item-thumb .ob-slot code { font-size: 10px; }

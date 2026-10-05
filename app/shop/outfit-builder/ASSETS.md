@@ -13,7 +13,6 @@ OrgToolTank, or another approved partner), shown with its real product image. Ne
 | Printful products | `products/printful/` | `unisex-classic-tee-black-front-6abc103a5d2c3.png` |
 | Apliiq products | `products/apliiq/` | `apliiq-crewneck-heather-front.png` |
 | OrgToolTank products | `products/orgtooltank/` | `logo-cap-black.png` |
-| Backgrounds | `scenes/` | `studio.webp`, `brick-wall.webp`, `living-room.webp`, `street.webp` |
 
 Keep the partner's original file name when it helps you match it back to the listing. Then add the product
 to `PRODUCTS` in `catalog.ts`:
@@ -37,8 +36,7 @@ board at a time.
   front view, centered, with a little margin and no background. Printful's mockup downloads already match this.
   A white background works but looks like a box on colored backgrounds.
 - **Thumbnails (optional):** 600 × 600 px WebP. Without one, the card uses the product image.
-- **Backgrounds:** 1800 × 2400 px (3:4 portrait, the board's shape), WebP or JPG. Other sizes are cropped to fill.
-  Plain and Custom color need no image.
+- **Background:** the board uses a Plain background in the visitor's chosen Wall color; no image needed.
 
 Product images are shown whole with `object-fit: contain` in a fixed spot on the board. They're never
 stretched or cropped, so any proportion works, but square keeps every product at a consistent size.

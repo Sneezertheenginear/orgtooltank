@@ -1,4 +1,4 @@
-// Everything the Outfit Builder shows, as plain data: real products and backgrounds. The UI is built
+// Everything the Outfit Builder shows, as plain data: real products and the background. The UI is built
 // from these lists, so adding a product or a scene is a data change only.
 //
 // Product rule: every product here is a real item that can be offered or linked to, shown with its own
@@ -70,29 +70,15 @@ export const linkOf = (p: Product) => p.affiliateUrl ?? p.productUrl;
 
 // ---- Scenes ------------------------------------------------------------------------------------------
 
-export type SceneId = "plain" | "studio" | "brick" | "living-room" | "street" | "custom";
-export type Scene = {
-  id: SceneId;
-  name: string;
-  /** Background photo, 3:4 portrait (see ASSETS.md). Plain and Custom color need none. */
-  image?: string;
-  /** Plain color for Plain; Custom color uses the chosen wall color. */
-  color?: string;
-  /** Whether text on top should turn light. */
-  dark?: boolean;
-};
-const SCENES_DIR = "/outfit-builder/scenes";
-export const SCENES: Scene[] = [
-  { id: "plain", name: "Plain", color: "#fafaf8" },
-  { id: "studio", name: "Studio", image: `${SCENES_DIR}/studio.webp` },
-  { id: "brick", name: "Brick wall", image: `${SCENES_DIR}/brick-wall.webp`, dark: true },
-  { id: "living-room", name: "Living room", image: `${SCENES_DIR}/living-room.webp` },
-  { id: "street", name: "Street", image: `${SCENES_DIR}/street.webp` },
-  { id: "custom", name: "Custom color" },
-];
+export type SceneId = "plain";
+/** The board's background. Plain is the only one; its color is the Wall color the visitor picks. */
+export type Scene = { id: SceneId; name: string };
+export const SCENES: Scene[] = [{ id: "plain", name: "Plain" }];
 export const sceneOf = (id: SceneId) => SCENES.find(s => s.id === id) ?? SCENES[0];
+/** Plain's starting color (a clean, light neutral); Plain goes back to it when chosen. */
+export const PLAIN_COLOR = "#fafaf8";
 
-/** Preset wall colors for the Custom color scene. Any other color can be picked too. */
+/** Preset wall colors for the Plain background. Any other color can be picked too. */
 export const WALL_COLORS: { name: string; hex: string }[] = [
   { name: "White", hex: "#f6f6f4" },
   { name: "Cream", hex: "#eee5d1" },
@@ -149,9 +135,8 @@ export function resolveImage(found: ReadonlySet<string>, path: string | undefine
 }
 
 // ---- Readiness ---------------------------------------------------------------------------------------
-// Visitors only see products and backgrounds whose images exist. While running locally (setup mode),
+// Visitors only see products whose images exist. While running locally (setup mode),
 // a missing image shows as a marked "image needed" slot with its exact file path.
 
 export const productReady = (found: ReadonlySet<string>, p: Product) => !!resolveImage(found, p.image);
-export const sceneReady = (found: ReadonlySet<string>, s: Scene) => !s.image || !!resolveImage(found, s.image);
 
