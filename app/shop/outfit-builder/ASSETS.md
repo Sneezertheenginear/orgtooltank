@@ -30,6 +30,14 @@ to `PRODUCTS` in `catalog.ts`:
 Categories: `shirts`, `pants`, `jackets`, `shoes`, `hats`, `accessories`. One product per category is on the
 board at a time.
 
+**One product per design, in colors.** A design's black-ink and white-ink Printful templates are the same
+product, not two. List its garment colors in `colors`, each with the ink that prints on it (white on dark
+garments, black on light ones), that ink's Printful template id, and its real `image` once one exists. A color
+without an `image` is still offered on the product page (`/shop/<id>`), which says its preview isn't available
+yet; it can't go on the outfit board. Sizes go in `sizes`, from the Printful template. The tees use the
+`printfulTee()` helper in `catalog.ts`; Electronic tee photos are named `<product-id>-<color>.webp`, so adding a
+color's photo is: save the file, then add it to `photos` (for the Electronic tees, in `electronicTee()`).
+
 **Collections** (Quotables, Money / Hustle / Capital, …) are for browsing: the product panel's
 Shop Collections buttons filter the cards. Give a product any number of them with
 `collections: ["Quotables", "Money / Hustle / Capital"]`, or use its design's list from

@@ -15,6 +15,11 @@ test("every product is a real listing: required fields, known category and sourc
     assert.ok(["Printful", "Apliiq", "OrgToolTank"].includes(p.source), `${p.id} source`);
     assert.ok(p.image.startsWith("/outfit-builder/products/") || /^https:\/\//.test(p.image), `${p.id} image lives under products/`);
     if (p.image.startsWith("/")) assert.ok(existsSync(join(root, p.image)), `${p.id}: ${p.image} is missing`);
+    for (const c of p.colors ?? []) {
+      if (c.image) assert.ok(existsSync(join(root, c.image)), `${p.id} ${c.name}: ${c.image} is missing`);
+      assert.match(c.hex ?? "", /^#[0-9a-f]{6}$/i, `${p.id} ${c.name}: swatch color`);
+      assert.ok(["white", "black"].includes(c.ink) && Number.isInteger(c.printfulTemplateId), `${p.id} ${c.name}: ink and template`);
+    }
   }
 });
 
@@ -43,18 +48,68 @@ test("collections: unique, every name used is a known collection, and only colle
 });
 
 test("one product per category; picking it again takes it off", () => {
-  const [black, maroon] = C.productsIn("shirts");
-  let look = C.toggleProduct({}, black);
-  assert.equal(look.shirts, black.id);
-  look = C.toggleProduct(look, maroon);
-  assert.equal(look.shirts, maroon.id);
-  assert.equal(C.toggleProduct(look, maroon).shirts, undefined);
+  const [first, second] = C.productsIn("shirts");
+  let look = C.toggleProduct({}, first);
+  assert.equal(look.shirts.id, first.id);
+  look = C.toggleProduct(look, second);
+  assert.equal(look.shirts.id, second.id);
+  assert.equal(C.toggleProduct(look, second).shirts, undefined);
   assert.equal(C.clearCategory(look, "shirts").shirts, undefined);
-  assert.deepEqual(C.lookProducts(look).map(p => p.id), [maroon.id]);
+  assert.deepEqual(C.lookProducts(look).map(p => p.id), [second.id]);
+});
+
+test("Electronic: one product per design, its colors pick the artwork version and the image on the board", () => {
+  const electronic = C.PRODUCTS.filter(p => C.inCollection(p, "Electronic"));
+  assert.deepEqual(electronic.map(p => p.name), ["Power Leaves Traces Tee", "Frequency Bends Time Tee", "Current Got Memory Tee", "Circuits Carry Prayer Tee"]);
+  for (const p of electronic) {
+    // Photographed colors first: Maroon (white ink) and Red (black ink); every other color has no photo yet.
+    assert.deepEqual(p.colors.filter(c => c.image).map(c => `${c.name}:${c.ink}`), ["Maroon:white", "Red:black"], p.id);
+    assert.deepEqual(p.colors.slice(0, 2).map(c => c.name), ["Maroon", "Red"]);
+    assert.equal(new Set(p.colors.map(c => c.name)).size, p.colors.length, `${p.id}: each color once`);
+    assert.equal(new Set(p.colors.map(c => c.printfulTemplateId)).size, 2, `${p.id}: two inks, two templates`);
+    assert.deepEqual(p.sizes, ["S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"]);
+  }
+  const ccp = electronic.find(p => p.id === "circuits-carry-prayer-tee");
+  for (const c of ["Carolina Blue", "Sand", "Daisy", "Sky", "Light Pink"]) assert.ok(!ccp.colors.some(x => x.name === c), `CCP has no ${c} until its black-ink template does`);
+  assert.ok(!C.PRODUCTS.some(p => p.colors?.some(c => c.printfulTemplateId === 108403792)), "charcoal duplicate not used");
+  const [tee] = electronic;
+  let look = C.toggleProduct({}, tee, "Red");
+  assert.deepEqual(look.shirts, { id: tee.id, color: "Red" });
+  const [worn] = C.lookProducts(look);
+  assert.equal(worn.name, "Power Leaves Traces Tee, Red");
+  assert.equal(worn.image, tee.colors[1].image);
+  look = C.toggleProduct(look, tee, "Maroon");
+  assert.equal(C.lookProducts(look)[0].image, tee.colors[0].image, "another color swaps the shirt");
+  assert.equal(C.toggleProduct(look, tee, "Maroon").shirts, undefined, "same color again takes it off");
+});
+
+test("I Renamed the Pain tee is one product, Black and Maroon its photographed colors", () => {
+  const tees = C.productsIn("shirts").filter(p => p.name.startsWith("I Renamed the Pain"));
+  assert.deepEqual(tees.map(p => p.id), ["i-renamed-the-pain-tee"]);
+  assert.deepEqual(tees[0].colors.filter(c => c.image).map(c => c.name), ["Black", "Maroon"]);
+  assert.ok(tees[0].colors.every(c => c.ink === "white" && c.printfulTemplateId === 108098684));
+  assert.ok(C.productOf("i-renamed-the-pain-sweatpants-black") && C.productOf("i-renamed-the-pain-slides-white"), "sweatpants and slides unchanged");
+  assert.equal(C.productOf("i-renamed-the-pain-slides-white").sizes, undefined, "slide sizes not known yet");
+});
+
+test("ADD TO OUTFIT links and the saved outfit only ever hold real products and colors", () => {
+  assert.deepEqual(C.lookItemFor("power-leaves-traces-tee", "Red"), { id: "power-leaves-traces-tee", color: "Red" });
+  assert.deepEqual(C.lookItemFor("power-leaves-traces-tee", "Purple"), { id: "power-leaves-traces-tee", color: "Maroon" }, "a color without a photo: first photographed color");
+  assert.deepEqual(C.lookItemFor("power-leaves-traces-tee", "Teal"), { id: "power-leaves-traces-tee", color: "Maroon" }, "unknown color");
+  assert.deepEqual(C.lookItemFor("power-leaves-traces-tee"), { id: "power-leaves-traces-tee", color: "Maroon" });
+  assert.deepEqual(C.lookItemFor("i-renamed-the-pain-sweatpants-black", "Red"), { id: "i-renamed-the-pain-sweatpants-black" }, "no colors: color ignored");
+  assert.equal(C.lookItemFor("not-a-product"), undefined);
+  assert.equal(C.lookItemFor(["power-leaves-traces-tee"]), undefined);
+  const saved = { shirts: { id: "current-got-memory-tee", color: "Red" }, pants: { id: "i-renamed-the-pain-tee" }, shoes: { id: "i-renamed-the-pain-tee-black" }, hats: "x" };
+  assert.deepEqual(C.cleanLook(saved), { shirts: { id: "current-got-memory-tee", color: "Red" } }, "wrong category and old or unknown products dropped");
+  assert.deepEqual(C.cleanLook(null), {});
+  assert.deepEqual(C.cleanLook("junk"), {});
+  assert.equal(C.garmentOf(C.productOf("i-renamed-the-pain-slides-white")), "Slides");
+  assert.equal(C.garmentOf({ ...C.PRODUCTS[0], garment: undefined }), "Shirt");
 });
 
 test("totals count priced products and say how many have no price yet", () => {
-  const look = { shirts: C.PRODUCTS[0].id };
+  const look = { shirts: { id: C.PRODUCTS[0].id } };
   const t = C.lookTotal(look);
   assert.equal(t.cents, C.PRODUCTS[0].price ?? 0);
   assert.equal(t.unpriced, C.PRODUCTS[0].price === undefined ? 1 : 0);

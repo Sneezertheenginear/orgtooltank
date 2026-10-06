@@ -1,4 +1,5 @@
-// Shop categories. The Shop shows only `shopCategories`: things we're selling or getting ready to sell now.
+// Shop category cards. Not shown at the moment: /shop now lists the products themselves (app/shop/page.tsx,
+// products in app/shop/outfit-builder/catalog.ts). Kept for when the Shop holds more than clothing.
 //
 // Card photos: Clothing & Original Goods uses the real Printful tee photo. `wide` cards take half a row
 // (two across instead of three). `ask` adds one contact action to a card (app/data/contact.ts: an email

@@ -48,6 +48,10 @@
 .ob-item-thumb { display: grid; place-items: center; aspect-ratio: 1; background: #f3f3f0; margin-bottom: 6px; overflow: hidden; }
 .ob-item-thumb img { width: 100%; height: 100%; object-fit: contain; }
 .ob-item-name { font-size: 15px; font-weight: 800; line-height: 1.25; }
+/* Garment colors on a card: small swatches; the chosen one is ringed. */
+.ob-item-colors { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 2px; }
+.ob-item-color { width: 22px; height: 22px; padding: 0; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); cursor: pointer; }
+.ob-item-color[aria-pressed="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 3px #202020; }
 .ob-item-meta { margin-bottom: 8px; font-size: 13px; color: #666; }
 .ob-item-link { margin-top: 4px; font-size: 13px; font-weight: 700; color: #202020; }
 

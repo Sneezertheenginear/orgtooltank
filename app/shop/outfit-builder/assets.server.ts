@@ -9,6 +9,6 @@ import { PRODUCTS, candidates } from "./catalog";
 export function findAssets(): string[] {
   const paths = new Set<string>();
   const add = (path?: string) => { if (path) for (const p of candidates(path)) paths.add(p); };
-  for (const p of PRODUCTS) { add(p.image); add(p.thumbnail); }
+  for (const p of PRODUCTS) { add(p.image); add(p.thumbnail); p.colors?.forEach(c => add(c.image)); }
   return [...paths].filter(p => p.startsWith("/") && existsSync(join(process.cwd(), "public", p)));
 }

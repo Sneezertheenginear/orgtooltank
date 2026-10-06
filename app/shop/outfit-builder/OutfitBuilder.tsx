@@ -1,17 +1,18 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- product thumbnails shown whole with object-fit: contain */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  CATEGORIES, PLAIN_COLOR, PRODUCTS, SCENES, WALL_COLORS, categoryOf, clearCategory, collectionsWith, formatPrice, inCollection, linkOf, lookProducts, lookTotal, productReady,
-  productsIn, resolveImage, sceneOf, toggleProduct, type CategoryId, type CollectionName, type Look, type Product, type SceneId,
+  CATEGORIES, PLAIN_COLOR, PRODUCTS, SCENES, WALL_COLORS, categoryOf, cleanLook, clearCategory, collectionsWith, formatPrice, inCollection, linkOf, lookProducts, lookTotal, productOf, productReady,
+  productsIn, resolveImage, sceneOf, toggleProduct, type CategoryId, type CollectionName, type Look, type LookItem, type Product, type SceneId,
 } from "./catalog";
 import OutfitBoard from "./OutfitBoard";
 import { CENTERED, ZOOM, isCentered, stepZoom, type Pan } from "./board-layout";
 
 // Mix and match real products on an outfit board: pick products on the left, see them together in the
 // center, save variations and choose a background on the right.
-// Everything is page state only: nothing is saved to an account, sent, or sold yet.
+// Nothing is saved to an account, sent, or sold yet. The outfit itself is kept in this browser tab for the visit
+// (sessionStorage), so ADD TO OUTFIT from the Shop adds to the same outfit instead of starting over.
 //
 // Only real product images are shown. With `setup` on (next dev), a product or background whose image is
 // missing shows a marked "image needed" slot with its exact file path.
@@ -20,16 +21,32 @@ import { CENTERED, ZOOM, isCentered, stepZoom, type Pan } from "./board-layout";
 type Variation = { id: number; name: string; look: Look };
 const MAX_VARIATIONS = 6;
 const START = "Choose a shirt, pants, or shoes to start building your look.";
+const OUTFIT_KEY = "orgtooltank-outfit";
 
-/** `collection`: the collection to start with (from a Shop link); ignored if it has no products shown. */
-export default function OutfitBuilder({ assets, setup, collection: startCollection }: { assets: string[]; setup: boolean; collection?: CollectionName }) {
+/** `collection`: the collection to start with (from a Shop link); ignored if it has no products shown.
+ *  `add`: a product to put on the board (ADD TO OUTFIT from the Shop), joining the outfit kept for this visit. */
+export default function OutfitBuilder({ assets, setup, collection: startCollection, add }: { assets: string[]; setup: boolean; collection?: CollectionName; add?: LookItem }) {
   const found = useMemo(() => new Set(assets), [assets]);
-  const [category, setCategory] = useState<CategoryId>("shirts");
-  const [look, setLook] = useState<Look>({});
+  const added = add && productOf(add.id);
+  const [category, setCategory] = useState<CategoryId>(added?.category ?? "shirts");
+  const [look, setLook] = useState<Look>(() => added ? { [added.category]: add } : {});
   const [sceneId, setSceneId] = useState<SceneId>("plain");
   const [wall, setWall] = useState(PLAIN_COLOR);
   const [variations, setVariations] = useState<Variation[]>([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(() => added ? `Added ${add.color ? `${added.name}, ${add.color}` : added.name}.` : "");
+  // The outfit kept for this visit: read back once after the page loads (the product just added keeps its
+  // place), then saved on every change. Reading it after load keeps the first render the same as the server's.
+  const restored = useRef(false);
+  useEffect(() => {
+    let saved: Look = {};
+    try { saved = cleanLook(JSON.parse(sessionStorage.getItem(OUTFIT_KEY) ?? "null")); } catch {}
+    restored.current = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time restore from browser storage after hydration
+    if (Object.keys(saved).length) setLook(l => ({ ...saved, ...l }));
+    // Drop ?add= from the address so a reload doesn't add the product again after it's been taken off.
+    if (add) { const url = new URL(location.href); url.searchParams.delete("add"); url.searchParams.delete("color"); history.replaceState(history.state, "", url); }
+  }, [add]);
+  useEffect(() => { if (restored.current) try { sessionStorage.setItem(OUTFIT_KEY, JSON.stringify(look)); } catch {} }, [look]);
   // Preview zoom and position: 1 and centered is the board as laid out. Kept when the look changes, so comparing
   // looks keeps the same view. Reset Zoom puts both back.
   const [zoom, setZoom] = useState(1);
@@ -45,10 +62,17 @@ export default function OutfitBuilder({ assets, setup, collection: startCollecti
   const chosen = lookProducts(look), total = lookTotal(look);
   const canZoom = chosen.length > 0;
 
-  function pick(p: Product) {
-    const on = look[p.category] === p.id, replacing = look[p.category];
-    setLook(l => toggleProduct(l, p));
-    setMessage(on ? `Removed ${p.name}.` : replacing ? `Swapped in ${p.name}.` : `Added ${p.name}.`);
+  /** Add to Look / Remove. A product in colors goes on in the color picked on its card. */
+  function pick(p: Product, color?: string) {
+    const current = look[p.category], on = current?.id === p.id && current.color === color, name = color ? `${p.name}, ${color}` : p.name;
+    setLook(l => toggleProduct(l, p, color));
+    setMessage(on ? `Removed ${name}.` : current ? `Swapped in ${name}.` : `Added ${name}.`);
+  }
+  /** Picking another color for a product that's on the board changes it there too. */
+  function recolor(p: Product, color: string) {
+    if (look[p.category]?.id !== p.id) return;
+    setLook(l => ({ ...l, [p.category]: { id: p.id, color } }));
+    setMessage(`Switched to ${p.name}, ${color}.`);
   }
   function remove(c: CategoryId) { const p = chosen.find(x => x.category === c); setLook(l => clearCategory(l, c)); if (p) setMessage(`Removed ${p.name}.`); }
   function reset() { setLook({}); setMessage("Look reset. Pick something new to start again."); }
@@ -83,7 +107,7 @@ export default function OutfitBuilder({ assets, setup, collection: startCollecti
           </button>)}
         </div>
         {offered(category).length
-          ? <ul className="ob-items">{offered(category).map(p => <ProductCard key={p.id} product={p} found={found} setup={setup} on={look[p.category] === p.id} onPick={() => pick(p)} />)}</ul>
+          ? <ul className="ob-items">{offered(category).map(p => <ProductCard key={p.id} product={p} found={found} setup={setup} worn={look[p.category]?.id === p.id ? look[p.category] : undefined} onPick={color => pick(p, color)} onColor={color => recolor(p, color)} />)}</ul>
           : <p className="ob-empty">{collection && !PRODUCTS.some(p => shown(p) && inCollection(p, collection))
             ? <>{collection} pieces are being added. <button type="button" className="text-link" onClick={() => setCollection(undefined)}>Show all products</button></>
             : collection
@@ -142,16 +166,29 @@ export default function OutfitBuilder({ assets, setup, collection: startCollecti
   </div></>;
 }
 
-/** A product card: its real image, name, source, price, and Add to Look / Remove. */
-function ProductCard({ product: p, found, setup, on, onPick }: { product: Product; found: ReadonlySet<string>; setup: boolean; on: boolean; onPick: () => void }) {
-  const thumb = resolveImage(found, p.thumbnail) ?? resolveImage(found, p.image), link = linkOf(p);
+/** A product card: its real image, name, source, price, and Add to Look / Remove. A product in colors shows one
+ *  swatch per color that has a real photo; the picture and Add to Look follow the chosen color. */
+function ProductCard({ product: p, found, setup, worn, onPick, onColor }: {
+  product: Product; found: ReadonlySet<string>; setup: boolean; worn?: LookItem; onPick: (color?: string) => void; onColor: (color: string) => void;
+}) {
+  // Only colors with a real photo can go on the board (a color listed without one is for the product page).
+  const colors = (p.colors ?? []).filter(c => c.image && (setup || resolveImage(found, c.image)));
+  const [picked, setPicked] = useState(colors[0]?.name);
+  const on = !!worn, colorName = worn?.color ?? picked, color = colors.find(c => c.name === colorName);
+  const image = color?.image ?? p.image, link = linkOf(p);
+  const thumb = color ? resolveImage(found, color.image) : resolveImage(found, p.thumbnail) ?? resolveImage(found, p.image);
+  const label = color ? `${p.name}, ${color.name}` : p.name;
   return <li className="ob-item" data-on={on ? "" : undefined}>
-    <span className="ob-item-thumb">{thumb ? <img src={thumb} alt={p.name} loading="lazy" />
-      : setup && <span className="ob-slot"><strong>Product image needed</strong><code>public{p.image}</code></span>}</span>
+    <span className="ob-item-thumb">{thumb ? <img src={thumb} alt={label} loading="lazy" />
+      : setup && <span className="ob-slot"><strong>Product image needed</strong><code>public{image}</code></span>}</span>
     <span className="ob-item-name">{p.name}</span>
-    <span className="ob-item-meta">{p.source} · {p.price !== undefined ? formatPrice(p.price) : "Price coming soon"}</span>
-    <button type="button" className={on ? "ob-mini ob-item-action" : "ink-button ob-item-action"} disabled={!p.available} onClick={onPick}>
-      {!p.available ? "Coming soon" : on ? "Remove" : "Add to Look"}<span className="sr-only"> {p.name}</span>
+    {colors.length > 0 && <span className="ob-item-colors" role="group" aria-label={`${p.name} color`}>
+      {colors.map(c => <button key={c.name} type="button" className="ob-item-color" style={{ background: c.hex }} title={c.name} aria-pressed={c.name === colorName}
+        onClick={() => { setPicked(c.name); onColor(c.name); }}><span className="sr-only">{c.name}</span></button>)}
+    </span>}
+    <span className="ob-item-meta">{p.source}{color && ` · ${color.name}`} · {p.price !== undefined ? formatPrice(p.price) : "Price coming soon"}</span>
+    <button type="button" className={on ? "ob-mini ob-item-action" : "ink-button ob-item-action"} disabled={!p.available} onClick={() => onPick(color?.name)}>
+      {!p.available ? "Coming soon" : on ? "Remove" : "Add to Look"}<span className="sr-only"> {label}</span>
     </button>
     {link && <a className="ob-item-link" href={link} target="_blank" rel="noopener noreferrer">View product ↗</a>}
   </li>;
